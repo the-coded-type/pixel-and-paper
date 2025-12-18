@@ -1,0 +1,340 @@
+.pagedjs_pagebox {
+	background-color: var(--background);
+}
+
+.pagedjs_page_content {
+	position: relative;
+}
+
+
+@font-face {
+	font-family: "Forma";
+	src:
+	  url("fonts/OTFormaTrial/OTFormaUnlicensedTrial-Neretta.otf") format("woff");
+  }
+@font-face {
+	font-family: "Hantarex";
+	src:
+	  url("fonts/Hantarex-Family/WOFF/HantarexMono-Light.woff") format("woff");
+  }
+
+@font-face {
+		font-family: "ModuloBold";
+	src:
+	  url("fonts/Modulo-Family/web/woff/Modulo-Ultra.woff") format("woff");
+  }
+
+  @font-face {
+	font-family: "ModuloBold";
+	src:
+	  url("fonts/Modulo-Family/web/woff/Modulo-Bold.woff") format("woff");
+  }
+
+  @font-face {
+	font-family: "Modulo";
+	src:
+	  url("fonts/Modulo-Family/web/woff/Modulo-Regular.woff") format("woff");
+  }
+
+.pagedjs_margin-bottom-right .pagedjs_margin-content {
+	border-right: 10pt solid;
+
+	font-size: 8pt;
+	font-family: "Open Sans", sans-serif;
+	padding-right: 10pt;
+}
+
+.open-sans-regular {
+	font-family: "Open Sans", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: normal;
+	font-style: normal;
+	font-variation-settings:
+	  "wdth" 100;
+  }
+
+  intro {
+	display: block;
+	position: relative;
+	background-color: red;
+  }
+
+h1 {
+	position: absolute;
+	top: 0;
+	left: 0;
+  
+	font-weight: 900;
+	font-size: 61.5pt;
+	letter-spacing: 4pt;
+  
+	margin: 0;
+	line-height: 1;
+	beige-space: nowrap;
+  
+	transform-origin: top left;
+	transform: rotate(90deg) translateY(-100%);
+}
+
+h1 + section {
+	page-break-after: always;
+	width: 100%;
+	position: absolute;
+	top: -14pt;
+	right: 0 ;
+	height: inherit;
+	width: 66%;
+}
+
+h1 + section * {
+	font-family: "Helvetica Neue", sans-serif;
+	font-family: "Modulo";
+	font-family: "Forma";
+	color: var(--primary)
+	
+}
+
+h1 + section p {
+	text-align: left;
+	font-size: 9pt !important;
+
+}
+
+p strong {
+	font-family: "Forma";
+	text-transform: none;
+	padding: 1pt 3pt;
+	font-weight: normal;
+}
+
+
+strong {
+	font-family: "Forma";
+	line-height: 1;
+	display: inline;
+	color: var(--background) !important;
+	background-color: var(--primary);
+	font-weight: normal;
+	padding: 1pt 3pt;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+ol li strong {
+	font-family: "ModuloBold" !important;
+	font-weight: normal;
+	text-transform: uppercase;
+	padding: 0;
+	color: var(--primary) !important;
+	background-color: var(--background);
+}
+
+conditions {
+	position: absolute;
+	bottom: 0;
+}
+
+conditions p strong {
+	font-family: 'ModuloUltra';
+	position: absolute;
+	right: 0;
+	top: -10pt;
+	text-transform: uppercase;
+} 
+
+
+conditions p {
+	text-transform: lowercase;
+	font-size: 8pt;
+	padding: 0;
+	text-transform: uppercase;
+}
+ ol {
+	padding: 0;
+  list-style-position: inside;
+}
+
+ ol {
+	width: 100%;
+	list-style: none;
+	counter-reset: item;
+	margin: 0;
+}
+ ol li {
+	font-size: 7.5pt;
+	text-align: right !important;
+	padding-bottom: 2mm;
+	counter-increment: item;
+	position: relative;
+	padding-left: 5pt;
+}
+
+ol li:not(:last-child) {
+	border-bottom: 1px solid var(--boders);
+  }
+
+ol li::before {
+	content: counter(item);
+	position: absolute;
+	left: 0;
+	font-weight: 900;
+	background-color: var(--primary)
+	color: var(--background);
+	text-align: center;
+	width: 3mm;
+  }  
+  
+h2 {
+	letter-spacing: 1pt;
+}
+
+li {
+	line-height: normal;
+	margin-bottom: 0;
+}
+
+
+ol, ul, ol li, ul li, li {
+	color: var(--primary);
+}
+p {
+	font-family: "Forma" !important;
+	font-size: 9pt;
+	line-height: 12pt;
+	
+	text-wrap: pretty;
+	text-justify: inter-word;
+	hanging-punctuation: first last; /* check on mdn */
+
+	word-spacing: -0.03em;
+	-ms-hyphens:auto!important;
+	-webkit-hyphens:auto!important;
+	hyphens:auto!important;
+	-moz-hyphenate-limit-chars:6 3 2;
+	-webkit-hyphenate-limit-chars:6 3 2;
+	-ms-hyphenate-limit-chars:6 3 2;
+	hyphenate-limit-chars:6 3 2;
+	-ms-hyphenate-limit-lines:2;
+	-webkit-hyphenate-limit-lines:2;
+	hyphenate-limit-lines:2;
+	hyphenate-limit-last:always;
+	-ms-hyphenate-limit-last:always;
+	color: var(--primary)
+}
+
+h2 {
+		font-family: "ModuloBold";
+}
+
+legend-section {
+	display: block;
+	column-count: 2;
+	column-gap: 5mm;
+	column-fill: auto;
+}
+
+legend-section h2 {
+	break-before: column !important;
+	break-inside: avoid;
+
+	/* Legacy property (Add this for better support in PDF renderers) */
+    column-break-before: always;
+}
+
+legend-section section {
+	break-before: column !important;
+	break-inside: avoid;
+
+	/* Legacy property (Add this for better support in PDF renderers) */
+    column-break-before: always;
+}
+
+ol, ul {
+	break-inside: avoid;
+    
+    /* Legacy (needed for older browsers & some PDF generators) */
+    page-break-inside: avoid;
+}
+
+beat {
+
+	display: block;
+		/* 
+	column-count: 2;
+	column-gap: 2rem;
+	column-fill: auto;
+	*/
+
+}
+
+
+beat h2 {
+	break-after: avoid;
+	margin-bottom: 0;
+	margin-block-end: 0 !important;
+	padding-bottom: 0;
+
+}
+
+h1, h2, h3 {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+h1 {
+	margin-bottom: 20pt !important;
+}
+
+h2 {
+	margin-bottom: 16pt !important;
+
+}
+
+h3 {
+	margin-bottom: 12pt !important;
+	margin-top: 24pt !important;
+
+}
+
+
+beat h3 {
+	break-after: avoid;
+}
+
+beat section {
+}
+
+beat ol {
+}
+
+beat ol li {
+	text-align: left !important;
+	padding-left: 10mm;
+}
+
+section.npcs {
+	display: block;
+	column-count: 2;
+	column-gap: 10mm;
+	column-fill: auto;
+	column-rule-style: solid;
+	column-rule-width: 1mm;
+	column-rule-color: var(--boders);
+}
+
+section.npcs h3 {
+	break-after: avoid;
+}
+
+section.table {
+	margin: auto;
+	padding: 0 4mm;
+	max-width: 90%;
+}
+
+section.table {
+	/*
+	border-left: 0.5mm solid var(--primary);
+	border-right: 0.5mm solid var(--primary);
+	*/
+}

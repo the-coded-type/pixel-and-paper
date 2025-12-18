@@ -1,0 +1,51 @@
+
+green {
+  color:green !important;
+}
+
+green em {
+  background-color: blue;
+  padding: 1mm 2mm;
+  border-radius: 2mm;
+  margin: 2mm 0;
+  color: white;
+}
+
+boxed {
+  display: block;
+  background-color: blue;
+  padding: 10mm;
+  color: white;
+  margin: 20mm;
+  font-family: monospace;
+}
+
+right {
+  padding: 10mm;
+  border:2px solid rgb(255, 0, 34, 0.2);
+  display: block;
+  max-width: 80mm;
+  background-color: #DDDDDD;
+  color: blue;
+  text-transform: uppercase;
+  margin-left: 50%;
+}
+
+left {
+  padding: 10mm;
+  border:2px solid rgb(255, 0, 34, 0.2);
+  display: block;
+  max-width: 80mm;
+  background-color: coral;
+  color: yellow;
+  text-transform: uppercase;
+  font-weight: bold;
+  float: left;
+  margin: 0 4mm;
+  margin-bottom: 2mm;
+  
+}
+
+.pagedjs_page_content {
+    border:1px dotted grey;
+}
