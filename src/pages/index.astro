@@ -1,44 +1,55 @@
----
-
-import Experiment from "../content/traveller.md";
----
-
-
-<html lang="en">
-
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Markdown + Paged.js with injected CSS</title>
-  <style></style>
-  <link rel="stylesheet" href="/styles/colors.css">
-  <link rel="stylesheet" href="/styles/interface2.css">
-  <link rel="stylesheet" href="/styles/global_tlb.css">
-  <link rel="stylesheet" href="/styles/tlb.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-
-  {/*
-    <link rel="stylesheet" href="/styles/baseline.css">
-  */}
-
-
-  <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js" is:inline></script>
-
-  <script is:inline>
-    // This script block runs AFTER the paged.polyfill.js script has loaded.
-    // Therefore, window.PagedPolyfill should now be defined.
-
-    // However, the best place for this call is STILL after the Markdown content
-    // is actually in the DOM, as discussed in the previous section.
-    // The previous error was specifically about PagedPolyfill not existing.
-    // Let's integrate it with the markdown loading.
-  </script>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='/styles/interface/main.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='/styles/interface/prism.css'>
+    
+    <link rel='stylesheet' type='text/css' media='screen' href='/styles/interface/custom-prism-css.css'>
 
 </head>
-
 <body>
-  <Experiment />
-</body>
+    <main id="interface">
+        <h1>PIXEL AND PAPER</h1>
+        <div id="tabs">
+            <div class="tab active">
+                <h2 class="tab-selector" data-id="0">CSS</h2>
+                <div class="tab-content">
+                        <pre><code id="tab-css" contenteditable="true" class="language-css">
 
+                    </code></pre>
+                </div>
+            </div>
+            <div class="tab inactive">
+                <h2 class="tab-selector" data-id="1">MARKDOWN</h2>
+                <div class="tab-content">
+<pre><code class="language-markdown">
+# Main Title
+
+Right now this tab is not active yet.
+
+**Bold text** and *Italic text*.
+
+- List item 1
+- List item 2
+</code></pre>
+
+                </div>
+            </div>
+            <div class="tab inactive">
+                <h2 class="tab-selector" data-id="2">PDF</h2>
+                <div class="tab-content" id="tab-pdf">
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <script is:inline type="module" src='/js/main.js'></script>
+    <script is:inline src='/js/prism.js'></script>
+    <script is: inline src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+</body>
 </html>

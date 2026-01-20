@@ -10,8 +10,13 @@
   },
   "dependencies": {
     "astro": "^5.9.0",
+    "rehype-format": "^5.0.1",
     "rehype-raw": "^7.0.0",
+    "rehype-stringify": "^10.0.1",
     "remark-directive": "^4.0.0",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
+    "unified": "^11.0.5"
   }
 }

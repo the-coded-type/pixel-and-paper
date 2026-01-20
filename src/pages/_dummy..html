@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Markdown + Paged.js with injected CSS</title>
+    <link rel="stylesheet" href="/styles/colors.css">
+    <link rel="stylesheet" href="/styles/interface2.css">
+    <link rel="stylesheet" href="/styles/global_tlb.css">
+    <link rel="stylesheet" href="/styles/tlb.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <script>
+        // This script block runs AFTER the paged.polyfill.js script has loaded.
+        // Therefore, window.PagedPolyfill should now be defined.
+
+        // However, the best place for this call is STILL after the Markdown content
+        // is actually in the DOM, as discussed in the previous section.
+        // The previous error was specifically about PagedPolyfill not existing.
+        // Let's integrate it with the markdown loading.
+    </script>
+    <script type="module" src="/@vite/client"></script>
+    <script type="module"
+        src="/@fs/Users/calpabia/Webdev/pixel-and-paper/node_modules/astro/dist/runtime/client/dev-toolbar/entrypoint.js?v=fd44bae8"></script>
+    <script>window.__astro_dev_toolbar__ = { "root": "/Users/calpabia/Webdev/pixel-and-paper/", "version": "5.9.0", "debugInfo": "Astro                    v5.9.0\nNode                     v22.13.0\nSystem                   macOS (x64)\nPackage Manager          npm\nOutput                   static\nAdapter                  none\nIntegrations             none" }</script>
+</head>
+
+<body data-astro-source-file="/Users/calpabia/Webdev/pixel-and-paper/src/pages/index.astro"
+    data-astro-source-loc="42:7">
+    <section class="before_we_start">
+        <h2 id="before-we-start">Before we start</h2>
+        <p>This Urban Legend holds clues and trails scattered throughout each Beat. However there isn’t one unique way
+            to “solve” the mystery of the Traveller. Actually the players don’t need to unravel all the threads to play
+            the adventure and survive the hardships presented to them. Clues and hints are just hooks to facilitate
+            building and running the adventure. The GM and the players are encouraged to fill the blanks left in
+            between, each hint.</p>
+        <section class="heading_three">
+            <h3 id="heading-three">Heading three</h3>
+            <p>Little paragraph with heading three</p>
+            <p><img src="/images/comet_landscape.png" alt="The comet cleavered the sky"
+                    title="The comet cleavered the sky"></p>
+        </section>
+    </section>
+    <section class="before_we_end">
+        <h2 id="before-we-end">Before we end</h2>
+        <p>This Urban Legend holds clues and trails scattered throughout each Beat. However there isn’t one unique way
+            to “solve” the mystery of the Traveller. Actually the players don’t need to unravel all the threads to play
+            the adventure and survive the hardships presented to them. Clues and hints are just hooks to facilitate
+            building and running the adventure. The GM and the players are encouraged to fill the blanks left in
+            between, each hint.</p>
+        <section class="heading_4">
+            <h4 id="heading-4">Heading 4</h4>
+            <p>Heading 4 paragraph</p>
+        </section>
+    </section>
+    <section class="heading_1">
+        <h1 id="heading-1">Heading 1</h1>
+    </section>
+</body>
+
+</html>

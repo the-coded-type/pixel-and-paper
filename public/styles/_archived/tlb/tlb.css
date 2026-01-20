@@ -56,8 +56,8 @@
   intro {
 	display: block;
 	position: relative;
-	background-color: red;
   }
+
 
 h1 {
 	position: absolute;
@@ -70,21 +70,75 @@ h1 {
   
 	margin: 0;
 	line-height: 1;
-	beige-space: nowrap;
   
 	transform-origin: top left;
 	transform: rotate(90deg) translateY(-100%);
 }
 
-h1 + section {
-	page-break-after: always;
+section.info {
+	break-before: avoid !important;
 	width: 100%;
 	position: absolute;
 	top: -14pt;
 	right: 0 ;
-	height: inherit;
+	height: 100%;
 	width: 66%;
+	padding-top: 5mm;
 }
+
+section.info h2 {
+	break-before: avoid;
+	display: none;
+}
+
+.info blockquote, .info blockquote p {
+	border: none !important;
+	text-transform: none !important;
+	width: 100%;
+}
+.info blockquote {
+	padding: 0 !important;
+	margin: 0 !important;
+	display: block;
+	margin-bottom: 5mm !important;
+}
+.info blockquote p {
+    /* 1. Force the P to act like a SPAN */
+    display: inline; 
+    
+    /* 2. Apply background and color */
+    background-color: var(--primary);
+    color: var(--background);
+    
+	box-decoration-break: clone;
+    
+    /* 4. Fix Line Height */
+    line-height: 1 !important; /* Needs extra height to prevent black bars from overlapping */
+
+	margin: 0;
+	padding: 1pt 1pt;
+	padding-bottom: 1.5pt;
+
+}
+
+.info blockquote strong {
+	font-family: 'ModuloBold' !important;
+	letter-spacing: 0.5mm;
+}
+
+/* 5. Because P is now inline, we need to style the CONTAINER to align it */
+.info {
+    display: block;      /* Ensures the container is a block */
+    margin-bottom: 1rem; /* Spacing between blocks */
+   text-align: right !important;
+}
+
+  section.info p strong, section.info p em {
+	background-color: var(--background);
+	color: var(--primary) !important;
+	text-transform: uppercase;
+	font-weight: bold;
+  } 
 
 h1 + section * {
 	font-family: "Helvetica Neue", sans-serif;
@@ -108,14 +162,15 @@ p strong {
 }
 
 
-strong {
+strong, .conditions h3 {
 	font-family: "Forma";
+	font-size: 8pt;
 	line-height: 1;
 	display: inline;
 	color: var(--background) !important;
 	background-color: var(--primary);
 	font-weight: normal;
-	padding: 1pt 3pt;
+	padding: 1pt 3pt !important;
 	text-transform: uppercase;
 	white-space: nowrap;
 }
@@ -129,12 +184,14 @@ ol li strong {
 	background-color: var(--background);
 }
 
-conditions {
-	position: absolute;
+
+section.info .conditions {
+	position:absolute;
 	bottom: 0;
 }
 
-conditions p strong {
+
+.conditions p strong {
 	font-family: 'ModuloUltra';
 	position: absolute;
 	right: 0;
@@ -143,7 +200,7 @@ conditions p strong {
 } 
 
 
-conditions p {
+.conditions p {
 	text-transform: lowercase;
 	font-size: 8pt;
 	padding: 0;
@@ -204,6 +261,7 @@ p {
 	
 	text-wrap: pretty;
 	text-justify: inter-word;
+	text-align: left;
 	hanging-punctuation: first last; /* check on mdn */
 
 	word-spacing: -0.03em;
@@ -226,28 +284,7 @@ h2 {
 		font-family: "ModuloBold";
 }
 
-legend-section {
-	display: block;
-	column-count: 2;
-	column-gap: 5mm;
-	column-fill: auto;
-}
 
-legend-section h2 {
-	break-before: column !important;
-	break-inside: avoid;
-
-	/* Legacy property (Add this for better support in PDF renderers) */
-    column-break-before: always;
-}
-
-legend-section section {
-	break-before: column !important;
-	break-inside: avoid;
-
-	/* Legacy property (Add this for better support in PDF renderers) */
-    column-break-before: always;
-}
 
 ol, ul {
 	break-inside: avoid;
@@ -268,13 +305,7 @@ beat {
 }
 
 
-beat h2 {
-	break-after: avoid;
-	margin-bottom: 0;
-	margin-block-end: 0 !important;
-	padding-bottom: 0;
 
-}
 
 h1, h2, h3 {
 	margin: 0 !important;
@@ -297,19 +328,27 @@ h3 {
 }
 
 
-beat h3 {
-	break-after: avoid;
+blockquote {
+	padding: 1mm !important;
+	width: 58mm;
+  
+	float: right;
+	margin-left: 2mm !important;   /* space between text and box */
+	margin-top: 2mm !important;
+	margin-bottom: 2mm !important;
+
+	margin-right: -12mm;
+
+	border: 0.5mm solid;
 }
 
-beat section {
-}
-
-beat ol {
-}
-
-beat ol li {
-	text-align: left !important;
-	padding-left: 10mm;
+blockquote p {
+	color: var(--primary);
+	font-size: 14pt;
+	line-height: 20pt;
+	text-transform: uppercase;
+	text-align: right;
+	margin: 0 10mm;
 }
 
 section.npcs {
@@ -332,9 +371,76 @@ section.table {
 	max-width: 90%;
 }
 
+.table ol li {
+	text-align: left !important;
+	padding-left: 10mm;
+}
+
 section.table {
 	/*
 	border-left: 0.5mm solid var(--primary);
 	border-right: 0.5mm solid var(--primary);
 	*/
+}
+
+:root {
+}
+
+.truth, .legend {
+
+}
+
+.legend h2, .truth h2 {
+	font-size: 80pt;
+	margin-bottom: 0 !important;
+	padding-top: 0;
+	
+}
+
+.truth h2 {
+	position: relative;
+	right: -8pt;
+}
+
+.legend h2 {
+	position: relative;
+	right: 8pt;
+}
+
+.legend h3, .truth h3 {
+	column-span: all;
+	margin-top: 0 !important;
+	padding-top: 0;
+	text-transform: none;
+	font-weight: normal;
+	font-size: 10pt;
+}
+
+.truth h2, .truth h3 {
+	text-align: right;
+}
+
+.wrapper h4 {
+	display: none;
+}
+
+.wrapper {
+	position: absolute;
+	top:50%;
+}
+
+.truth .wrapper {
+}
+
+.wrapper p:first-of-type {
+	margin-top: 0;
+	padding-top: 0;
+}
+
+.wrapper p {
+	break-inside: avoid;
+}
+
+.pagedjs_margin-content, .pagedjs_margin-content * {
+	color: var(--margins-text) !important;
 }

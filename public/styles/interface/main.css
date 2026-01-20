@@ -1,0 +1,95 @@
+* {
+    font-family: 'Roboto';
+    font-size: 0.9rem;
+
+}
+
+body {
+    background-color: beige;
+}
+
+pre, code {
+    margin: 0 !important;
+    padding: 0;
+    padding: 6px;
+    display: block;
+    background-color: snow !important;
+}
+
+code:focus {
+    outline: none;
+}
+
+#interface {
+    padding: 1rem;
+    min-height: 50%;
+    max-height: 50%;
+
+}
+
+#tabs {
+    position: relative;;
+}
+
+.tab {
+    position: absolute;
+    min-width: 100%;
+    height: 100%;
+}
+
+.tab h2 {
+    position: absolute;
+}
+
+.tab {
+    z-index: 1;
+}
+
+.active {
+    z-index: 10;
+}
+
+.active .tab-selector {
+    font-weight: bold;
+    border-top: 1px solid black;
+}
+
+.inactive .tab-selector {
+    font-weight: bold;
+    border-bottom: 1px solid black;
+}
+
+.inactive {
+    z-index: 1;
+}
+
+.tab:nth-of-type(2) h2 {
+    left: 100px;
+}
+
+.tab:nth-of-type(3) h2 {
+    left: 250px;
+}
+
+.tab-content {
+    position: absolute;
+    top: 50px;
+    background-color: snow;
+    border: 1px solid black;
+    height: 85vh;
+    overflow: scroll;
+    width: 100%;
+}
+
+.tab-selector {
+    text-underline-offset: 4px;
+    cursor: pointer;
+    padding-bottom: 4px;
+    padding-top: 4px;
+
+}
+
+.tab-selector:hover {
+    background-color: black;
+    color: beige;
+}
