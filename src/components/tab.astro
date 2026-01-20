@@ -1,5 +1,5 @@
 ---
-const { tabName, tabId, tabClass } = Astro.props;
+const { tabName, tabId, tabClass, onUpdate } = Astro.props;
 ---
 <div class="tab active">
     <h2 class="tab-selector" data-id="0">{tabName}</h2>
@@ -7,4 +7,10 @@ const { tabName, tabId, tabClass } = Astro.props;
         <pre><code id={tabId} contenteditable="true" class={tabClass}>
         </code></pre>
     </div>
+    <script define:vars="">
+        const tabElement = document.getElementById(tabId);
+        tabElement.addEventListener("input", (event) => {
+            onUpdate();
+        })
+    </script>
 </div>

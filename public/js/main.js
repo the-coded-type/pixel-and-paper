@@ -4,6 +4,7 @@ import { iframe } from "./iframe.js";
 import { interfaceCss } from "./interface.css.js"
 
 let css = '';
+let md = '';
 
 const tabs = document.querySelectorAll(".tab");
 
@@ -27,19 +28,30 @@ const selectTab = id => {
 
 const tabCss = document.getElementById("tab-css");
 
+const tabMd = document.getElementById("tab-md");
+
 const tabPdf = document.getElementById("tab-pdf");
 
-function updatePdf(styles) {
-    tabPdf.innerHTML = iframe(styles);
+async function updatePdf(styles, md) {
+    md = tabMd.textContent;
+    tabPdf.innerHTML = await iframe(styles, md);
 }
 
 tabCss.addEventListener("input", (event) => {
+    md = tabMd.textContent;
     css = tabCss.textContent;
-    updatePdf([css, interfaceCss]);
+    updatePdf([css, interfaceCss], md);
+ })
+
+ tabMd.addEventListener("input", (event) => {
+    md = tabMd.textContent;
+    css = tabCss.textContent;
+    updatePdf([css, interfaceCss], md);
  })
 
  function init() {
     tabCss.textContent = interfaceCss;
+    md = tabMd.textContent;
     css = tabCss.textContent;
     updatePdf([css, interfaceCss]);
  }

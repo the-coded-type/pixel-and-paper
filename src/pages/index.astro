@@ -1,3 +1,6 @@
+---
+import Tab from "src/components/tab.astro"
+---
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +18,8 @@
     <main id="interface">
         <h1>PIXEL AND PAPER</h1>
         <div id="tabs">
+            {/* <Tab tabName="CSS" tabId="tab-css" tabClass="language-css" /> */}
+            
             <div class="tab active">
                 <h2 class="tab-selector" data-id="0">CSS</h2>
                 <div class="tab-content">
@@ -26,7 +31,7 @@
             <div class="tab inactive">
                 <h2 class="tab-selector" data-id="1">MARKDOWN</h2>
                 <div class="tab-content">
-<pre><code class="language-markdown">
+<pre><code id="tab-md" contenteditable="true" class="language-markdown">
 # Main Title
 
 Right now this tab is not active yet.
