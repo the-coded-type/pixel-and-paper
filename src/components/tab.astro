@@ -1,10 +1,10 @@
 ---
+const { tabName, tabId, tabClass } = Astro.props;
 ---
 <div class="tab active">
-    <h2 class="tab-selector" data-id="0">CSS</h2>
+    <h2 class="tab-selector" data-id="0">{tabName}</h2>
     <div class="tab-content">
-            <pre><code id="tab-css" contenteditable="true" class="language-css">
-
+        <pre><code id={tabId} contenteditable="true" class={tabClass}>
         </code></pre>
     </div>
 </div>
