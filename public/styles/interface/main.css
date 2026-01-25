@@ -49,18 +49,14 @@ code:focus {
     z-index: 10;
 }
 
-.active .tab-selector {
-    font-weight: bold;
-    border-top: 1px solid black;
-}
-
-.inactive .tab-selector {
-    font-weight: bold;
-    border-bottom: 1px solid black;
-}
 
 .inactive {
     z-index: 1;
+}
+
+.tab-selector.active-tab {
+    background-color: black !important;
+    color: beige;
 }
 
 .tab:nth-of-type(2) h2 {

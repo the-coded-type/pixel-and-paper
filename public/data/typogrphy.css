@@ -1,0 +1,42 @@
+@font-face {
+	font-family: "Forma";
+	src:
+	  url("http://localhost:4321/data/fonts/OTFormaTrial/OTFormaUnlicensedTrial-Neretta.otf") format("opentype");
+  }
+@font-face {
+	font-family: "Hantarex";
+	src:
+	  url("http://localhost:4321/data/fonts/Hantarex-Family/WOFF/HantarexMono-Light.woff") format("woff");
+  }
+
+@font-face {
+		font-family: "ModuloBold";
+	src:
+	  url("http://localhost:4321/data/fonts/Modulo-Family/web/woff/Modulo-Ultra.woff") format("woff");
+  }
+
+  @font-face {
+	font-family: "ModuloBold";
+	src:
+	  url("http://localhost:4321/data/fonts/Modulo-Family/web/woff/Modulo-Bold.woff") format("woff");
+  }
+
+  @font-face {
+	font-family: "Modulo";
+	src:
+	  url("http://localhost:4321/data/fonts/Modulo-Family/web/woff/Modulo-Regular.woff") format("woff");
+  }
+
+  @font-face {
+	font-family: "H74 Ocelot Piss";
+	src:
+	  url("http://localhost:4321/data/fonts/H74_Ocelot_Piss/OcelotPiss-Regular.ttf") format("truetype");
+  }
+
+  
+  h2 {
+    font-family: 'H74 Ocelot Piss';
+  }
+
+
+  

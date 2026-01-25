@@ -22,15 +22,16 @@ async function renderMarkdown(md) {
         return  htmlText;
   }
 
-export const iframe = async ([css], md) => {
+export const iframe = async (css, md) => {
+    
 
     const allImportedStyles = Array.isArray(css) ? css : [css];
 
     const allStyles = allImportedStyles.map(style => ` <style>${style}</style>`).join('');
 
     const renderedHtml = await renderMarkdown(md);
-return `
-<iframe width="100%" height="100%" srcdoc='
+
+    const fullHtmlContent = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,13 +42,28 @@ return `
         .pagedjs_pages { display: flex; flex-direction: column; align-items: center; }
         .pagedjs_page { background: white; margin: 10px; }
     </style>
-    <style>
     ${allStyles}
-    </style>
 </head>
-<body>
-   ${renderedHtml}
+<body >
+   ${renderedHtml.value}
 </body>
 </html>
-'></iframe>
-`}
+`;
+
+const safeDataUrl = "data:text/html;charset=utf-8," + encodeURIComponent(fullHtmlContent);
+
+const econdedIframe = `<iframe width="100%" height="100%" src="${safeDataUrl}"></iframe>`;
+
+
+ // FIX 2: Use Blob instead of Data URI
+// This gives the iframe the same "localhost" origin as your app, allowing fonts to load.
+const blob = new Blob([fullHtmlContent], { type: 'text/html' });
+const blobUrl = URL.createObjectURL(blob);
+
+// Return the iframe using the Blob URL
+// Note: We don't need to encodeURIComponent the URL itself, it's already safe.
+const encodedIframe = `<iframe width="100%" height="100%" src="${blobUrl}" style="border:none;"></iframe>`;
+
+return encodedIframe;;
+
+}

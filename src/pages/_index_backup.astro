@@ -18,21 +18,19 @@ import Tab from "src/components/tab.astro"
         const BASE_PATH = '/data/';
 
         const CONFIG = [
-            {type: 'css', name: 'Page', data: ['page.css'] },
-            {type: 'css', name: 'Setup', data: ['setup.css'] },
-            {type: 'css', name: 'Interface', data: ['interface.css'] },
-            {type: 'css', name: 'Variabless', data: ['variables.css'] },
-            {type: 'css', name: 'Typogrphy', data: ['typogrphy.css'] },
-            {type: 'css', name: 'Structure', data: ['structure.css'] },
-            {type: 'md', name: 'Markdown', data: ['md.md'] } 
+            {type: 'css', name: 'css', data: ['css.css'] },
+            {type: 'md', name: 'markdown', data: ['md.md'] } 
             
         ];
     </script>
 </head>
-<body id="body">
+<body>
     <main id="interface">
         <h1>PIXEL AND PAPER</h1>
         <nav id="nav">
+            <h2 class="tab-selector" data-id="0">CSS</h2>
+            <h2 class="tab-selector" data-id="1">MARKDOWN</h2>
+            <h2 class="tab-selector" data-id="2">PDF</h2>
         </nav>
 
 
@@ -41,10 +39,12 @@ import Tab from "src/components/tab.astro"
         <div id="tabs">
             {/* <Tab tabName="CSS" tabId="tab-css" tabClass="language-css" /> */}
             
-       
+
+     
+
+        </div>
     </main>
     <script is:inline type="module">
-        
         const loadMyFile = async (filePath) => {
         try {
             // Request the file from your local server
@@ -74,43 +74,25 @@ import Tab from "src/components/tab.astro"
     const nav = document.getElementById("nav");
 
     DATA.forEach((d, index) => {
-        nav.innerHTML += `<span style="margin-right:2em;" class="tab-selector inactive-tab" data-id="${index}">${index}.${d.name.toUpperCase()}</span>`;
+        nav.innerHTML += `<h2 class="tab-selector" data-id="${index}">
+            ${d.name.toUpperCase()}
+        </h2>`;
     });
-
-    nav.innerHTML += `<span class="tab-selector inactive-tab" data-id="${DATA.length}">S.PDF PREVIEW</span>`;
-
-    const tabs = document.getElementById('tabs');
-
-    DATA.forEach((d, index) => {
-        // const className = index == 0 ? "active" : "inactive"
-        const className = "inactive";
-        tabs.innerHTML += ` <div class="tab ${className}" data-id="${index}">
+    
+    const TABS = `            <div class="tab active">
                 <div class="tab-content">
-                        <pre><code class="editable-tab" contenteditable="true" class="language-css" data-type=${d.type}>
-                            ${d.data}
+                        <pre><code id="tab-css" contenteditable="true" class="language-css">
+
                     </code></pre>
                 </div>
             </div>`;
-    });
 
-    tabs.innerHTML += `
-    <div class="tab inactive" data-id="${DATA.length}">
-    <div class="tab-content" id="preview">
-    </div>
-    </div>
-    `;
+    const tabs = document.getElementById('tabs');
 
 
     </script>
     <script is:inline type="module" src='/js/main.js'></script>
-    {/* 
-    
     <script is:inline src='/js/prism.js'></script>
-    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
-    */}
-    <script>
-
-    
-    </script>
+    <script is: inline src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
 </body>
 </html>

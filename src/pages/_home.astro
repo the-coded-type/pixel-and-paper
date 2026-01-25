@@ -33,7 +33,6 @@
 
         const res = await fetch(file);
         const md = await res.text();
-        console.log("md", md);
 
         // Convert Markdown to HTML using unified
         const htmlText = await unified()

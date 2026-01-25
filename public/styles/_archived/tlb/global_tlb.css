@@ -64,7 +64,7 @@ li {
   text-align: left;
 }
 
-h1, h2, h3, h4, h5 {
+h2 {
   /* padding-top: calc((var(--baseline) - 1ex) / 2);
   margin-bottom: calc(var(--baseline) - ((var(--baseline) - 1ex) / 2));
 	/* font-family: 'TASA Explorer'; */
