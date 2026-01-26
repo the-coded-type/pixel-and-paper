@@ -3,6 +3,7 @@ import remarkParse from 'https://esm.sh/remark-parse';
 import remarkRehype from 'https://esm.sh/remark-rehype';
 import rehypeFormat from 'https://esm.sh/rehype-format';
 import rehypeStringify from 'https://esm.sh/rehype-stringify';
+import remarkSection from "./lib/remarkSection.js";
 
 async function renderMarkdown(md) {
     console.time('Total Time');  // Start total timing
@@ -42,10 +43,10 @@ export const iframe = async (css, md) => {
         .pagedjs_pages { display: flex; flex-direction: column; align-items: center; }
         .pagedjs_page { background: white; margin: 10px; }
     </style>
-    ${allStyles}
+    ${allStyles.trim()}
 </head>
 <body >
-   ${renderedHtml.value}
+   ${renderedHtml.value.trim()}
 </body>
 </html>
 `;

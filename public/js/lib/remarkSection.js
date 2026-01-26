@@ -1,4 +1,7 @@
-import { visit } from 'unist-util-visit';
+import { visit } from 'https://esm.sh/unist-util-visit';
+
+import { unified } from 'https://esm.sh/unified';
+
 
 function sanitizeString(string) {
   return string.replaceAll('.', '').toLowerCase().trim().replaceAll(' ', '-');
