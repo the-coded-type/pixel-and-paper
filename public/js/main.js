@@ -86,9 +86,10 @@ window.addEventListener("load", () => {
             console.log(event)
             const key = event.key;
             const metaKey = event.metaKey;
+            const altKey = event.altKey;
             // selectTab
     
-            if (!metaKey) return;
+            if (!altKey) return;
     
             if (key == "Shift" ) {
                 selectTab(tabsCount-1)
@@ -98,6 +99,14 @@ window.addEventListener("load", () => {
             if (key == "ArrowRight" ) {
                 console.log("ArrowRight")
                 const selectedTab =  activeTabIndex == tabsCount-1 ? 0 : activeTabIndex+1;
+                console.log("selectedTab", selectedTab);
+                selectTab(selectedTab);
+                return
+            }
+
+            if (key == "ArrowLeft" ) {
+                console.log("ArrowLeft")
+                const selectedTab =  activeTabIndex == 0 ? tabsCount-1 : activeTabIndex-1;
                 console.log("selectedTab", selectedTab);
                 selectTab(selectedTab);
                 return

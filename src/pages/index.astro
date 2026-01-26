@@ -22,10 +22,9 @@ import Tab from "src/components/tab.astro"
             {type: 'css', name: 'Setup', data: ['setup.css'] },
             {type: 'css', name: 'Interface', data: ['interface.css'] },
             {type: 'css', name: 'Variabless', data: ['variables.css'] },
-            {type: 'css', name: 'Typogrphy', data: ['typogrphy.css'] },
+            {type: 'css', name: 'Typography', data: ['typogrphy.css'] },
             {type: 'css', name: 'Structure', data: ['structure.css'] },
-            {type: 'md', name: 'Markdown', data: ['md.md'] } 
-            
+            {type: 'md', name: 'Markdown', data: ['md.md'] }   
         ];
     </script>
 </head>
@@ -84,7 +83,7 @@ import Tab from "src/components/tab.astro"
         const className = "inactive";
         tabs.innerHTML += ` <div class="tab ${className}" data-id="${index}">
                 <div class="tab-content">
-                        <pre><code class="editable-tab" contenteditable="true" class="language-css" data-type=${d.type}>
+                        <pre><code class="editable-tab language-${d.type}" contenteditable="true" data-type="${d.type}">
                             ${d.data}
                     </code></pre>
                 </div>
@@ -101,11 +100,11 @@ import Tab from "src/components/tab.astro"
 
     </script>
     <script is:inline type="module" src='/js/main.js'></script>
-    {/* 
+    
     
     <script is:inline src='/js/prism.js'></script>
     <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
-    */}
+    
     <script>
 
     
