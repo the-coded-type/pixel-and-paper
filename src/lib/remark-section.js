@@ -38,7 +38,6 @@ function nodeTextValue(n) {
     return childrenArray.map(c => c.value).join(' ');
   } else {
     // If no text children, recurse into the first child (if it has children)
-    console.log("n.children[0]", n[0].children[0])
     return nodeTextValue(n[0].children[0]);
   }
 

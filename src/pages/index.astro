@@ -59,8 +59,6 @@ import Tab from "src/components/tab.astro"
         }
     }
 
-    const myCss = await loadMyFile('/data/css.css');
-
     const PROMISES = CONFIG.map(async ({type, name, data}) => {
         
         const content = await loadMyFile(`${BASE_PATH}${data[0]}`);
