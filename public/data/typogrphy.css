@@ -40,3 +40,8 @@
 
 
   
+
+  h3 {
+	letter-spacing: 1pt;
+	break-before: always;
+}

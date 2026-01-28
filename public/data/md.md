@@ -1,20 +1,19 @@
 
-## The Traveller
+## The_Traveller
 
 ### Info
 
 **Themes:** Night, stars, lights, glimmer.  
+
 **Classification:** Gross, eerie.
 
 **CW:** Aliens, conspiracies, tentacles, police, sickness, kidnapping, body infestation, body penetration, grief, loss of a close one.
 
 **District:** Desert.
 
-Brooke was originally written by Chris Airiau for the *Swine* UL (Urban Legends book) and has been adapted for *The Traveller**.***
+Brooke was originally written by Chris Airiau for the *Swine* UL (Urban Legends book) and has been adapted for **The Traveller**.
 
 #### Conditions
-
-Roll 1d6:
 
 1. A small burn scar draws a weird diagram on your skin.  
 2. Thin, protruding, iridescent tentacles burst through your flesh.  

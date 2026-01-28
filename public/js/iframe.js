@@ -13,14 +13,15 @@ async function renderMarkdown(md) {
     // Convert Markdown to HTML using unified
     const htmlText = await unified()
       .use(remarkParse) // Markdown to AST
-      .use(remarkRehype) // AST to HTML
-      .use(rehypeFormat) // Pretty print HTML
-      .use(rehypeStringify) // Convert AST to string
+      .use(remarkSection) // Add sections to H tags
+      .use(remarkRehype, { allowDangerousHtml: true }) // AST to HTML
+      // .use(rehypeFormat) // Pretty print HTML
+      .use(rehypeStringify, { allowDangerousHtml: true }) // Convert AST to string
       .process(md); // Wait for this step to complete
 
       console.timeEnd('Markdown Fetch & Process'); // End time for markdown fetch and processing
 
-        return  htmlText;
+     return  htmlText;
   }
 
 export const iframe = async (css, md) => {

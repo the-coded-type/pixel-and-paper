@@ -1,83 +1,70 @@
 import { visit } from 'https://esm.sh/unist-util-visit';
 
-import { unified } from 'https://esm.sh/unified';
-
-
 function sanitizeString(string) {
+  // Added safe check in case string is undefined/null
+  if (!string) return '';
   return string.replaceAll('.', '').toLowerCase().trim().replaceAll(' ', '-');
+}
+
+// Helper to safely extract text from children arrays
+function nodeTextValue(childrenArray) {
+  if (!childrenArray || !Array.isArray(childrenArray)) return '';
+
+  // 1. Try to find direct text nodes in this array
+  const textNodes = childrenArray.filter(c => c.type === 'text');
+  
+  if (textNodes.length > 0) {
+    return textNodes.map(c => c.value).join(' ');
+  } 
+  
+  // 2. If no text, look deeper into the first child's children
+  if (childrenArray.length > 0 && childrenArray[0].children) {
+    // FIX: Pass the children ARRAY, not the node object
+    return nodeTextValue(childrenArray[0].children);
+  }
+
+  return '';
 }
 
 export default function remarkSection() {
   return (tree) => {
-    const treeChildren = tree.children;
     const newChildren = [];
+    const openSections = []; // Stack of depths (h1, h2...)
 
-    // Stack of open section depths (LIFO)
-    const openSections = [];
-    let sectionOpen = false;
-
-    for (const child of treeChildren) {
+    // Iterate top-level nodes
+    for (const child of tree.children) {
       if (child.type === 'heading') {
-        // Close sections that are deeper or equal
-
-        while (openSections.length > 0 && openSections[openSections.length-1] >= child.depth) {
+        // Close sections deeper or equal to current heading
+        while (openSections.length > 0 && openSections[openSections.length - 1] >= child.depth) {
             openSections.pop();
-            newChildren.push({type: 'html', value: '</section>'})
+            newChildren.push({ type: 'html', value: '</section>' });
         }
        
+        // O
         openSections.push(child.depth);
 
-      //  const sectionClass = child.children?.[0].type === 'text' ? child.children[0].value : null;
-      /*
-        
-      */
+        // Extract text for class name
+        const rawText = nodeTextValue(child.children); 
 
-// Helper function to get the text value from a node, recursively
-function nodeTextValue(n) {
-  const childrenArray = n?.filter(c => c.type === 'text') || [];
+        const className = sanitizeString(rawText);
 
-  if (childrenArray.length > 0) {
-    // If there are text children, join their values into one string
-    return childrenArray.map(c => c.value).join(' ');
-  } else {
-    // If no text children, recurse into the first child (if it has children)
-    return nodeTextValue(n[0].children[0]);
-  }
-
-  // Return an empty string if no text found
-  return '';
-}
-        /*
-        const sectionClass = child.children
-            ?.filter((c) => c.type === 'text')
-            .map((c) => c.value)
-            .join(' ')
-            || null;
-        */
-
-        const sectionClass = nodeTextValue(child.children); 
+        const depth = child.depth;
             
-        const openingTag = sectionClass
-          ? `<section class="${sanitizeString(sectionClass)}">`
-          : '<section>';
+        const openingTag = className
+          ? `<section class="${className} ${className}-${child.depth} d-${child.depth}">`
+          : `<section class="d-${child.depth}">`;
 
-        newChildren.push({
-          type: 'html',
-          value: openingTag,
-        });
+        newChildren.push({ type: 'html', value: openingTag });
       }
 
-      // Always keep original node
+      // Keep the original node (the heading itself)
       newChildren.push(child);
     }
 
-    // Close any remaining open sections at end of document
+    // Close any sections still open at the end
     while (openSections.length > 0) {
       openSections.pop();
-      newChildren.push({
-        type: 'html',
-        value: '</section>',
-      });
+      newChildren.push({ type: 'html', value: '</section>' });
     }
 
     tree.children = newChildren;

@@ -1,3 +1,7 @@
+
+                            
+                            
+                            
 .pagedjs_pagebox {
 	background-color: var(--background);
 }
@@ -38,7 +42,7 @@ h2 {
 	left: 0;
   
 	font-weight: 900;
-	font-size: 61.5pt;
+	font-size: 56.5pt;
 	letter-spacing: 4pt;
   
 	margin: 0;
@@ -52,16 +56,25 @@ section.info {
 	break-before: avoid !important;
 	width: 100%;
 	position: absolute;
-	top: -14pt;
 	right: 0 ;
 	height: 100%;
 	width: 66%;
-	padding-top: 5mm;
+padding-bottom: 0;
 }
+
+section.info p:first-of-type {
+margin-top:0;
+} 
 
 section.info h2 {
 	break-before: avoid;
 	display: none;
+}
+
+section.info h3 {
+	break-before: avoid;
+display: none;
+
 }
 
 .info blockquote, .info blockquote p {
@@ -69,6 +82,7 @@ section.info h2 {
 	text-transform: none !important;
 	width: 100%;
 }
+
 .info blockquote {
 	padding: 0 !important;
 	margin: 0 !important;
@@ -107,13 +121,15 @@ section.info h2 {
 }
 
   section.info p strong, section.info p em {
-	background-color: var(--background);
-	color: var(--primary) !important;
+	background-color: var(--primary);
+
+	color: var(--background) !important;
 	text-transform: uppercase;
 	font-weight: bold;
   } 
 
-h2 + section * {
+  /* Reminder h2 is used for the book section title, h3 for chapter tittles */
+h3 + section * {
 	font-family: "Helvetica Neue", sans-serif;
 	font-family: "Modulo";
 	font-family: "Forma";
@@ -121,7 +137,7 @@ h2 + section * {
 	
 }
 
-h2 + section p {
+h3 + section p {
 	text-align: left;
 	font-size: 9pt !important;
 
@@ -135,7 +151,7 @@ p strong {
 }
 
 
-strong, .conditions h3 {
+strong, .conditions h4 {
 	font-family: "Forma";
 	font-size: 8pt;
 	line-height: 1;
@@ -182,6 +198,7 @@ section.info .conditions {
  ol {
 	padding: 0;
   list-style-position: inside;
+  padding-top: 4mm;
 }
 
  ol {
@@ -197,6 +214,10 @@ section.info .conditions {
 	counter-increment: item;
 	position: relative;
 	padding-left: 5pt;
+padding-top: 2mm;
+padding: bottom: 2mm;
+  text-wrap: pretty;
+
 }
 
 ol li:not(:last-child) {
@@ -214,9 +235,7 @@ ol li::before {
 	width: 3mm;
   }  
   
-h2 {
-	letter-spacing: 1pt;
-}
+
 
 li {
 	line-height: normal;
@@ -413,3 +432,7 @@ section.table {
 .pagedjs_margin-content, .pagedjs_margin-content * {
 	color: var(--margins-text) !important;
 }
+                    
+                    
+                    
+                    

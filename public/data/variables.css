@@ -1,4 +1,8 @@
 :root {
+
+    /* Work area background */
+    --color-background: beige;
+
     /* UFO */
 
     --primary: #593F36;

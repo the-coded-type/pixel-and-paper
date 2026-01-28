@@ -1,5 +1,3 @@
-console.log('===== Main =====');
-
 import { iframe } from "./iframe.js";
 
 const interfaceCss = '';
@@ -11,8 +9,6 @@ const tabs = document.querySelectorAll(".tab");
 const tabsCount = tabs.length;
 
 const tabSelectors = document.querySelectorAll('.tab-selector');
-
-console.log('tabSelectors', tabSelectors)
 
 let activeTab;
 
@@ -34,16 +30,10 @@ const selectTab = id => {
     activeTab.classList.toggle("active");    // add class from active tab
     activeTabSelector.classList.toggle("inactive-tab");
     activeTabSelector.classList.toggle("active-tab");    // add class from active tab
-
-    console.log("selectTab activeTabIndex, id", activeTabIndex, id)
-    console.log("selectTab activeTab", activeTab)
-    console.log("selectTab activeTabSelector", activeTabSelector)
 };
 
 tabSelectors.forEach(tabSelector => {
     tabSelector.addEventListener("click", (e) => {
-        console.log("click event, active tab",activeTabIndex, "clicked", e.target.dataset.id);
-        console.log("Click event, id clicked ", e.target.dataset.id)
         selectTab(e.target.dataset.id);
     })
 });
@@ -61,13 +51,13 @@ async function updatePreview() {
 allEditableTabs.forEach(editableTab => {
     editableTab.addEventListener("input", (event) => {
        updatePreview();
+       // Prism.highlightElement(editableTab)
+
      })
 })
 
 
-window.addEventListener("load", () => {
-    console.log("main: page is fully loaded");
-    
+window.addEventListener("load", () => {    
     // CORRECTED: No arguments needed here
     updatePreview(); 
     activeTabIndex = 7;
@@ -83,7 +73,6 @@ window.addEventListener("load", () => {
     
          document.addEventListener("keydown", (event) => {
             // ArrowRight
-            console.log(event)
             const key = event.key;
             const metaKey = event.metaKey;
             const altKey = event.altKey;
@@ -97,17 +86,13 @@ window.addEventListener("load", () => {
             }
     
             if (key == "ArrowRight" ) {
-                console.log("ArrowRight")
                 const selectedTab =  activeTabIndex == tabsCount-1 ? 0 : activeTabIndex+1;
-                console.log("selectedTab", selectedTab);
                 selectTab(selectedTab);
                 return
             }
 
             if (key == "ArrowLeft" ) {
-                console.log("ArrowLeft")
                 const selectedTab =  activeTabIndex == 0 ? tabsCount-1 : activeTabIndex-1;
-                console.log("selectedTab", selectedTab);
                 selectTab(selectedTab);
                 return
             }
