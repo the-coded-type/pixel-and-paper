@@ -1,3 +1,9 @@
+:root {
+    --interface-background: #1d2021;
+    --interface-foreground: #83a598;
+
+}
+
 * {
     font-family: 'Roboto';
     font-size: 0.9rem;
@@ -5,7 +11,15 @@
 }
 
 body {
-    background-color: beige;
+    background-color: var(--interface-background);
+}
+
+h1, a, nav span {
+    color: var(--interface-foreground);
+}
+
+nav {
+    margin-bottom: 1rem;
 }
 
 pre, code {
@@ -13,7 +27,7 @@ pre, code {
     padding: 0;
     padding: 6px;
     display: block;
-    background-color: snow !important;
+    background-color: var(--interface-background) !important;
 }
 
 code:focus {
@@ -48,16 +62,18 @@ code:focus {
 
 .active {
     z-index: 10;
+    visibility: visible;
 }
 
 
 .inactive {
     z-index: 1;
+    visibility: hidden;
 }
 
 .tab-selector.active-tab {
-    background-color: black !important;
-    color: beige;
+    background-color: var(--interface-foreground) !important;
+    color: var(--interface-background);
 }
 
 .tab:nth-of-type(2) h2 {
@@ -71,8 +87,8 @@ code:focus {
 .tab-content {
     position: absolute;
     top: 50px;
-    background-color: snow;
-    border: 1px solid black;
+    background-color: var(--interface-background);
+    border: 1px solid var(--interface-foreground);
     height: 85vh;
     overflow: scroll;
     width: 100%;
@@ -87,6 +103,6 @@ code:focus {
 }
 
 .tab-selector:hover {
-    background-color: black;
-    color: beige;
+    background-color: var(--interface-foreground);
+    color: var(--interface-background);
 }

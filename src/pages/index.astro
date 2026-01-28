@@ -15,23 +15,11 @@ import Tab from "src/components/tab.astro";
             media="screen"
             href="/styles/interface/main.css"
         />
-        <link
-            rel="stylesheet"
-            type="text/css"
-            media="screen"
-            href="/styles/interface/editor.css"
-        />
+        <script>
+            import {createEditor} from '../js/createEditor';
+            import { markdown } from '@codemirror/lang-markdown'
+            import { css } from "@codemirror/lang-css";
 
-        {
-            /*
-    <link rel='stylesheet' type='text/css' media='screen' href='/styles/interface/prism.css'>
-    
-    <link rel='stylesheet' type='text/css' media='screen' href='/styles/interface/custom-prism-css.css'>
-
-*/
-        }
-
-        <script is:inline>
             const BASE_PATH = "/data/";
 
             const CONFIG = [
@@ -43,20 +31,31 @@ import Tab from "src/components/tab.astro";
                 { type: "css", name: "Structure", data: ["structure.css"] },
                 { type: "md", name: "Markdown", data: ["md.md"] },
             ];
-        </script>
-    </head>
-    <body id="body">
-        <main id="interface">
-            <h1>PIXEL AND PAPER</h1>
-            <nav id="nav"></nav>
 
-            <div id="tabs">
-                {
-                    /* <Tab tabName="CSS" tabId="tab-css" tabClass="language-css" /> */
-                }
-            </div>
-            <script is:inline type="module">
-                const loadMyFile = async (filePath) => {
+            const activeTabs = {};
+
+            const languageMap = {
+                    'css': css,
+                    'md': markdown
+                };
+
+            function openNewTab(id, lang, content, className) {
+                console.log("lang", lang)
+                const container = document.createElement("div");
+                container.className = `tab language-${lang} id-${id} ${className}`;
+
+                const tabs = document.getElementById("tabs");
+
+                tabs?.append(container);
+
+                const langFn = languageMap[lang];
+
+                activeTabs[id] = createEditor(langFn(), content, container);
+
+                return container;
+            }
+
+            const loadMyFile = async (filePath) => {
                     try {
                         // Request the file from your local server
                         const response = await fetch(filePath);
@@ -70,110 +69,61 @@ import Tab from "src/components/tab.astro";
                     }
                 };
 
-                const PROMISES = CONFIG.map(async ({ type, name, data }) => {
+            const PROMISES = CONFIG.map(async ({ type, name, data }) => {
                     const content = await loadMyFile(`${BASE_PATH}${data[0]}`);
 
                     return { type: type, name: name, data: content };
                 });
 
-                // DATA is an array of {type: 'type, for example css or md', data: 'string content'}
-                const DATA = await Promise.all(PROMISES);
+            // DATA is an array of {type: 'type, for example css or md', data: 'string content'}
+            const DATA = await Promise.all(PROMISES);
 
-                const nav = document.getElementById("nav");
+            const nav = document.getElementById("nav");
 
-                DATA.forEach((d, index) => {
-                    nav.innerHTML += `<span style="margin-right:2em;" class="tab-selector inactive-tab" data-id="${index}">${index}.${d.name.toUpperCase()}</span>`;
-                });
+            DATA.forEach((d, index) => {
+                    const className = index == 0 ? "active-tab" : "inactive-tab";
 
-                nav.innerHTML += `<span class="tab-selector inactive-tab" data-id="${DATA.length}">S.PDF PREVIEW</span>`;
+                    nav.innerHTML += `<span style="margin-right:2em;" class="tab-selector ${className}" data-id="${index}">${index}.${d.name.toUpperCase()}</span>`;
+            });
 
-                const tabs = document.getElementById("tabs");
+            const tabs = document.getElementById("tabs");
 
-                DATA.forEach((d, index) => {
-                    // const className = index == 0 ? "active" : "inactive"
-                    const className = "inactive";
 
-                    tabs.innerHTML += `<div class="tab ${className} language-${d.type}" data-id="${index}">
-            <div class="editor tab-content">
-                <div class="preview"></div>
-                <textarea id="textarea-${index}" spellcheck="false" class="code editable-tab" contenteditable="true" data-type="${d.type}" spellcheck="false">
-                    ${d.data}
-                </textarea>
+            DATA.forEach((d, index) => {
+                    const className = index == 0 ? "active" : "inactive";
+                    const lang = d.type || markdown;
+                    openNewTab(index, lang, d.data, className)
+
+            })
+
+          
+        </script>
+
+        {
+            /*
+    <link rel='stylesheet' type='text/css' media='screen' href='/styles/interface/prism.css'>
+    
+    <link rel='stylesheet' type='text/css' media='screen' href='/styles/interface/custom-prism-css.css'>
+
+*/
+        }
+
+    </head>
+    <body id="body">
+        <main id="interface">
+            <h1>PIXEL AND PAPER</h1>
+            <nav id="nav"></nav>
+
+            <div id="tabs">
+                {
+                    /* <Tab tabName="CSS" tabId="tab-css" tabClass="language-css" /> */
+                }
             </div>
-        </div>`;
-                });
+            
 
-                tabs.innerHTML += `
-    <div class="tab inactive" data-id="${DATA.length}">
-    <div class="tab-content" id="preview">
-    </div>
-    </div>
-    `;
-            </script>
-            <script is:inline type="module" src="/js/main.js"></script>
+            <script  src='../js/main.js'></script>
 
-            <script
-                is:inline
-                src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"
-                integrity="sha512-UOoJElONeUNzQbbKQbjldDf9MwOHqxNz49NNJJ1d90yp+X9edsHyJoAs6O4K19CZGaIdjI5ohK+O2y5lBTW6uQ=="
-                crossorigin="anonymous"
-                referrerpolicy="no-referrer"
-                data-manual></script>
-
-            <link
-                rel="stylesheet"
-                href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-okaidia.min.css"
-                integrity="sha512-5HvW0a7ihK3ro2KhwEksDHXgIezsTeZybZDIn8d8Y015Ny+t7QWSIjnlCTjFzlK7Klb604HLGjsNqU/i5mJLjQ=="
-                crossorigin="anonymous"
-                referrerpolicy="no-referrer"
-            />
-
-            <script
-                is:inline
-                src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"
-            ></script>
-
-            <script is:inline>
-                // Here there are multiple tabs, each tab should have its own query selector listener
-
-
-                document.addEventListener("DOMContentLoaded", (event) => {
-                    const $preview = document.querySelector(
-                        ".language-md .editor .preview"
-                    );
-                    const $code = document.querySelector(
-                        ".language-md .editor .code"
-                    );
-
-                    function mirror() {
-                        // make textarea grow to height of content so we can scroll together
-                        $code.style.height = $code.scrollHeight;
-                        // update the preview underlay with the syntax highlight
-                        $preview.innerHTML = Prism.highlight(
-                            $code.value,
-                            Prism.languages.markdown,
-                            "markdown",
-                        );
-                    }
-                    // insert two spaces on tab
-                    $code.addEventListener("keydown", (ev) => {
-                        if (ev.code === "Tab") {
-                            ev.preventDefault();
-                            $code.setRangeText(
-                                "  ",
-                                $code.selectionStart,
-                                $code.selectionStart,
-                                "end",
-                            );
-                            mirror();
-                        }
-                    });
-
-                    $code.addEventListener("input", mirror);
-
-                    mirror();
-                });
-            </script>
+    
         </main>
     </body>
 </html>

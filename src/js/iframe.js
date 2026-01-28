@@ -3,7 +3,7 @@ import remarkParse from 'https://esm.sh/remark-parse';
 import remarkRehype from 'https://esm.sh/remark-rehype';
 import rehypeFormat from 'https://esm.sh/rehype-format';
 import rehypeStringify from 'https://esm.sh/rehype-stringify';
-import remarkSection from "./lib/remarkSection.js";
+import remarkSection from "./remarkSection.js";
 
 async function renderMarkdown(md) {
     console.time('Total Time');  // Start total timing
