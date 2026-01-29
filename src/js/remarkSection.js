@@ -1,4 +1,4 @@
-import { visit } from 'https://esm.sh/unist-util-visit';
+import {visit} from 'unist-util-visit'
 
 function sanitizeString(string) {
   // Added safe check in case string is undefined/null
