@@ -16,8 +16,10 @@ import Tab from "src/components/tab.astro";
             href="/styles/interface/main.css"
         />
         <script>
-            import {createEditor} from '../js/createEditor';
-            import { markdown } from '@codemirror/lang-markdown'
+            import { createEditor } from "../js/createEditor";
+            import { iframe } from "../js/iframe.js";
+
+            import { markdown } from "@codemirror/lang-markdown";
             import { css } from "@codemirror/lang-css";
 
             const BASE_PATH = "/data/";
@@ -32,71 +34,218 @@ import Tab from "src/components/tab.astro";
                 { type: "md", name: "Markdown", data: ["md.md"] },
             ];
 
+            const tabs = document.getElementById("tabs");
+
+            let activeTab;
+
+            let activeTabSelector;
+
+            let activeTabIndex;
+
             const activeTabs = {};
 
             const languageMap = {
-                    'css': css,
-                    'md': markdown
+                css: css,
+                md: markdown,
+            };
+
+
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
                 };
+            }
 
-            function openNewTab(id, lang, content, className) {
-                console.log("lang", lang)
+            const debouncedUpdatePreview = debounce(() => {
+                console.log("Typing stopped. Updating preview...");
+                updatePreview();
+            }, 400);
+
+            function openNewTab(_id, lang, content, className) {
+                console.log("lang", lang);
                 const container = document.createElement("div");
-                container.className = `tab language-${lang} id-${id} ${className}`;
-
-                const tabs = document.getElementById("tabs");
+                container.className = `tab language-${lang} id-${_id} ${className}`;
+                container.id = `container-${_id}`;
 
                 tabs?.append(container);
 
                 const langFn = languageMap[lang];
 
-                activeTabs[id] = createEditor(langFn(), content, container);
+                activeTabs[_id] = createEditor(langFn(), content, container, debouncedUpdatePreview);
 
                 return container;
             }
 
             const loadMyFile = async (filePath) => {
-                    try {
-                        // Request the file from your local server
-                        const response = await fetch(filePath);
+                try {
+                    // Request the file from your local server
+                    const response = await fetch(filePath);
 
-                        // Convert the response to text
-                        const content = await response.text();
+                    // Convert the response to text
+                    const content = await response.text();
 
-                        return content;
-                    } catch (err) {
-                        console.error("Error reading file:", err);
-                    }
-                };
+                    return content;
+                } catch (err) {
+                    console.error("Error reading file:", err);
+                }
+            };
 
-            const PROMISES = CONFIG.map(async ({ type, name, data }) => {
+            /* /// NAVIGATION /// */
+
+            const selectTab = (id) => {
+                const allTabs = document.querySelectorAll(".tab");
+                const allSelectors = document.querySelectorAll(".tab-selector");
+
+                // Remove active from old
+                allTabs.forEach((t) =>
+                    t.classList.replace("active", "inactive"),
+                );
+                allSelectors.forEach((s) =>
+                    s.classList.replace("active-tab", "inactive-tab"),
+                );
+
+                const targetTab = document.querySelector(`.id-${id}`);
+                const targetSelector = document.querySelector(
+                    `[data-id="${id}"]`,
+                );
+
+                if (targetTab && targetSelector) {
+                    targetTab.classList.replace("inactive", "active");
+                    targetSelector.classList.replace(
+                        "inactive-tab",
+                        "active-tab",
+                    );
+                    activeTabIndex = parseInt(id);
+
+                    // CRITICAL: Tell CodeMirror to refresh its layout when shown
+                    activeTabs[id]?.focus();
+                }
+            };
+
+            // INIT INIT INIT INIT INIT INIT //
+            ///////////////////////////////////
+
+            async function initApp() {
+                const PROMISES = CONFIG.map(async ({ type, name, data }) => {
                     const content = await loadMyFile(`${BASE_PATH}${data[0]}`);
 
                     return { type: type, name: name, data: content };
                 });
 
-            // DATA is an array of {type: 'type, for example css or md', data: 'string content'}
-            const DATA = await Promise.all(PROMISES);
+                // DATA is an array of {type: 'type, for example css or md', data: 'string content'}
+                const DATA = await Promise.all(PROMISES);
 
-            const nav = document.getElementById("nav");
+                const nav = document.getElementById("nav");
 
-            DATA.forEach((d, index) => {
-                    const className = index == 0 ? "active-tab" : "inactive-tab";
+                DATA.forEach((d, index) => {
+                    const className =
+                        index == 0 ? "active-tab" : "inactive-tab";
 
                     nav.innerHTML += `<span style="margin-right:2em;" class="tab-selector ${className}" data-id="${index}">${index}.${d.name.toUpperCase()}</span>`;
-            });
+                });
 
-            const tabs = document.getElementById("tabs");
+                nav.innerHTML += `<span class="tab-selector inactive-tab" data-id="${DATA.length}">S.PDF PREVIEW</span>`;
 
-
-            DATA.forEach((d, index) => {
+                DATA.forEach((d, index) => {
                     const className = index == 0 ? "active" : "inactive";
                     const lang = d.type || markdown;
-                    openNewTab(index, lang, d.data, className)
+                    openNewTab(index, lang, d.data, className);
+                });
 
-            })
+                const container = document.createElement("div");
+                container.className = `tab inactive id-${DATA.length}`;
 
-          
+                const previewer = document.createElement("div");
+                previewer.className = `tab-content`;
+                previewer.id = "preview";
+
+                container.appendChild(previewer);
+
+                tabs?.append(container);
+
+                //// INIT NAVIGATION /////
+                const tabSelectors = document.querySelectorAll(".tab-selector");
+
+                tabSelectors.forEach((tabSelector) => {
+                    tabSelector.addEventListener("click", (e) => {
+                        selectTab(e.target.dataset.id);
+                    });
+                });
+
+                updatePreview();
+
+
+            }
+
+            //////////////////////////
+            //// PREVIEW /////////////
+
+            async function updatePreview() {
+                const previewTab = document.getElementById("preview");
+                if (!previewTab) return;
+
+                // 1. Get CSS
+                const cssContent = Object.keys(activeTabs)
+                    .filter((id) => {
+                        const container = document.getElementById(
+                            `container-${id}`,
+                        );
+                        // Safety: Check if activeTabs[id] exists AND has the class
+                        return (
+                            activeTabs[id] &&
+                            container?.classList.contains("language-css")
+                        );
+                    })
+                    .map((id) => activeTabs[id].state.doc.toString()) // Now safe
+                    .join("\n");
+
+                // 2. Get Markdown
+                const mdTabId = Object.keys(activeTabs).find((id) => {
+                    const container = document.getElementById(
+                        `container-${id}`,
+                    );
+                    // Safety: Check if activeTabs[id] exists AND has the class
+                    return (
+                        activeTabs[id] &&
+                        container?.classList.contains("language-md")
+                    );
+                });
+
+                
+                const mdContent = mdTabId
+                    ? activeTabs[mdTabId].state.doc.toString()
+                    : "";
+
+
+                // 3. Update the iframe
+                previewTab.innerHTML = await iframe(cssContent, mdContent);
+                const iframeElement = previewTab.querySelector("iframe");
+                if (iframeElement) {
+            iframeElement.onload = () => {
+                const internalWindow = iframeElement.contentWindow;
+                
+                // Restore previous scroll if desired
+                if (window.lastScrollPosition) {
+                    internalWindow.scrollTo(0, window.lastScrollPosition);
+                }
+
+                internalWindow.addEventListener("scroll", () => {
+                    window.lastScrollPosition = internalWindow.scrollY;
+                    console.log(`Iframe Scroll: ${window.lastScrollPosition}px`);
+                });
+            };
+        }
+
+                
+            }
+
+            initApp();
         </script>
 
         {
@@ -107,7 +256,6 @@ import Tab from "src/components/tab.astro";
 
 */
         }
-
     </head>
     <body id="body">
         <main id="interface">
@@ -119,11 +267,6 @@ import Tab from "src/components/tab.astro";
                     /* <Tab tabName="CSS" tabId="tab-css" tabClass="language-css" /> */
                 }
             </div>
-            
-
-            <script  src='../js/main.js'></script>
-
-    
         </main>
     </body>
 </html>
