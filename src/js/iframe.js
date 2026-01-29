@@ -4,6 +4,8 @@ import remarkRehype from 'remark-rehype'
 // import rehypeFormat from 'https://esm.sh/rehype-format';
 import rehypeStringify from 'rehype-stringify'
 import remarkSection from "./remarkSection.js";
+import pagedPolyfill from './paged.polyfill.js?raw';
+
 
 async function renderMarkdown(md) {
     console.time('Total Time');  // Start total timing
@@ -26,9 +28,6 @@ async function renderMarkdown(md) {
 
 export const iframe = async (css, md) => {
     
-
-
-
     const allImportedStyles = Array.isArray(css) ? css : [css];
 
     const allStyles = allImportedStyles.map(style => ` <style>${style}</style>`).join('');
@@ -39,7 +38,7 @@ export const iframe = async (css, md) => {
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+    <script>${pagedPolyfill}</script>
     <style>
         @page { size: A5; margin: 20mm; border: 1px solid #ccc; }
         body { font-family: sans-serif; background: #333; }
