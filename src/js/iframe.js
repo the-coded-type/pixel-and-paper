@@ -1,8 +1,8 @@
-import { unified } from 'https://esm.sh/unified';
-import remarkParse from 'https://esm.sh/remark-parse';
-import remarkRehype from 'https://esm.sh/remark-rehype';
-import rehypeFormat from 'https://esm.sh/rehype-format';
-import rehypeStringify from 'https://esm.sh/rehype-stringify';
+import {unified} from 'unified'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+// import rehypeFormat from 'https://esm.sh/rehype-format';
+import rehypeStringify from 'rehype-stringify'
 import remarkSection from "./remarkSection.js";
 
 async function renderMarkdown(md) {
