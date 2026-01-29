@@ -34,6 +34,10 @@ import Tab from "src/components/tab.astro";
                 { type: "md", name: "Markdown", data: ["md.md"] },
             ];
 
+
+            // Defining the interface object
+            let INTERFACE = { preview: {lastScroll: 0} };
+
             const tabs = document.getElementById("tabs");
 
             let activeTab;
@@ -63,12 +67,10 @@ import Tab from "src/components/tab.astro";
             }
 
             const debouncedUpdatePreview = debounce(() => {
-                console.log("Typing stopped. Updating preview...");
                 updatePreview();
             }, 400);
 
             function openNewTab(_id, lang, content, className) {
-                console.log("lang", lang);
                 const container = document.createElement("div");
                 container.className = `tab language-${lang} id-${_id} ${className}`;
                 container.id = `container-${_id}`;
@@ -184,7 +186,12 @@ import Tab from "src/components/tab.astro";
             }
 
             //////////////////////////
+            //////////////////////////
+            //////////////////////////
             //// PREVIEW /////////////
+            //////////////////////////
+            //////////////////////////
+            //////////////////////////
 
             async function updatePreview() {
                 const previewTab = document.getElementById("preview");
@@ -225,22 +232,29 @@ import Tab from "src/components/tab.astro";
 
                 // 3. Update the iframe
                 previewTab.innerHTML = await iframe(cssContent, mdContent);
-                const iframeElement = previewTab.querySelector("iframe");
+
+                const iframeElement = previewTab.querySelector("iframe")
+
                 if (iframeElement) {
-            iframeElement.onload = () => {
-                const internalWindow = iframeElement.contentWindow;
-                
-                // Restore previous scroll if desired
-                if (window.lastScrollPosition) {
-                    internalWindow.scrollTo(0, window.lastScrollPosition);
+                    iframeElement.onload = () => {
+                        const internalIframeWindow = iframeElement.contentWindow;
+                        
+                        // The message iframeRendered is fired by the window when pagedJS has finished rendering the page, it's defined in iframe.js
+                        window.addEventListener("message", (event) => {
+                            if (event.data == "iframeRendered") {internalIframeWindow.scroll({top: INTERFACE.preview.lastScroll, behavior: "instant"} );}                            
+                        })
+
+                        
+                        internalIframeWindow.addEventListener("scroll", (event) => {
+                            INTERFACE.preview.lastScroll = internalIframeWindow.scrollY;
+                            console.log('scroll Iframe', internalIframeWindow.scrollY)
+                    })
+
+                }
                 }
 
-                internalWindow.addEventListener("scroll", () => {
-                    window.lastScrollPosition = internalWindow.scrollY;
-                    console.log(`Iframe Scroll: ${window.lastScrollPosition}px`);
-                });
-            };
-        }
+
+
 
                 
             }

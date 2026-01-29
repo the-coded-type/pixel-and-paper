@@ -39,6 +39,17 @@ export const iframe = async (css, md) => {
 <html>
 <head>
     <script>${pagedPolyfill}</script>
+    <script>
+    class iframeRendered extends Paged.Handler {
+
+    afterRendered(pages) {
+        window.parent.postMessage("iframeRendered", "*")
+    }
+    }
+
+    Paged.registerHandlers(iframeRendered);
+
+    </script>
     <style>
         @page { size: A5; margin: 20mm; border: 1px solid #ccc; }
         body { font-family: sans-serif; background: #333; }
