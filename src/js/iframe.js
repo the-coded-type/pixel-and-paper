@@ -26,6 +26,9 @@ async function renderMarkdown(md) {
      return  htmlText;
   }
 
+////////////////////////////////////////
+// takes array of css and single md file 
+// returns a string containing the iframe
 export const iframe = async (css, md) => {
     
     const allImportedStyles = Array.isArray(css) ? css : [css];

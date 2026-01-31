@@ -36,7 +36,7 @@ import Tab from "src/components/tab.astro";
 
 
             // Defining the interface object
-            let INTERFACE = { preview: {lastScroll: 0} };
+            let INTERFACE = { preview: {lastScroll: 0}, activePreview: {}, previewBuffer: {} };
 
             const tabs = document.getElementById("tabs");
 
@@ -53,22 +53,20 @@ import Tab from "src/components/tab.astro";
                 md: markdown,
             };
 
-
-            function debounce(func, wait) {
-                let timeout;
-                return function executedFunction(...args) {
-                    const later = () => {
-                        clearTimeout(timeout);
-                        func(...args);
-                    };
-                    clearTimeout(timeout);
-                    timeout = setTimeout(later, wait);
-                };
+            const debounce = function () {
+                let editorTimeout;
+                const debounceTimeout = () => {
+                    if (editorTimeout) {
+                        clearTimeout(editorTimeout)
+                    }
+                    editorTimeout = setTimeout(updatePreview, 400)
+                }
+                return debounceTimeout
             }
 
-            const debouncedUpdatePreview = debounce(() => {
-                updatePreview();
-            }, 400);
+            const debounceUpdateIframe = debounce();
+
+
 
             function openNewTab(_id, lang, content, className) {
                 const container = document.createElement("div");
@@ -79,7 +77,7 @@ import Tab from "src/components/tab.astro";
 
                 const langFn = languageMap[lang];
 
-                activeTabs[_id] = createEditor(langFn(), content, container, debouncedUpdatePreview);
+                activeTabs[_id] = createEditor(langFn(), content, container, debounceUpdateIframe);
 
                 return container;
             }
@@ -163,13 +161,25 @@ import Tab from "src/components/tab.astro";
                 const container = document.createElement("div");
                 container.className = `tab inactive id-${DATA.length}`;
 
-                const previewer = document.createElement("div");
-                previewer.className = `tab-content`;
-                previewer.id = "preview";
+                const preview1 = document.createElement("div");
+                preview1.className = `tab-content visible`;
+                preview1.id = "preview1";
 
-                container.appendChild(previewer);
+                
+                const preview2 = document.createElement("div");
+                preview2.className = `tab-content hidden`;
+                preview2.id = "preview2";
+
+                container.appendChild(preview1);
+
+                container.appendChild(preview2);
 
                 tabs?.append(container);
+
+                Object.assign(INTERFACE, {activePreview: preview1}, {previewBuffer: preview2});
+
+                console.log(INTERFACE)
+
 
                 //// INIT NAVIGATION /////
                 const tabSelectors = document.querySelectorAll(".tab-selector");
@@ -194,7 +204,9 @@ import Tab from "src/components/tab.astro";
             //////////////////////////
 
             async function updatePreview() {
-                const previewTab = document.getElementById("preview");
+                const previewTab = INTERFACE.activePreview;
+                const bufferTab = INTERFACE.previewBuffer;
+
                 if (!previewTab) return;
 
                 // 1. Get CSS
@@ -231,17 +243,31 @@ import Tab from "src/components/tab.astro";
 
 
                 // 3. Update the iframe
-                previewTab.innerHTML = await iframe(cssContent, mdContent);
+                // we postpone that the buffer takes it first
+                // previewTab.innerHTML = await iframe(cssContent, mdContent);
 
-                const iframeElement = previewTab.querySelector("iframe")
+                // const iframeElement = previewTab.querySelector("iframe")
+
+                bufferTab.innerHTML = await iframe(cssContent, mdContent);
+
+                const iframeElement = bufferTab.querySelector("iframe")
 
                 if (iframeElement) {
                     iframeElement.onload = () => {
                         const internalIframeWindow = iframeElement.contentWindow;
                         
+                        // We check if the iframe is rendered
+                        // Then trannsfer its contents to the preview div
                         // The message iframeRendered is fired by the window when pagedJS has finished rendering the page, it's defined in iframe.js
                         window.addEventListener("message", (event) => {
-                            if (event.data == "iframeRendered") {internalIframeWindow.scroll({top: INTERFACE.preview.lastScroll, behavior: "instant"} );}                            
+                            if (event.data == "iframeRendered") {
+                                internalIframeWindow.scroll({top: INTERFACE.preview.lastScroll, behavior: "instant"} );
+                                bufferTab.classList.replace("hidden", "visible");
+                                previewTab.classList.replace("visible", "hidden");
+
+                                INTERFACE.activePreview = bufferTab;
+                                INTERFACE.previewBuffer = previewTab;
+                            }                            
                         })
 
                         
@@ -272,9 +298,12 @@ import Tab from "src/components/tab.astro";
         }
     </head>
     <body id="body">
-        <main id="interface">
+        <header>
             <h1>PIXEL AND PAPER</h1>
             <nav id="nav"></nav>
+        </header>
+        <main id="interface">
+            
 
             <div id="tabs">
                 {
