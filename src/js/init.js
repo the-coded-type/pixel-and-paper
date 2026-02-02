@@ -3,6 +3,7 @@ import { BASE_PATH } from './config.js';
 import { openNewTab } from './openNewTab.js';
 import { selectTab } from './selectTab.js';
 import { INTERFACE } from './state.js';
+import { triggerPrint } from './printHandler.js';
 
 //////////// FILE LOADING HELPER
 const loadMyFile = async (filePath) => {
@@ -44,7 +45,8 @@ export const initApp = async () => {
         nav.innerHTML += `<span style="margin-right:2em;" class="tab-selector ${className}" data-id="${index}">${index}.${d.name.toUpperCase()}</span>`;
     });
 
-    nav.innerHTML += `<span class="tab-selector inactive-tab" data-id="${DATA.length}">S.PDF PREVIEW</span>`;
+    nav.innerHTML += `<span class="tab-selector inactive-tab" data-id="${DATA.length}">S.PDF PREVIEW</span><button style="margin-left: 1rem;" id="generate-pdf">PDF</button>
+`;
 
     // Creation of the tabs containing the editors and the pdf preview
     DATA.forEach((d, index) => {
@@ -59,12 +61,12 @@ export const initApp = async () => {
     container.className = `tab inactive id-${DATA.length}`;
 
     const preview1 = document.createElement("div");
-    preview1.className = `tab-content visible`;
+    preview1.className = `tab-content preview-tab visible`;
     preview1.id = "preview1";
 
     
     const preview2 = document.createElement("div");
-    preview2.className = `tab-content hidden`;
+    preview2.className = `tab-content  preview-tab hidden`;
     preview2.id = "preview2";
 
     container.appendChild(preview1);
@@ -83,5 +85,17 @@ export const initApp = async () => {
         tabSelector.addEventListener("click", (e) => {
             selectTab(e.target.dataset.id);
         });
+    });
+
+    window.addEventListener('keydown', (e) => {
+        // Check for Command (Mac) or Control (Windows) + P
+        if ((e.metaKey || e.ctrlKey) && e.key === 'p') {
+            
+            // 1. Stop the browser from printing the whole interface
+            e.preventDefault(); 
+            
+            // 2. Trigger your specific iframe print
+            triggerPrint();
+        }
     });
 }
