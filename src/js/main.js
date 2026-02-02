@@ -31,21 +31,10 @@ allEditableTabs.forEach(editableTab => {
 })
 
 
-window.addEventListener("load", () => {    
-    // CORRECTED: No arguments needed here
-    updatePreview(); 
-    activeTabIndex = 7;
-    activeTab = tabs[activeTabIndex];
-    activeTabSelector = tabSelectors[activeTabIndex];
-    activeTab.classList.toggle("inactive");
-    activeTab.classList.toggle("active");
-    activeTabSelector.classList.toggle("active-tab");
-    activeTabSelector.classList.toggle("inactive-tab");
-});
 
-         // Interaction
-    
-         document.addEventListener("keydown", (event) => {
+
+// Interaction    
+document.addEventListener("keydown", (event) => {
             // ArrowRight
             const key = event.key;
             const metaKey = event.metaKey;
@@ -71,6 +60,6 @@ window.addEventListener("load", () => {
                 return
             }
     
-        })
+})
 
 // toggle

@@ -5,6 +5,7 @@ import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 import remarkSection from "./remarkSection.js";
 import pagedPolyfill from './paged.polyfill.js?raw';
+import { INTERFACE } from './state.js';
 
 
 async function renderMarkdown(md) {
@@ -30,7 +31,7 @@ async function renderMarkdown(md) {
 // takes array of css and single md file 
 // returns a string containing the iframe
 export const iframe = async (css, md) => {
-    
+    console.log("iframe.js css, md", css, md);
     const allImportedStyles = Array.isArray(css) ? css : [css];
 
     const allStyles = allImportedStyles.map(style => ` <style>${style}</style>`).join('');
@@ -53,12 +54,6 @@ export const iframe = async (css, md) => {
     Paged.registerHandlers(iframeRendered);
 
     </script>
-    <style>
-        @page { size: A5; margin: 20mm; border: 1px solid #ccc; }
-        body { font-family: sans-serif; background: #333; }
-        .pagedjs_pages { display: flex; flex-direction: column; align-items: center; }
-        .pagedjs_page { background: white; margin: 10px; }
-    </style>
     ${allStyles.trim()}
 </head>
 <body >
@@ -70,7 +65,6 @@ export const iframe = async (css, md) => {
 const safeDataUrl = "data:text/html;charset=utf-8," + encodeURIComponent(fullHtmlContent);
 
 const econdedIframe = `<iframe width="100%" height="100%" src="${safeDataUrl}"></iframe>`;
-
 
  // FIX 2: Use Blob instead of Data URI
 // This gives the iframe the same "localhost" origin as your app, allowing fonts to load.
