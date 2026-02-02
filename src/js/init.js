@@ -53,6 +53,8 @@ export const initApp = async () => {
         openNewTab(index, lang, d.data, className);
     });
 
+    INTERFACE.tabsCount = DATA.length+1; // +1 because there is one additional tab for the PDF preview
+
     const container = document.createElement("div");
     container.className = `tab inactive id-${DATA.length}`;
 

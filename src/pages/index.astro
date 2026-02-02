@@ -22,6 +22,7 @@ import Tab from "src/components/tab.astro";
             import { CONFIG } from '../js/config.js';
             import { updatePreview } from '../js/updatePreview.js';
             import { INTERFACE } from '../js/state.js'
+            import { initKeyboardNavigation } from '../js/initKeyboardNavigation.js';
 
             import { markdown } from "@codemirror/lang-markdown";
             import { css } from "@codemirror/lang-css";
@@ -29,6 +30,7 @@ import Tab from "src/components/tab.astro";
             // Tabs do not exist before creation, they should be returned on creation
             window.addEventListener('DOMContentLoaded', async () => {
                 await initApp();
+                initKeyboardNavigation();
                 updatePreview();
             });
 

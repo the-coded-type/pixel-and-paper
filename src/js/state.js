@@ -5,6 +5,7 @@ export const INTERFACE = {
     activeTab: null,
     allTabselector: null,
     activeTabIndex: null,
+    tabsCount: 0,
     tabsContainer: {},
     allTabs: [],
 };

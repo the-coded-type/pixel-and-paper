@@ -1,6 +1,5 @@
 import { markdown } from "@codemirror/lang-markdown";
 import { css } from "@codemirror/lang-css";
-
 export const CONFIG = [
     { type: "css", name: "Page", data: ["page.css"] },
     { type: "css", name: "Setup", data: ["setup.css"] },
