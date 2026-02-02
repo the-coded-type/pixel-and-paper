@@ -45,9 +45,10 @@ export const initApp = async () => {
         nav.innerHTML += `<span style="margin-right:2em;" class="tab-selector ${className}" data-id="${index}">${index}.${d.name.toUpperCase()}</span>`;
     });
 
-    nav.innerHTML += `<span class="tab-selector inactive-tab" data-id="${DATA.length}">S.PDF PREVIEW</span><button style="margin-left: 1rem;" id="generate-pdf">PDF</button>
+    nav.innerHTML += `<span class="tab-selector inactive-tab" data-id="${DATA.length}">S.PDF PREVIEW</span><button style="margin-left: 1rem;" id="generate-pdf">GENERATE PDF</button>
 `;
 
+    // Behavior for print buttton
     const printBtn = document.getElementById("generate-pdf");
     if (printBtn) {
         printBtn.addEventListener("click", triggerPrint);
