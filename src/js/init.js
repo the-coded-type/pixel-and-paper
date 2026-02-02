@@ -48,6 +48,10 @@ export const initApp = async () => {
     nav.innerHTML += `<span class="tab-selector inactive-tab" data-id="${DATA.length}">S.PDF PREVIEW</span><button style="margin-left: 1rem;" id="generate-pdf">PDF</button>
 `;
 
+    const printBtn = document.getElementById("generate-pdf");
+    if (printBtn) {
+        printBtn.addEventListener("click", triggerPrint);
+    }
     // Creation of the tabs containing the editors and the pdf preview
     DATA.forEach((d, index) => {
         const className = index == 0 ? "active" : "inactive";
