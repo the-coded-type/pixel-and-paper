@@ -7,7 +7,9 @@ export const CONFIG = [
     { type: "css", name: "Variables", data: ["variables.css"] },
     { type: "css", name: "Typography", data: ["typogrphy.css"] },
     { type: "css", name: "Structure", data: ["structure.css"] },
-    { type: "md", name: "Markdown", data: ["md.md"] },
+    { type: "md", name: "Intro", data: ["intro.md"] },
+    { type: "md", name: "Body", data: ["body.md"] },
+
 ];
 
 export const BASE_PATH = "/data/";

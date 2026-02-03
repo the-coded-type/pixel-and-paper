@@ -1,47 +1,20 @@
-@font-face {
-	font-family: "Forma";
-	src:
-	  url("http://localhost:4321/data/fonts/OTFormaTrial/OTFormaUnlicensedTrial-Neretta.otf") format("opentype");
-  }
-@font-face {
-	font-family: "Hantarex";
-	src:
-	  url("http://localhost:4321/data/fonts/Hantarex-Family/WOFF/HantarexMono-Light.woff") format("woff");
-  }
+* {
+	color: var(--primary);
+	font-family: sans-serif;
+}
 
-@font-face {
-		font-family: "ModuloBold";
-	src:
-	  url("http://localhost:4321/data/fonts/Modulo-Family/web/woff/Modulo-Ultra.woff") format("woff");
-  }
+h1, h2, h3, h4, h5 {
+	color: var(--secondary);
+	font-family: serif;
+}
 
-  @font-face {
-	font-family: "ModuloBold";
-	src:
-	  url("http://localhost:4321/data/fonts/Modulo-Family/web/woff/Modulo-Bold.woff") format("woff");
-  }
-
-  @font-face {
-	font-family: "Modulo";
-	src:
-	  url("http://localhost:4321/data/fonts/Modulo-Family/web/woff/Modulo-Regular.woff") format("woff");
-  }
-
-  @font-face {
-	font-family: "H74 Ocelot Piss";
-	src:
-	  url("http://localhost:4321/data/fonts/H74_Ocelot_Piss/HOcelotPiss-Regular.ttf") format("truetype");
-  }
-
-  
-  h2 {
-    font-family: 'H74 Ocelot Piss';
-  }
-
-
-  
-
-  h3 {
-	letter-spacing: 1pt;
+h2 {
+	/* We're adding a page break before all h2 headings */
 	break-before: always;
+}
+
+p {
+	font-size: var(--base-font-size);
+	line-height: calc( var(--base-font-size) * 1.4);
+
 }

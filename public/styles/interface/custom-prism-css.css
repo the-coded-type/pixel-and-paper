@@ -1,5 +1,0 @@
-/* Style for **bold text** inside Markdown blocks */
-code.language-markdown .token.bold {
-    font-weight: bold !important;   /* actually renders the font as bold */
-    /* distinct color (Gold) */
-}

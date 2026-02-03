@@ -27,22 +27,19 @@ export const updatePreview = async () => {
         .join("\n");
 
     // 2. Get Markdown
-    const mdTabId = Object.keys(INTERFACE.allTabs).find((id) => {
-        const container = document.getElementById(
-            `container-${id}`,
-        );
-        // Safety: Check if INTERFACE.allTabs[id] exists AND has the class
-        return (
-            INTERFACE.allTabs[id] &&
-            container?.classList.contains("language-md")
-        );
-    });
-
-    
-    const mdContent = mdTabId
-        ? INTERFACE.allTabs[mdTabId].state.doc.toString()
-        : "";
-
+    const mdContent = Object.keys(INTERFACE.allTabs)
+        .filter((id) => {
+            const container = document.getElementById(
+                `container-${id}`,
+            );
+            // Safety: Check if INTERFACE.allTabs[id] exists AND has the class
+            return (
+                INTERFACE.allTabs[id] &&
+                container?.classList.contains("language-md")
+            );
+        })
+        .map((id) => INTERFACE.allTabs[id].state.doc.toString()) // Now safe
+        .join("\n");
 
     // 3. Update the iframe
     // we postpone that the buffer takes it first

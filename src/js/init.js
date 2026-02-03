@@ -4,6 +4,7 @@ import { openNewTab } from './openNewTab.js';
 import { selectTab } from './selectTab.js';
 import { INTERFACE } from './state.js';
 import { triggerPrint } from './printHandler.js';
+import { loadProjectDirectory } from './loadProjectDirectory.js';
 
 //////////// FILE LOADING HELPER
 const loadMyFile = async (filePath) => {
@@ -21,6 +22,7 @@ const loadMyFile = async (filePath) => {
 };
 
 //////////// INIT FUNCTION
+//////////// Init loads DATA, which should be passed as an argument
 export const initApp = async () => {
     INTERFACE.tabsContainer = document.getElementById("tabs");
 
@@ -36,6 +38,7 @@ export const initApp = async () => {
     // DATA is an array of {type: 'type, for example css or md', data: 'string content'}
     const DATA = await Promise.all(PROMISES);
 
+
     //// Creation of the navigation
     const nav = document.getElementById("nav");
     DATA.forEach((d, index) => {
@@ -45,13 +48,18 @@ export const initApp = async () => {
         nav.innerHTML += `<span style="margin-right:2em;" class="tab-selector ${className}" data-id="${index}">${index}.${d.name.toUpperCase()}</span>`;
     });
 
-    nav.innerHTML += `<span class="tab-selector inactive-tab" data-id="${DATA.length}">S.PDF PREVIEW</span><button style="margin-left: 1rem;" id="generate-pdf">GENERATE PDF</button>
+    nav.innerHTML += `<span class="tab-selector inactive-tab" data-id="${DATA.length}">S.PDF PREVIEW</span><button style="margin-left: 1rem;" id="generate-pdf">GENERATE PDF</button><button style="margin-left: 1rem;" id="load-directory">LOAD</button>
 `;
 
     // Behavior for print buttton
     const printBtn = document.getElementById("generate-pdf");
     if (printBtn) {
         printBtn.addEventListener("click", triggerPrint);
+    }
+    // Behavior for load buttton
+    const laodBtn = document.getElementById("load-directory");
+    if (laodBtn) {
+        laodBtn.addEventListener("click", loadProjectDirectory);
     }
     // Creation of the tabs containing the editors and the pdf preview
     DATA.forEach((d, index) => {
