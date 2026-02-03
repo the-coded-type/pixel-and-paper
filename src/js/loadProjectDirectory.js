@@ -51,6 +51,10 @@ export async function loadProjectDirectory() {
 
         await scanDirectory(dirHandle);
         
+        // Sorting css
+        projectData.css.sort((a, b) => a.name.localeCompare(b.name))
+        projectData.md.sort((a, b) => a.name.localeCompare(b.name))
+
         return projectData;
 
     } catch (err) {

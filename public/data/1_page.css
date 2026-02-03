@@ -22,6 +22,15 @@
     margin: 20mm;
 }
 
+/* We can also set special styles for a specific page, for example tthe first page. */
+@page:first {
+  background-color: beige;
+  p {
+    text-transform: uppercase
+  }
+
+}
+
 /**
  * 2. RECTO / VERSO (FACING PAGES)
  * If you are printing a book, you often need different margins for left (verso)

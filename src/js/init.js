@@ -37,10 +37,10 @@ export const initApp = async (projectData) => {
         const className =
             index == 0 ? "active-tab" : "inactive-tab";
 
-        nav.innerHTML += `<span style="margin-right:2em;" class="tab-selector ${className}" data-id="${index}">${d.name.toUpperCase()}</span>`;
+        nav.innerHTML += `<button style="margin-right:2em;" class="tab-selector ${className}" data-id="${index}">${d.name.toUpperCase()}</button>`;
     });
 
-    nav.innerHTML += `<span class="tab-selector inactive-tab" data-id="${DATA.length}">S.PDF PREVIEW</span>`;
+    nav.innerHTML += `<button class="tab-selector inactive-tab" data-id="${DATA.length}">S.PDF PREVIEW</button>`;
 
     // Creation of the tabs containing the editors and the pdf preview
     DATA.forEach((d, index) => {
