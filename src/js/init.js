@@ -1,4 +1,4 @@
-import { CONFIG } from './config.js';
+// import { CONFIG } from './config.js';
 import { BASE_PATH } from './config.js';
 import { openNewTab } from './openNewTab.js';
 import { selectTab } from './selectTab.js';
@@ -6,38 +6,30 @@ import { INTERFACE } from './state.js';
 import { triggerPrint } from './printHandler.js';
 import { loadProjectDirectory } from './loadProjectDirectory.js';
 
-//////////// FILE LOADING HELPER
-const loadMyFile = async (filePath) => {
-    try {
-        // Request the file from your local server
-        const response = await fetch(filePath);
-
-        // Convert the response to text
-        const content = await response.text();
-
-        return content;
-    } catch (err) {
-        console.error("Error reading file:", err);
-    }
-};
 
 //////////// INIT FUNCTION
 //////////// Init loads DATA, which should be passed as an argument
-export const initApp = async () => {
+export const initApp = async (projectData) => {
     INTERFACE.tabsContainer = document.getElementById("tabs");
 
     // This function needs to check tabsContainer type
     // allTabs here is a local variable, we add the tabs to it, and then return it at the end of the function
     //
+
+    /*
     const PROMISES = CONFIG.map(async ({ type, name, data }) => {
         const content = await loadMyFile(`${BASE_PATH}${data[0]}`);
 
         return { type: type, name: name, data: content };
     });
+    */
 
     // DATA is an array of {type: 'type, for example css or md', data: 'string content'}
-    const DATA = await Promise.all(PROMISES);
+    // const DATA = await Promise.all(PROMISES);
 
+    const DATA = [...projectData.css, ...projectData.md]
+
+    console.log("DATA", DATA)
 
     //// Creation of the navigation
     const nav = document.getElementById("nav");
@@ -45,27 +37,16 @@ export const initApp = async () => {
         const className =
             index == 0 ? "active-tab" : "inactive-tab";
 
-        nav.innerHTML += `<span style="margin-right:2em;" class="tab-selector ${className}" data-id="${index}">${index}.${d.name.toUpperCase()}</span>`;
+        nav.innerHTML += `<span style="margin-right:2em;" class="tab-selector ${className}" data-id="${index}">${d.name.toUpperCase()}</span>`;
     });
 
-    nav.innerHTML += `<span class="tab-selector inactive-tab" data-id="${DATA.length}">S.PDF PREVIEW</span><button style="margin-left: 1rem;" id="generate-pdf">GENERATE PDF</button><button style="margin-left: 1rem;" id="load-directory">LOAD</button>
-`;
+    nav.innerHTML += `<span class="tab-selector inactive-tab" data-id="${DATA.length}">S.PDF PREVIEW</span>`;
 
-    // Behavior for print buttton
-    const printBtn = document.getElementById("generate-pdf");
-    if (printBtn) {
-        printBtn.addEventListener("click", triggerPrint);
-    }
-    // Behavior for load buttton
-    const laodBtn = document.getElementById("load-directory");
-    if (laodBtn) {
-        laodBtn.addEventListener("click", loadProjectDirectory);
-    }
     // Creation of the tabs containing the editors and the pdf preview
     DATA.forEach((d, index) => {
         const className = index == 0 ? "active" : "inactive";
-        const lang = d.type || markdown;
-        openNewTab(index, lang, d.data, className);
+        const lang = d.name.split('.').pop() || markdown;
+        openNewTab(index, lang, d.content, className);
     });
 
     INTERFACE.tabsCount = DATA.length+1; // +1 because there is one additional tab for the PDF preview

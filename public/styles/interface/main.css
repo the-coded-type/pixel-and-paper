@@ -69,7 +69,7 @@ header {
 
 nav {
     margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 pre, code {
@@ -92,7 +92,7 @@ code:focus {
 
 .tab {
     position: fixed;
-    top: 120px;
+    top: 140px;
 
     width: 95vw;
     height: 90vh;

@@ -1,5 +1,7 @@
 import { markdown } from "@codemirror/lang-markdown";
 import { css } from "@codemirror/lang-css";
+
+/*
 export const CONFIG = [
     { type: "css", name: "Page", data: ["page.css"] },
     { type: "css", name: "Setup", data: ["setup.css"] },
@@ -11,6 +13,15 @@ export const CONFIG = [
     { type: "md", name: "Body", data: ["body.md"] },
 
 ];
+*/
+
+
+export const projectData = {
+    handle: '', // Where are files stored
+    md: [],
+    css: [],
+    images: {}, // Key: "media/filename.jpg", Value: "blob:..."
+};
 
 export const BASE_PATH = "/data/";
 

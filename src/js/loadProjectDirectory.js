@@ -1,16 +1,13 @@
+import { projectData } from "./config";
+
 // fileSystem.js
 
 export async function loadProjectDirectory() {
     try {
         // 1. Open the Directory Picker
         const dirHandle = await window.showDirectoryPicker();
-        
-        const projectData = {
-            handle: dirHandle, // Keep this to save files later!
-            md: [],
-            css: [],
-            images: {}, // Key: "media/filename.jpg", Value: "blob:..."
-        };
+    
+        projectData.handle = dirHandle;
 
         // 2. Recursive Scanner
         async function scanDirectory(handle, path = "") {
@@ -53,7 +50,7 @@ export async function loadProjectDirectory() {
         }
 
         await scanDirectory(dirHandle);
-        console.log("projectData", projectData);
+        
         return projectData;
 
     } catch (err) {

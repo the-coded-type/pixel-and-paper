@@ -4,7 +4,6 @@ import { INTERFACE } from './state.js';
 
 
 export const updatePreview = async () => {
-    console.log("updatePreview.js: INTERFACE", INTERFACE)
 
     const previewTab = INTERFACE.activePreview;
     const bufferTab = INTERFACE.previewBuffer;
