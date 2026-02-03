@@ -33,14 +33,39 @@ export const initApp = async (projectData) => {
 
     //// Creation of the navigation
     const nav = document.getElementById("nav");
-    DATA.forEach((d, index) => {
-        const className =
-            index == 0 ? "active-tab" : "inactive-tab";
+    INTERFACE.tabsContainer = document.getElementById("tabs");
+    
+    INTERFACE.tabsContainer.innerHTML = ''; 
+    nav.innerHTML = '';
 
-        nav.innerHTML += `<button style="margin-right:2em;" class="tab-selector ${className}" data-id="${index}">${d.name.toUpperCase()}</button>`;
+    // CREATE NAVIGATION
+    DATA.forEach((d, index) => {
+        const btn = document.createElement("button");
+        
+        // Add classes and text
+        btn.className = `tab-selector ${index === 0 ? "active-tab" : "inactive-tab"}`;
+        btn.dataset.id = index;
+        btn.innerText = d.name.toUpperCase();
+        btn.style.marginRight = "2em";
+
+        // ATTACH LISTENER DIRECTLY HERE
+        btn.addEventListener("click", () => {
+            selectTab(index);
+        });
+
+        // Append to DOM
+        nav.appendChild(btn);
     });
 
-    nav.innerHTML += `<button class="tab-selector inactive-tab" data-id="${DATA.length}">S.PDF PREVIEW</button>`;
+    // ADD PDF PREVIEW BUTTON MANUALLY
+    const pdfBtn = document.createElement("button");
+    pdfBtn.className = "tab-selector inactive-tab";
+    pdfBtn.dataset.id = DATA.length;
+    pdfBtn.innerText = "S.PDF PREVIEW";
+    pdfBtn.addEventListener("click", () => {
+        selectTab(DATA.length);
+    });
+    nav.appendChild(pdfBtn);
 
     // Creation of the tabs containing the editors and the pdf preview
     DATA.forEach((d, index) => {
@@ -75,11 +100,7 @@ export const initApp = async (projectData) => {
     //// INIT NAVIGATION /////
     const tabSelectors = document.querySelectorAll(".tab-selector");
 
-    tabSelectors.forEach((tabSelector) => {
-        tabSelector.addEventListener("click", (e) => {
-            selectTab(e.target.dataset.id);
-        });
-    });
+
 
     window.addEventListener('keydown', (e) => {
         // Check for Command (Mac) or Control (Windows) + P
