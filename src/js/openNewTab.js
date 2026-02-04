@@ -3,8 +3,6 @@ import { createEditor } from './createEditor';
 import { INTERFACE } from './state.js';
 import { updatePreview } from "./updatePreview.js";
 
-console.log('Open new tab INTERFACE', INTERFACE)
-
 const debounce = function () {
     let editorTimeout;
     const debounceTimeout = () => {

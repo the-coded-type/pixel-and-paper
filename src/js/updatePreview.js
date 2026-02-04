@@ -64,6 +64,8 @@ export const updatePreview = async () => {
 
                     INTERFACE.activePreview = bufferTab;
                     INTERFACE.previewBuffer = previewTab;
+
+                    console.log('Preview PDF updated.')
                 }                            
             })
 

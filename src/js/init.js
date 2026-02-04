@@ -13,8 +13,6 @@ export const initApp = async (projectData) => {
 
     const DATA = [...projectData.css, ...projectData.md]
 
-    console.log("DATA", DATA)
-
     //// Creation of the navigation
     const nav = document.getElementById("nav");
     INTERFACE.tabsContainer = document.getElementById("tabs");

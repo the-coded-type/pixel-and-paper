@@ -48,7 +48,6 @@ import Tab from "src/components/tab.astro";
                 laodBtn.addEventListener("click", async () => {
                     document.body.style.cursor = "wait";
                     await loadProjectDirectory();
-                    console.log("Project data", projectData);
                     await initApp(projectData);
                     initKeyboardNavigation();
                     updatePreview();
@@ -60,9 +59,8 @@ import Tab from "src/components/tab.astro";
             const saveBtn = document.getElementById("save-directory");
             if (saveBtn) {
                 saveBtn.addEventListener("click", async () => {
-                    console.log("Saving project");
+                    console.log("Saving project...");
                     await saveAllFiles();
-                    console.log("Project saved")
 
                 })
             }
@@ -79,12 +77,10 @@ import Tab from "src/components/tab.astro";
                     if (success) {
                         document.body.style.cursor = "wait";
                         await loadProjectDirectory();
-                        console.log("Project data", projectData);
                         await initApp(projectData);
                         initKeyboardNavigation();
                         updatePreview();
                         document.body.style.cursor = "default";
-                        alert("New project created!");
                     }
                 });
 }

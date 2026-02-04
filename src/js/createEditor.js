@@ -17,6 +17,7 @@ export const createEditor = (lang = markdown(), startText = "", parent, onUpdate
             EditorView.lineWrapping,
             EditorView.updateListener.of((update) => {
                 if (update.docChanged && onUpdate) {
+                    console.log("Typing...")
                     onUpdate();
                 }
             })

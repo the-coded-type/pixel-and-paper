@@ -57,11 +57,12 @@ export async function loadProjectDirectory() {
         projectData.css.sort((a, b) => a.name.localeCompare(b.name))
         projectData.md.sort((a, b) => a.name.localeCompare(b.name))
 
+        console.log("Project data loaded.")
         return projectData;
 
     } catch (err) {
         if (err.name === 'AbortError') {
-            console.log("User cancelled folder selection");
+            console.log("User cancelled folder selection.");
             return null;
         }
         console.error("Error loading directory:", err);

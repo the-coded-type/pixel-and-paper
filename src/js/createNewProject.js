@@ -56,7 +56,7 @@ export async function createNewProject() {
         // 5. Execute all writes in parallel
         await Promise.all(templates.map(writeAndRegister));
 
-        console.log("New project created with dynamic templates!");
+        console.log("New project created from template.");
         return true;
 
     } catch (err) {

@@ -7,16 +7,23 @@ export const saveAllFiles = () => {
     // Get all the content
     // Assign all the content to files
     const saveList = async (list) => {
-        for (const listItem of list) {
-            if (!listItem.handle) continue; // won't save files that haven't been loaded
-            saveFileToDisk(listItem)
+
+        try {
+            for (const listItem of list) {
+                if (!listItem.handle) continue; // won't save files that haven't been loaded
+                await saveFileToDisk(listItem)
+            }
         }
+
+        finally {
+            console.log("Project saved!")
+        }
+
     }
 
     const allFiles = [...projectData.css, ...projectData.md]; // array of all files
     for (let id = 0; id < allFiles.length; id++) {
         allFiles[id].content =  INTERFACE.allTabs[id].state.doc.toString();
-        console.log("allFiles", allFiles)
     }
     saveList(allFiles);
 
