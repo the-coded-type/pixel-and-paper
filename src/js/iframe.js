@@ -6,6 +6,8 @@ import rehypeStringify from 'rehype-stringify'
 import remarkSection from "./remarkSection.js";
 import pagedPolyfill from './paged.polyfill.js?raw';
 import { INTERFACE } from './state.js';
+import remarkGfm from 'remark-gfm'; 
+// import { remarkExtendImage } from './remark-figure.js';
 
 
 async function renderMarkdown(md) {
@@ -16,7 +18,9 @@ async function renderMarkdown(md) {
     // Convert Markdown to HTML using unified
     const htmlText = await unified()
       .use(remarkParse) // Markdown to AST
+      .use(remarkGfm) // Git flavored MD
       .use(remarkSection) // Add sections to H tags
+      // .use(remarkExtendImage) // Images to figures
       .use(remarkRehype, { allowDangerousHtml: true }) // AST to HTML
       // .use(rehypeFormat) // Pretty print HTML
       .use(rehypeStringify, { allowDangerousHtml: true }) // Convert AST to string

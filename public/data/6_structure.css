@@ -11,6 +11,111 @@
   }
 }
 
+img {
+  width: 100%;
+}
+
+/* Full screen image */
+
+.full-screen-images img {
+    position: absolute;
+    top: -20mm;
+    left: -20mm;
+    height: 210mm;
+    width: auto;
+    z-index: 0;
+}
+
+.full-screen-images h3 {
+  position: absolute;
+  z-index: 100;
+  color: black;
+  background-color: white;
+  padding: 3mm;
+}
+
+/* Ordered lists */
+
+ol {
+  list-style-position: inside;
+  padding-left: 0;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+ol li {
+  border-bottom: 1pt solid var(--primary);
+  padding: 4pt 0;
+}
+
+ol li:last-of-type {
+  border-bottom: none;
+  padding: 4pt 0;
+}
+
+/* Tables */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+th, tr, td {
+      padding: 4pt;
+}
+
+table thead, table tr {
+    border-bottom: 1pt solid var(--primary);
+    vertical-align: top;
+}
+
+table thead:last-of-type, table tr:last-of-type {
+    border-bottom: none;
+    vertical-align: top;
+}
+
+table th:first-of-type, table td:first-of-type {
+  color: var(--secondary);
+  border-right: 1pt solid var(--primary);
+}
+
+  .row-number {
+    width: 40px; /* Fixed space for the number */
+    font-weight: bold;
+  }
+
+/* Multi-columns layout */
+
+.two-columns {
+  column-count: 2;
+  font-style: italic;
+}
+
+.two-columns h2, .two-columns h3 {
+    column-span: all;
+}
+
+.two-columns p:first-of-type {
+  margin-top:0;
+  padding-top:0;
+}
+
+.three-columns {
+  column-count: 3;
+  font-style: italic;
+}
+
+.three-columns h2, .three-columns h3 {
+    column-span: all;
+}
+
+.three-columns p:first-of-type {
+  margin-top:0;
+  padding-top:0;
+}
+/* Styling specific pages */
 /* We can style the first page with :first */
 
 @page:first {
@@ -24,11 +129,17 @@
     height: 100%;
 }
 
-img {
-  width: 100%;
+.pagedjs_page[data-page-number="3"] {
+    background-color: #a1ab96;
 }
 
-.two-columns {
-  column-count: 2;
-  font-style: italic;
+.pagedjs_page[data-page-number="3"] p, .pagedjs_page[data-page-number="3"] h2 {
+    text-align: right !important;
+    color: black;
 }
+
+.page-specifc-styles {
+  position: absolute;
+  bottom: 0;
+}
+

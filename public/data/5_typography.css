@@ -1,4 +1,4 @@
-p, em, bold, ul, ol, li, a {
+p, em, bold, ul, ol, li, a, ul li, ol li {
 	color: var(--primary);
 	font-family: sans-serif;
 }
@@ -13,7 +13,7 @@ h2 {
 	break-before: always;
 }
 
-p {
+p, ul, ol, li, a, ul li, ol li, table, th, tr, td {
 	font-size: var(--base-font-size);
 	line-height: calc( var(--base-font-size) * 1.4);
 }

@@ -4,14 +4,22 @@ import remarkParse from 'remark-parse';
 import remarkDirectives from 'remark-directives';
 import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
-// import { remarkExtendBlockquote } from './lib/remark-plugins';
+import remarkGfm from 'remark-gfm'; 
 
 async function initializeMarkdownProcessor() {
+  console.log('initializeMarkdownProcessor')
   // Create the processor pipeline
   const processor = unified()
     .use(remarkParse)
+    .use(() => (tree) => {
+      const hasTable = tree.children.some(node => node.type === 'table');
+      console.log(hasTable ? "✅ Table Node Detected" : "❌ No Table Node Found");
+      return tree;
+    })
+    .use(remarkGfm)
     .use(remarkDirectives)
     //.use(remarkExtendBlockquote)
+    //.use(remarkExtendImage)
     .use(remarkRehype)
     .use(rehypeStringify);
 
