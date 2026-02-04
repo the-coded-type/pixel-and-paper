@@ -4,12 +4,14 @@ import remarkParse from 'remark-parse';
 import remarkDirectives from 'remark-directives';
 import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
+// import { remarkExtendBlockquote } from './lib/remark-plugins';
 
 async function initializeMarkdownProcessor() {
   // Create the processor pipeline
   const processor = unified()
     .use(remarkParse)
     .use(remarkDirectives)
+    //.use(remarkExtendBlockquote)
     .use(remarkRehype)
     .use(rehypeStringify);
 

@@ -1,4 +1,4 @@
-* {
+p, em, bold, ul, ol, li, a {
 	color: var(--primary);
 	font-family: sans-serif;
 }
@@ -16,5 +16,22 @@ h2 {
 p {
 	font-size: var(--base-font-size);
 	line-height: calc( var(--base-font-size) * 1.4);
+}
 
+blockquote p {
+  color: var(--secondary);
+  display: block;
+  font-family: serif;
+  font-size: 30pt;
+  line-height: 1;
+  postion: relative;
+  border-left: 5pt solid var(--primary);
+  padding-left: 5pt;
+}
+
+
+
+  
+  color: var(--primary);
+  opacity: 0.8;
 }

@@ -1,8 +1,10 @@
 import { projectData } from "./config";
+import { clearProjectData } from './clearProjectData.js';
 
 // fileSystem.js
 
 export async function loadProjectDirectory() {
+    clearProjectData();
     try {
         // 1. Open the Directory Picker
         const dirHandle = await window.showDirectoryPicker();

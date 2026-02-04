@@ -22,14 +22,6 @@
     margin: 20mm;
 }
 
-/* We can also set special styles for a specific page, for example tthe first page. */
-@page:first {
-  background-color: beige;
-  p {
-    text-transform: uppercase
-  }
-
-}
 
 /**
  * 2. RECTO / VERSO (FACING PAGES)
@@ -118,6 +110,8 @@
 
     @bottom-center { 
         /* content: "- " counter(page) " -"; */
+        content: "This is the bottom margin box";
+
     }
 
     @bottom-right { 
@@ -158,3 +152,6 @@
         /* content: ""; */
     }
 }
+
+
+

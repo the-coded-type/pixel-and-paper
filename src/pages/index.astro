@@ -28,11 +28,15 @@ import Tab from "src/components/tab.astro";
             import { loadProjectDirectory } from "../js/loadProjectDirectory";
             import { markdown } from "@codemirror/lang-markdown";
             import { css } from "@codemirror/lang-css";
-            import { saveAllFiles } from '../js/saveAllFiles.js'
-
+            import { saveAllFiles } from '../js/saveAllFiles.js';
+            import { createNewProject } from '../js/createNewProject.js';
+            import { initLogger } from '../js/logging.js'
             // Tabs do not exist before creation, they should be returned on creation
             window.addEventListener("DOMContentLoaded", async () => {
+            
+            initLogger();
 
+            console.log("Paper and Pixel loaded");
             // Behavior for print buttton
             const printBtn = document.getElementById("generate-pdf");
             if (printBtn) {
@@ -63,28 +67,43 @@ import Tab from "src/components/tab.astro";
                 })
             }
 
+            // New project
+
+            const newBtn = document.getElementById("new-project");
+
+            if (newBtn) {
+                newBtn.addEventListener("click", async () => {
+
+                    const success = await createNewProject();
+                    
+                    if (success) {
+                        document.body.style.cursor = "wait";
+                        await loadProjectDirectory();
+                        console.log("Project data", projectData);
+                        await initApp(projectData);
+                        initKeyboardNavigation();
+                        updatePreview();
+                        document.body.style.cursor = "default";
+                        alert("New project created!");
+                    }
+                });
+}
+
         </script>
 
-        {
-            /*
-    <link rel='stylesheet' type='text/css' media='screen' href='/styles/interface/prism.css'>
-    
-    <link rel='stylesheet' type='text/css' media='screen' href='/styles/interface/custom-prism-css.css'>
-
-*/
-        }
     </head>
     <body id="body">
         <header>
             <h1>PIXEL AND PAPER</h1>
             <div style="margin-botttom: 2rem;">
-            <button id="generate-pdf">GENERATE PDF</button>
-            <button style="margin-left: 1rem;"
+            <button 
             id="new-project">NEW</button>
             <button style="margin-left: 1rem;"
                     id="load-directory">LOAD</button>
             <button style="margin-left: 1rem;"
                     id="save-directory">SAVE</button>
+            <button style="background-color: pink; margin-left: 1rem;" id="generate-pdf">GENERATE PDF</button>
+            <span style="margin-left: 1rem; color: orange;" id="log">///</span>
             </div>
 
             <nav id="nav"></nav>

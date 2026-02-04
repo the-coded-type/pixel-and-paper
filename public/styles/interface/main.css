@@ -34,6 +34,7 @@
 :root {
     --interface-background: #1d2021;
     --interface-foreground: #83a598;
+    --interface-accent: #c27c9d;
 
 }
 
@@ -54,7 +55,7 @@ h1, a, nav span {
 
 #interface {
     position: relative;
-    top: 100px;
+    top: 120px;
     padding: 1rem;
     min-height: 50%;
     max-height: 50%;
@@ -70,6 +71,25 @@ header {
 nav {
     margin-top: 1rem;
     margin-bottom: 2rem;
+}
+
+button {
+    border-radius: 4px;;
+}
+button.tab-css {
+    border: 1px solid pink;
+}
+
+button.tab-md {
+    background-color: var(--interface-foreground);
+}
+
+button.tab-preview {
+    background-color: pink;
+}
+
+button:hover {
+    background-color: palegoldenrod;
 }
 
 pre, code {
@@ -97,7 +117,7 @@ code:focus {
     width: 95vw;
     height: 90vh;
 
-    overflow: scroll;
+    overflow: scroll !important;
 
     background-color: var(--interface-background);
 }
@@ -119,7 +139,8 @@ code:focus {
 }
 
 .tab-selector.active-tab {
-    background-color: var(--interface-foreground) !important;
+    background-color: palegoldenrod !important;
+    border: 3px solid palegoldenrod;
     color: var(--interface-background);
 }
 
@@ -136,8 +157,7 @@ code:focus {
     top: 50px;
     background-color: var(--interface-background);
     border: 1px solid var(--interface-foreground);
-    height: 85vh;
-    overflow: scroll;
+
     width: 100%;
 }
 
@@ -156,6 +176,7 @@ code:focus {
 
 #preview1, #preview2 {
     top: 0;
+    height: 85vh;
 }
 
 .hidden {

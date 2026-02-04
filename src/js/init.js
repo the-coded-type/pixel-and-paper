@@ -6,26 +6,10 @@ import { INTERFACE } from './state.js';
 import { triggerPrint } from './printHandler.js';
 import { loadProjectDirectory } from './loadProjectDirectory.js';
 
-
 //////////// INIT FUNCTION
 //////////// Init loads DATA, which should be passed as an argument
 export const initApp = async (projectData) => {
     INTERFACE.tabsContainer = document.getElementById("tabs");
-
-    // This function needs to check tabsContainer type
-    // allTabs here is a local variable, we add the tabs to it, and then return it at the end of the function
-    //
-
-    /*
-    const PROMISES = CONFIG.map(async ({ type, name, data }) => {
-        const content = await loadMyFile(`${BASE_PATH}${data[0]}`);
-
-        return { type: type, name: name, data: content };
-    });
-    */
-
-    // DATA is an array of {type: 'type, for example css or md', data: 'string content'}
-    // const DATA = await Promise.all(PROMISES);
 
     const DATA = [...projectData.css, ...projectData.md]
 
@@ -41,9 +25,9 @@ export const initApp = async (projectData) => {
     // CREATE NAVIGATION
     DATA.forEach((d, index) => {
         const btn = document.createElement("button");
-        
+        const lang = d.name.split('.').pop() || '';
         // Add classes and text
-        btn.className = `tab-selector ${index === 0 ? "active-tab" : "inactive-tab"}`;
+        btn.className = `tab-selector tab-${lang} ${index === 0 ? "active-tab" : "inactive-tab"}`;
         btn.dataset.id = index;
         btn.innerText = d.name.toUpperCase();
         btn.style.marginRight = "2em";
@@ -59,7 +43,7 @@ export const initApp = async (projectData) => {
 
     // ADD PDF PREVIEW BUTTON MANUALLY
     const pdfBtn = document.createElement("button");
-    pdfBtn.className = "tab-selector inactive-tab";
+    pdfBtn.className = "tab-selector tab-preview inactive-tab";
     pdfBtn.dataset.id = DATA.length;
     pdfBtn.innerText = "S.PDF PREVIEW";
     pdfBtn.addEventListener("click", () => {
