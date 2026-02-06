@@ -19,8 +19,8 @@ const debounceUpdateIframe = debounce();
 // The name of this function is misleading, it should rather be createNewTab
 export const openNewTab = (_id, lang, content, className) => {
     const container = document.createElement("div");
-    container.className = `tab language-${lang} id-${_id} ${className}`;
-    container.id = `container-${_id}`;
+    container.className = `tab language-${lang} ${className}`;
+    container.dataset.id = _id;
 
     INTERFACE.tabsContainer?.append(container);
 

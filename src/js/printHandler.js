@@ -1,7 +1,7 @@
 import { INTERFACE } from './state.js';
 
-export function triggerPrint() {
-    // 1. Get the container (preview1)
+export function printHandler() {
+    // 1. Get the container active preview (preview1 or preview2)
     const container = INTERFACE.activePreview;
     
     if (!container) {
@@ -20,3 +20,17 @@ export function triggerPrint() {
         console.warn("Print Error: Preview iframe not found.");
     }
 }
+
+export const initiPrintHandler = () => {
+    window.addEventListener('keydown', (e) => {
+        // Check for Command (Mac) or Control (Windows) + P
+        if ((e.metaKey || e.ctrlKey) && e.key === 'p') {
+            
+            // 1. Stop the browser from printing the whole interface
+            e.preventDefault(); 
+            
+            // 2. Trigger your specific iframe print
+            triggerPrint();
+        }
+    });
+};

@@ -13,9 +13,7 @@ export const updatePreview = async () => {
     // 1. Get CSS
     const cssContent = Object.keys(INTERFACE.allTabs)
         .filter((id) => {
-            const container = document.getElementById(
-                `container-${id}`,
-            );
+            const container = document.querySelector(`.language-css[data-id="${id}"]`);
             // Safety: Check if INTERFACE.allTabs[id] exists AND has the class
             return (
                 INTERFACE.allTabs[id] &&
@@ -28,9 +26,7 @@ export const updatePreview = async () => {
     // 2. Get Markdown
     const mdContent = Object.keys(INTERFACE.allTabs)
         .filter((id) => {
-            const container = document.getElementById(
-                `container-${id}`,
-            );
+            const container = document.querySelector(`.language-md[data-id="${id}"]`);
             // Safety: Check if INTERFACE.allTabs[id] exists AND has the class
             return (
                 INTERFACE.allTabs[id] &&

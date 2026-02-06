@@ -24,7 +24,7 @@ import Tab from "src/components/tab.astro";
             import { updatePreview } from "../js/updatePreview.js";
             import { INTERFACE } from "../js/state.js";
             import { initKeyboardNavigation } from "../js/initKeyboardNavigation.js";
-            import { triggerPrint } from "../js/printHandler.js";
+            import { printHandler } from "../js/printHandler.js";
             import { loadProjectDirectory } from "../js/loadProjectDirectory";
             import { markdown } from "@codemirror/lang-markdown";
             import { css } from "@codemirror/lang-css";
@@ -40,7 +40,7 @@ import Tab from "src/components/tab.astro";
             // Behavior for print buttton
             const printBtn = document.getElementById("generate-pdf");
             if (printBtn) {
-                printBtn.addEventListener("click", triggerPrint);
+                printBtn.addEventListener("click", printHandler);
             }
             // Behavior for load buttton
             const laodBtn = document.getElementById("load-directory");

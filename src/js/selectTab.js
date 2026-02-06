@@ -9,24 +9,23 @@ export const selectTab = (id) => {
         t.classList.replace("active", "inactive"),
     );
     allSelectors.forEach((s) =>
-        s.classList.replace("active-tab", "inactive-tab"),
+        s.classList.replace("active", "inactive"),
     );
 
-    const targetTab = document.querySelector(`.id-${id}`);
-    const targetSelector = document.querySelector(
-        `[data-id="${id}"]`,
-    );
+    const targetTab = document.querySelector(`.tab[data-id="${id}"]`);
+    console.log("targetTab", targetTab)
+
+    const targetSelector = document.querySelector(`.tab-selector[data-id="${id}"]`);
 
     if (targetTab && targetSelector) {
         targetTab.classList.replace("inactive", "active");
-        targetSelector.classList.replace(
-            "inactive-tab",
-            "active-tab",
-        );
+        targetSelector.classList.replace("inactive", "active",);
+
         // Here is the problem we are trying to modify something like a state
         INTERFACE.activeTabIndex = parseInt(id);
 
         // CRITICAL: Tell CodeMirror to refresh its layout when shown
-        allTabs[id]?.focus();
+        console.log("SelectTab.js : targetTab", targetTab)
+        targetTab.focus();
     }
 };

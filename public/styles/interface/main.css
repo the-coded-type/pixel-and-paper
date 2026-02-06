@@ -7,7 +7,7 @@
 
     /* 2. Un-hide ONLY the preview container */
     /* Note: We target the specific ID or class of your preview tab */
-    #interface, #tabs, .tab.active, #preview1 {
+    #interface, #tabs, button.active, #preview1 {
         display: block !important;
         position: absolute !important;
         left: 0 !important;
@@ -124,18 +124,18 @@ code:focus {
 }
 
 
-.active {
-    z-index: 10;
+div.active {
     visibility: visible;
+    z-index: 100;
 }
 
 
-.inactive {
-    z-index: 1;
+div.inactive {
     visibility: hidden;
+    z-index: 0;
 }
 
-.tab-selector.active-tab {
+button.active {
     background-color: palegoldenrod !important;
     border: 3px solid palegoldenrod;
     color: var(--interface-background);
