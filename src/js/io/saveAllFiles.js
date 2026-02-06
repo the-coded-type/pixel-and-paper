@@ -1,6 +1,6 @@
-import { projectData } from './config.js';
+import { projectData } from '../config.js';
 import { saveFileToDisk } from './saveFileToDisk.js';
-import { INTERFACE } from './state.js';
+import { INTERFACE } from '../state.js';
 
 export const saveAllFiles = () => {
     // Need to read all the tabs

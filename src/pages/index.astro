@@ -25,10 +25,10 @@ import Tab from "src/components/tab.astro";
             import { INTERFACE } from "../js/state.js";
             import { initKeyboardNavigation } from "../js/ui/initKeyboardNavigation.js";
             import { printHandler } from "../js/ui/printHandler.js";
-            import { loadProjectDirectory } from "../js/loadProjectDirectory";
+            import { loadProjectDirectory } from "../js/io/loadProjectDirectory";
             import { markdown } from "@codemirror/lang-markdown";
             import { css } from "@codemirror/lang-css";
-            import { saveAllFiles } from '../js/saveAllFiles.js';
+            import { saveAllFiles } from '../js/io/saveAllFiles.js';
             import { createNewProject } from '../js/createNewProject.js';
             import { initLogger } from '../js/logging.js'
             // Tabs do not exist before creation, they should be returned on creation
