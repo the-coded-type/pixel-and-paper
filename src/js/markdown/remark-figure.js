@@ -1,47 +1,44 @@
 import { visit } from 'unist-util-visit';
 
+// We pass an empty imageMap object as argument
+
 export function remarkExtendImage(imageMap = {}) {
+  // Returns a function that crawls the tree
+  // For more info see https://unifiedjs.com/explore/package/unist-util-visit/
   return (tree) => {
     // We visit 'paragraph' because images are usually wrapped in one
-    // We should also find images that are not in wrapped in p tags
+    // NB? We should also find images that are not in wrapped in p tags
     visit(tree, 'paragraph', (node, index, parent) => {
       // Find all image nodes in this paragraph
-      const images = node.children.filter(child => child.type === 'image');
+      // Returns an array, might be empty
+      const images = node.children.filter( child => child.type=='image')
 
-      if (images.length > 0) {
-        console.log('remarkEtendImage: images', images)
-      }
-      
+      if (images.length > 0) {console.log("image node", node)}
       // Check for non-whitespace text nodes
-      const hasContent = node.children.some(child => 
-        child.type === 'text' && child.value.trim().length > 0
-      );
-
+      const hasContent = node.children.some( child => child.type == 'text' && child.value.trim().lenght >0);
+      
+      // html p tags can't contain figures, only spam, em, a, img
+      // to create a figure wrapping Paragraph must contain only one image and no text 
+      // otherwise we ignore it let remark turn it into a simple tage
       // Condition: Paragraph contains exactly 1 image and NO other text content
-      if (images.length === 1 && !hasContent) {
-        const img = images[0];
-        const finalSrc = (imageMap && imageMap[img.url]) ? imageMap[img.url] : img.url;
+      if (images.length ===1 && !hasContent) {
+        const img = images[0]; // because images is an array
+        // if an imageMap containing an url is passed to the remarkExtendImage as an argument pick that one, otherwise pick img.url (from the md img)
+        const imgSrc = (imageMap && imageMap[img.url]) ? imageMap[img.url] : img.url;
 
-        // CRITICAL: We create an MDAST node but manually define its HTML output
+        // We create an MDAST node
+        // We could have created a flat html node containing the full figure as a string, but we want the node image to persist in the tree
         const figureNode = {
-          type: 'containerDirective', // Use a standard block-level type
+          type: 'containerDirective', // Use a standard block-level type, just a conventon
           data: {
             hName: 'figure',
-            hProperties: { className: ['pagedjs-figure'] }
+            hProperties: {className: ['pagedjs-figure']}
           },
           children: [
-            {
-              type: 'image',
-              url: finalSrc,
-              alt: img.alt || '',
-              title: img.title || '',
-              data: {
-                hName: 'img',
-                hProperties: { 
-                    src: finalSrc,
-                    loading: 'lazy' // Note sure about that
-                }
-              }
+            {type: 'image',
+             url: imgSrc,
+             alt: img.alt || '',
+             title: img.title || ''
             }
           ]
         };
@@ -50,9 +47,8 @@ export function remarkExtendImage(imageMap = {}) {
         if (img.title) {
           figureNode.children.push({
             type: 'paragraph',
-            data: { hName: 'figcaption' },
-            children: [{ type: 'text', value: img.title }]
-          });
+            children: [{type: 'text', value: img.title}]
+          })
         }
 
         // Replace the entire paragraph with the figure node
