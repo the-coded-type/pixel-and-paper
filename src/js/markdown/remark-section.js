@@ -1,5 +1,6 @@
 import {visit} from 'unist-util-visit'
 
+// Plugin to wrap H2 tags and the contents that follow them into a <section>
 function sanitizeString(string) {
   // Added safe check in case string is undefined/null
   if (!string) return '';

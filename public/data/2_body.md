@@ -30,11 +30,11 @@ gives the classes
 
 This preview version (when used online) can only load remote images.
 
-![Gustave Doré by Nadar](https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Photograph_of_Gustave_Dor%C3%A9_by_Nadar%2C_between_1856_and_1858.jpg/1280px-Photograph_of_Gustave_Dor%C3%A9_by_Nadar%2C_between_1856_and_1858.jpg)
+![Gustave Doré by Nadar](https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Photograph_of_Gustave_Dor%C3%A9_by_Nadar%2C_between_1856_and_1858.jpg/1280px-Photograph_of_Gustave_Dor%C3%A9_by_Nadar%2C_between_1856_and_1858.jpg "Gustave Doré by Nadar")
 
-### Full screen images
+## Full screen images
 
-![Le petit poucet by Gustave Doré](https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Barbebleue.jpg/960px-Barbebleue.jpg?20180511035022)
+![Le petit poucet by Gustave Doré](https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Barbebleue.jpg/960px-Barbebleue.jpg?20180511035022 "Le petit poucet by Gustave Doré")
 
 
 ## Columns
@@ -65,7 +65,7 @@ In this project the css styles ordere lists as tables. In markdown lists are muc
 
 ### Simple table
 
-Hang on! I just realized my markdown processor has a bug with processing tables! It worked yesterday :( I'll get back to you on this
+Hang on! I just realized my markdown processor has a bug with processing tables! It worked yesterday :( I'll get back to you on this )
 
 
 | # | Note |

@@ -3,9 +3,14 @@ import { visit } from 'unist-util-visit';
 export function remarkExtendImage(imageMap = {}) {
   return (tree) => {
     // We visit 'paragraph' because images are usually wrapped in one
+    // We should also find images that are not in wrapped in p tags
     visit(tree, 'paragraph', (node, index, parent) => {
       // Find all image nodes in this paragraph
       const images = node.children.filter(child => child.type === 'image');
+
+      if (images.length > 0) {
+        console.log('remarkEtendImage: images', images)
+      }
       
       // Check for non-whitespace text nodes
       const hasContent = node.children.some(child => 
@@ -34,7 +39,7 @@ export function remarkExtendImage(imageMap = {}) {
                 hName: 'img',
                 hProperties: { 
                     src: finalSrc,
-                    loading: 'lazy'
+                    loading: 'lazy' // Note sure about that
                 }
               }
             }

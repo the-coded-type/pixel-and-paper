@@ -3,10 +3,10 @@ import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 // import rehypeFormat from 'https://esm.sh/rehype-format';
 import rehypeStringify from 'rehype-stringify'
-import remarkSection from "./remarkSection.js";
+import remarkSection from "./remark-section.js";
 import pagedPolyfill from './paged.polyfill.js?raw';
 import remarkGfm from 'remark-gfm'; 
-// import { remarkExtendImage } from './remark-figure.js';
+import { remarkExtendImage } from './remark-figure.js';
 
 
 async function renderMarkdown(md) {
@@ -19,7 +19,7 @@ async function renderMarkdown(md) {
       .use(remarkParse) // Markdown to AST
       .use(remarkGfm) // Git flavored MD
       .use(remarkSection) // Add sections to H tags
-      // .use(remarkExtendImage) // Images to figures
+      .use(remarkExtendImage) // Images to figures
       .use(remarkRehype, { allowDangerousHtml: true }) // AST to HTML
       // .use(rehypeFormat) // Pretty print HTML
       .use(rehypeStringify, { allowDangerousHtml: true }) // Convert AST to string
