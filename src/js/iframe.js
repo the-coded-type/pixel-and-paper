@@ -3,9 +3,8 @@ import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 // import rehypeFormat from 'https://esm.sh/rehype-format';
 import rehypeStringify from 'rehype-stringify'
-import remarkSection from "./remarkSection.js";
+import remarkSection from "./markdown/remarkSection.js";
 import pagedPolyfill from './paged.polyfill.js?raw';
-import { INTERFACE } from './state.js';
 import remarkGfm from 'remark-gfm'; 
 // import { remarkExtendImage } from './remark-figure.js';
 
