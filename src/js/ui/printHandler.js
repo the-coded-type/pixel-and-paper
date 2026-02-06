@@ -1,4 +1,4 @@
-import { INTERFACE } from './state.js';
+import { INTERFACE } from '../state.js';
 
 export function printHandler() {
     // 1. Get the container active preview (preview1 or preview2)
@@ -30,7 +30,7 @@ export const initiPrintHandler = () => {
             e.preventDefault(); 
             
             // 2. Trigger your specific iframe print
-            triggerPrint();
+            printHandler();
         }
     });
 };

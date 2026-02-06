@@ -1,7 +1,7 @@
-import { openNewTab } from './openNewTab.js';
-import { selectTab } from './selectTab.js';
+import { createNewTab } from './createNewTab.js';
+import { selectTab } from './ui/selectTab.js';
 import { INTERFACE } from './state.js';
-import { initiPrintHandler } from './printHandler.js';
+import { initiPrintHandler } from './ui/printHandler.js';
 //////////// TODO
 // Better naming of the dom elements
 // - must be consistent between buttons and tabs
@@ -63,7 +63,7 @@ export const initApp = async (projectData) => {
     DATA.forEach((d, index) => {
         const className = index == 0 ? "active" : "inactive";
         const lang = d.name.split('.').pop() || 'md';
-        openNewTab(index, lang, d.content, className);
+        createNewTab(index, lang, d.content, className);
     });
 
     INTERFACE.tabsCount = DATA.length+1; 

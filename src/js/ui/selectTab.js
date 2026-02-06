@@ -1,4 +1,4 @@
-import { INTERFACE } from './state.js';
+import { INTERFACE } from '../state.js';
 
 export const selectTab = (id) => {
     const allTabs = document.querySelectorAll(".tab");

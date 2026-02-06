@@ -1,5 +1,5 @@
-import { languageMap } from "./config";
-import { createEditor } from './createEditor';
+import { languageMap } from "./config.js";
+import { createEditor } from './createEditor.js';
 import { INTERFACE } from './state.js';
 import { updatePreview } from "./updatePreview.js";
 
@@ -17,7 +17,7 @@ const debounce = function () {
 const debounceUpdateIframe = debounce();
 
 // The name of this function is misleading, it should rather be createNewTab
-export const openNewTab = (_id, lang, content, className) => {
+export const createNewTab = (_id, lang, content, className) => {
     const container = document.createElement("div");
     container.className = `tab language-${lang} ${className}`;
     container.dataset.id = _id;

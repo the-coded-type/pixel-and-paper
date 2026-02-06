@@ -1,4 +1,4 @@
-import { INTERFACE } from './state.js';
+import { INTERFACE } from '../state.js';
 import { selectTab } from './selectTab.js';
 
 export const initKeyboardNavigation = () => {
