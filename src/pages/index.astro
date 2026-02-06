@@ -16,9 +16,8 @@ import Tab from "src/components/tab.astro";
             href="/styles/interface/main.css"
         />
         <script>
-            import { createEditor } from "../js/createEditor";
-            import { iframe } from "../js/iframe.js";
-            import { initApp } from "../js/init.js";
+            import { createEditor } from "../js/init/createEditor";
+            import { initApp } from "../js/init/init.js";
             // import { CONFIG } from "../js/config.js";
             import { projectData } from "../js/config.js";
             import { updatePreview } from "../js/updatePreview.js";
@@ -29,7 +28,7 @@ import Tab from "src/components/tab.astro";
             import { markdown } from "@codemirror/lang-markdown";
             import { css } from "@codemirror/lang-css";
             import { saveAllFiles } from '../js/io/saveAllFiles.js';
-            import { createNewProject } from '../js/createNewProject.js';
+            import { createNewProject } from '../js/init/createNewProject.js';
             import { initLogger } from '../js/logging.js'
             // Tabs do not exist before creation, they should be returned on creation
             window.addEventListener("DOMContentLoaded", async () => {

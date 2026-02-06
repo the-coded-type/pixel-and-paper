@@ -1,5 +1,5 @@
 
-import { iframe } from './iframe.js';
+import { iframe } from './markdown/iframe.js';
 import { INTERFACE } from './state.js';
 
 

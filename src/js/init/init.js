@@ -1,7 +1,7 @@
 import { createNewTab } from './createNewTab.js';
-import { selectTab } from './ui/selectTab.js';
-import { INTERFACE } from './state.js';
-import { initiPrintHandler } from './ui/printHandler.js';
+import { selectTab } from '../ui/selectTab.js';
+import { INTERFACE } from '../state.js';
+import { initiPrintHandler } from '../ui/printHandler.js';
 //////////// TODO
 // Better naming of the dom elements
 // - must be consistent between buttons and tabs

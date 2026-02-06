@@ -1,5 +1,5 @@
 import { projectData } from "../config.js";
-import { clearProjectData } from '../clearProjectData.js';
+import { clearProjectData } from '../init/clearProjectData.js';
 
 // fileSystem.js
 

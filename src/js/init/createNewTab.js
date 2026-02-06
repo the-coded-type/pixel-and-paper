@@ -1,7 +1,7 @@
-import { languageMap } from "./config.js";
+import { languageMap } from "../config.js";
 import { createEditor } from './createEditor.js';
-import { INTERFACE } from './state.js';
-import { updatePreview } from "./updatePreview.js";
+import { INTERFACE } from '../state.js';
+import { updatePreview } from "../updatePreview.js";
 
 const debounce = function () {
     let editorTimeout;
