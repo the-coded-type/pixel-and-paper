@@ -15,7 +15,6 @@ export async function loadProjectDirectory() {
         async function scanDirectory(handle, path = "") {
             for await (const entry of handle.values()) {
                 const relativePath = path ? `${path}/${entry.name}` : entry.name;
-
                 if (entry.kind === 'file') {
                     const file = await entry.getFile();
                     
@@ -58,6 +57,8 @@ export async function loadProjectDirectory() {
         projectData.md.sort((a, b) => a.name.localeCompare(b.name))
 
         console.log("Project data loaded.")
+        console.log("Project data loaded.", projectData)
+
         return projectData;
 
     } catch (err) {
