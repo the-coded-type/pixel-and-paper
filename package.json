@@ -6,6 +6,6 @@
 	],
     "scripts": {
         "dev:web": "npm run dev --workspace=@pixelpaper/web",
-        "dev:build": "npm run build --workspace=@pixelpaper/web",
+        "build:web": "npm run build --workspace=@pixelpaper/web"
     }
 }
