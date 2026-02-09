@@ -1,5 +1,5 @@
 ---
-import Tab from "src/components/tab.astro";
+
 ---
 
 <!doctype html>
@@ -7,99 +7,77 @@ import Tab from "src/components/tab.astro";
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Page Title</title>
+        <title>Pixel & Paper</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
             rel="stylesheet"
             type="text/css"
             media="screen"
-            href="../../public/styles/interface/main.css"
+            href="/styles/interface/main.css"
         />
         <script>
-            import { createEditor } from "../js/init/createEditor";
-            import { initApp } from "../js/init/init.js";
-            import { projectData } from "../js/config.js";
-            import { updatePreview } from "../js/updatePreview.js";
-            import { uistate } from "@core/uistate.js";
-            import { initKeyboardNavigation } from "../js/ui/initKeyboardNavigation.js";
-            import { printHandler } from "../js/ui/printHandler.js";
-            import { loadProjectDirectory } from "../js/io/loadProjectDirectory";
-            import { markdown } from "@codemirror/lang-markdown";
-            import { css } from "@codemirror/lang-css";
-            import { saveAllFiles } from '../js/io/saveAllFiles.js';
-            import { createNewProject } from '../js/init/createNewProject.js';
-            import { initLogger } from '../js/logging.js'
+            import { initLogger } from "../js/logging.js";
+            import { createGeneratePdfButton } from "@core/ui/createGeneratePdfButton.js";
+            import { createLoadDirectoryButton } from "../js/ui/createLoadDirectoryButton.js";
+            import { createSaveDirectoryButton } from "../js/ui/createSaveDirectoryButton.js";
+            import { createNewDirectoryButton } from "../js/ui/createNewDirectoryButton.js";
+
             // Tabs do not exist before creation, they should be returned on creation
             window.addEventListener("DOMContentLoaded", async () => {
-            
-            initLogger();
+                // Initialize window logger
+                initLogger();
 
-            console.log("Paper and Pixel loaded");
-            // Behavior for print buttton
-            const printBtn = document.getElementById("generate-pdf");
-            if (printBtn) {
-                printBtn.addEventListener("click", printHandler);
-            }
-            // Behavior for load buttton
-            const laodBtn = document.getElementById("load-directory");
-            if (laodBtn) {
-                laodBtn.addEventListener("click", async () => {
-                    document.body.style.cursor = "wait";
-                    await loadProjectDirectory();
-                    await initApp(projectData);
-                    initKeyboardNavigation();
-                    updatePreview();
-                    document.body.style.cursor = "default";
-                });
-            }
+                console.log("Paper and Pixel loaded");
+
+                const mainNav = document.getElementById("main-nav");
+
+                // Initilize main nav
+                if (mainNav) {
+                    const newDirectoryButtonElement = createNewDirectoryButton(
+                        mainNav,
+                        "",
+                        "new-project",
+                        "NEW",
+                    );
+
+                    const loadDirectoryButtonElement =
+                        createLoadDirectoryButton(
+                            mainNav,
+                            "ml-1",
+                            "load-directory",
+                            "LOAD",
+                        );
+
+                    const saveDirectoryButtonElement =
+                        createSaveDirectoryButton(
+                            mainNav,
+                            "ml-1",
+                            "save-directory",
+                            "SAVE",
+                        );
+
+                    const generatePdfButtonElement = createGeneratePdfButton(
+                        mainNav,
+                        "ml-1 generate-pdf",
+                        "generate-pdf",
+                        "GENERATE PDF",
+                    );
+                }
             });
-            // Behavior for save button
-            const saveBtn = document.getElementById("save-directory");
-            if (saveBtn) {
-                saveBtn.addEventListener("click", async () => {
-                    console.log("Saving project...");
-                    await saveAllFiles();
-
-                })
-            }
-
-            // New project
-
-            const newBtn = document.getElementById("new-project");
-
-            if (newBtn) {
-                newBtn.addEventListener("click", async () => {
-
-                    const success = await createNewProject();
-                    
-                    if (success) {
-                        document.body.style.cursor = "wait";
-                        await loadProjectDirectory();
-                        await initApp(projectData);
-                        initKeyboardNavigation();
-                        updatePreview();
-                        document.body.style.cursor = "default";
-                    }
-                });
-}
 
         </script>
-
     </head>
     <body id="body">
         <header>
             <h1>PIXEL AND PAPER</h1>
-            <div style="margin-botttom: 2rem;">
-            <button 
-            id="new-project">NEW</button>
-            <button style="margin-left: 1rem;"
-                    id="load-directory">LOAD</button>
-            <button style="margin-left: 1rem;"
-                    id="save-directory">SAVE</button>
-            <button style="background-color: pink; margin-left: 1rem;" id="generate-pdf">GENERATE PDF</button>
-            <span style="margin-left: 1rem; color: orange;" id="log">///</span>
+            <div style="margin-bottom: 2rem; display: flex; ">
+                <nav id="main-nav"></nav>
+                <span
+                    class="ml-1"
+                    style="margin-top: 1rem; display:block; color: orange;"
+                    id="log">///</span
+                >
             </div>
-
             <nav id="nav"></nav>
         </header>
         <main id="interface">

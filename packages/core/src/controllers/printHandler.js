@@ -1,4 +1,4 @@
-import { uistate } from '../../../../core/src/uistate.js';
+import { uistate } from '../uistate.js';
 
 export function printHandler() {
     // 1. Get the container active preview (preview1 or preview2)

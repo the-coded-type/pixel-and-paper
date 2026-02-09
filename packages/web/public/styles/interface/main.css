@@ -73,6 +73,14 @@ button {
     border-radius: 4px;
     margin-bottom: 1rem;
 }
+
+.ml-1 {
+    margin-left: 1rem;
+}
+
+button.generate-pdf {
+    background-color: pink;
+}
 button.tab-css {
     border: 1px solid pink;
 }

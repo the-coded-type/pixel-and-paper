@@ -1,7 +1,9 @@
 import { markdown } from "@codemirror/lang-markdown";
 import { css } from "@codemirror/lang-css";
+import { loadFile } from "@core/controllers/loadFile";
 
-export const CONFIG = [
+// CONFIG Defines the default project
+export const TEMPLATE = [
     { type: "css", name: "Page", data: ["1_page.css"] },
     { type: "css", name: "Setup", data: ["2_setup.css"] },
     { type: "css", name: "interface", data: ["3_interface.css"] },
@@ -14,30 +16,18 @@ export const CONFIG = [
 
 export const BASE_PATH = "/data/";
 
-const loadMyFile = async (filePath) => {
-    try {
-        // Request the file from your local server
-        const response = await fetch(filePath);
 
-        // Convert the response to text
-        const content = await response.text();
-
-        return content;
-    } catch (err) {
-        console.error("Error reading file:", err);
-    }
-};
-
+// Create DATA from config
 export const templateData = async () => {
-    const PROMISES = CONFIG.map(async ({ type, name, data }) => {
-        const content = await loadMyFile(`${BASE_PATH}${data[0]}`);
+    const PROMISES = TEMPLATE.map(async ({ type, name, data }) => {
+        const content = await loadFile(`${BASE_PATH}${data[0]}`);
 
         return { type: type, name: name, filename: data[0], content:content };
     });
 
     // DATA is an array of {type: 'type, for example css or md', data: 'string content'}
-    const DATA = await Promise.all(PROMISES);
-    return DATA;
+    const projectDataFromTemplate = await Promise.all(PROMISES);
+    return projectDataFromTemplate;
 }
 
 export const projectData = {

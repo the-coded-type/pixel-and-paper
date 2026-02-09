@@ -1,7 +1,7 @@
 import { createNewTab } from './createNewTab.js';
 import { selectTab } from '../ui/selectTab.js';
 import { uistate } from '../../../../core/src/uistate.js';
-import { initiPrintHandler } from '../ui/printHandler.js';
+import { initiPrintHandler } from '../../../../core/src/controllers/printHandler.js';
 //////////// TODO
 // Better naming of the dom elements
 // - must be consistent between buttons and tabs

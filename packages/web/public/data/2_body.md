@@ -1,4 +1,4 @@
-## Intro
+## Intro 2
 
 The page layout is determined by the CSS declarations.
 
