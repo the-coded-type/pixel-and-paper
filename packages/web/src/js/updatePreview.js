@@ -1,6 +1,6 @@
 
-import { iframe } from '../../../core/src/markdown/iframe.js';
-import { uistate } from '../../../core/src/uistate.js';
+import { iframe } from '@core/markdown/iframe.js';
+import { uistate } from '@core/uistate.js';
 
 
 export const updatePreview = async () => {
@@ -10,36 +10,22 @@ export const updatePreview = async () => {
 
     if (!previewTab) return;
 
+    console.log("uistate.allTabs", uistate.allTabs)
     // 1. Get CSS
-    const cssContent = Object.keys(uistate.allTabs)
-        .filter((id) => {
-            const container = document.querySelector(`.language-css[data-id="${id}"]`);
-            // Safety: Check if uistate.allTabs[id] exists AND has the class
-            return (
-                uistate.allTabs[id] &&
-                container?.classList.contains("language-css")
-            );
-        })
-        .map((id) => uistate.allTabs[id].state.doc.toString()) // Now safe
+    const cssContent = uistate.allTabs
+        .filter(tab => tab.lang === 'css')
+        .map(tab => tab.view.state.doc.toString()) // Now safe
         .join("\n");
 
     // 2. Get Markdown
-    const mdContent = Object.keys(uistate.allTabs)
-        .filter((id) => {
-            const container = document.querySelector(`.language-md[data-id="${id}"]`);
-            // Safety: Check if uistate.allTabs[id] exists AND has the class
-            return (
-                uistate.allTabs[id] &&
-                container?.classList.contains("language-md")
-            );
-        })
-        .map((id) => uistate.allTabs[id].state.doc.toString()) // Now safe
+    const mdContent = uistate.allTabs
+        .filter(tab => tab.lang === 'md')
+        .map(tab => tab.view.state.doc.toString()) // Now safe
         .join("\n");
 
     // 3. Update the iframe
     // we postpone that the buffer takes it first
     // previewTab.innerHTML = await iframe(cssContent, mdContent);
-
     // const iframeElement = previewTab.querySelector("iframe")
 
     bufferTab.innerHTML = await iframe(cssContent, mdContent);

@@ -1,4 +1,3 @@
-import { languageMap } from "../config.js";
 import { createEditor } from './createEditor.js';
 import { uistate } from '../../../../core/src/uistate.js';
 import { updatePreview } from "../updatePreview.js";
@@ -24,9 +23,7 @@ export const createNewTab = (_id, lang, content, className) => {
 
     uistate.tabsContainer?.append(container);
 
-    const langFn = languageMap[lang];
-
-    uistate.allTabs[_id] = createEditor(langFn(), content, container, debounceUpdateIframe);
+    uistate.allTabs[_id] = createEditor(lang, content, container, debounceUpdateIframe);
     // We should probably return the updated uistate
     //return container;
 }

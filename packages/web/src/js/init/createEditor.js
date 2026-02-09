@@ -1,18 +1,19 @@
 import {basicSetup} from "codemirror"
 import {EditorView} from "@codemirror/view"
 import { markdown } from '@codemirror/lang-markdown'
-import { css } from "@codemirror/lang-css";
 import { gruvboxDark } from '@fsegurai/codemirror-theme-gruvbox-dark'
-import { uistate } from '../../../../core/src/uistate.js';
+import { languageMap } from "../config.js";
 
-export const createEditor = (lang = markdown(), startText = "", parent, onUpdate) => {
+export const createEditor = (lang = "md", startText = "", parent, onUpdate) => {
 
+    const langFn = languageMap[lang];
+    
     const view = new EditorView({
         doc: startText,
         parent: parent || document.body,
         extensions: [
             basicSetup,
-            lang, /// either markdown(), or css() or sometthing else
+            langFn(), /// either markdown(), or css() or sometthing else
             gruvboxDark, // theme
             EditorView.lineWrapping,
             EditorView.updateListener.of((update) => {
@@ -24,5 +25,5 @@ export const createEditor = (lang = markdown(), startText = "", parent, onUpdate
         ]
     })
 
-    return view;
+    return {view: view, lang: lang};
 }
