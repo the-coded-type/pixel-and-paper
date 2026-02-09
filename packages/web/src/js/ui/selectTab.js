@@ -1,4 +1,4 @@
-import { INTERFACE } from '../state.js';
+import { uistate } from '../../../../core/src/uistate.js';
 
 export const selectTab = (id) => {
     const allTabs = document.querySelectorAll(".tab");
@@ -22,7 +22,7 @@ export const selectTab = (id) => {
         targetSelector.classList.replace("inactive", "active",);
 
         // Here is the problem we are trying to modify something like a state
-        INTERFACE.activeTabIndex = parseInt(id);
+        uistate.activeTabIndex = parseInt(id);
 
         // CRITICAL: Tell CodeMirror to refresh its layout when shown
         console.log("SelectTab.js : targetTab", targetTab)

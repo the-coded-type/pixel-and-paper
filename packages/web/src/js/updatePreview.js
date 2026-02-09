@@ -1,39 +1,39 @@
 
-import { iframe } from './markdown/iframe.js';
-import { INTERFACE } from './state.js';
+import { iframe } from '../../../core/src/markdown/iframe.js';
+import { uistate } from '../../../core/src/uistate.js';
 
 
 export const updatePreview = async () => {
 
-    const previewTab = INTERFACE.activePreview;
-    const bufferTab = INTERFACE.previewBuffer;
+    const previewTab = uistate.activePreview;
+    const bufferTab = uistate.previewBuffer;
 
     if (!previewTab) return;
 
     // 1. Get CSS
-    const cssContent = Object.keys(INTERFACE.allTabs)
+    const cssContent = Object.keys(uistate.allTabs)
         .filter((id) => {
             const container = document.querySelector(`.language-css[data-id="${id}"]`);
-            // Safety: Check if INTERFACE.allTabs[id] exists AND has the class
+            // Safety: Check if uistate.allTabs[id] exists AND has the class
             return (
-                INTERFACE.allTabs[id] &&
+                uistate.allTabs[id] &&
                 container?.classList.contains("language-css")
             );
         })
-        .map((id) => INTERFACE.allTabs[id].state.doc.toString()) // Now safe
+        .map((id) => uistate.allTabs[id].state.doc.toString()) // Now safe
         .join("\n");
 
     // 2. Get Markdown
-    const mdContent = Object.keys(INTERFACE.allTabs)
+    const mdContent = Object.keys(uistate.allTabs)
         .filter((id) => {
             const container = document.querySelector(`.language-md[data-id="${id}"]`);
-            // Safety: Check if INTERFACE.allTabs[id] exists AND has the class
+            // Safety: Check if uistate.allTabs[id] exists AND has the class
             return (
-                INTERFACE.allTabs[id] &&
+                uistate.allTabs[id] &&
                 container?.classList.contains("language-md")
             );
         })
-        .map((id) => INTERFACE.allTabs[id].state.doc.toString()) // Now safe
+        .map((id) => uistate.allTabs[id].state.doc.toString()) // Now safe
         .join("\n");
 
     // 3. Update the iframe
@@ -54,12 +54,12 @@ export const updatePreview = async () => {
             // The message iframeRendered is fired by the window when pagedJS has finished rendering the page, it's defined in iframe.js
             window.addEventListener("message", (event) => {
                 if (event.data == "iframeRendered") {
-                    internalIframeWindow.scroll({top: INTERFACE.preview.lastScroll, behavior: "instant"} );
+                    internalIframeWindow.scroll({top: uistate.preview.lastScroll, behavior: "instant"} );
                     bufferTab.classList.replace("hidden", "visible");
                     previewTab.classList.replace("visible", "hidden");
 
-                    INTERFACE.activePreview = bufferTab;
-                    INTERFACE.previewBuffer = previewTab;
+                    uistate.activePreview = bufferTab;
+                    uistate.previewBuffer = previewTab;
 
                     console.log('Preview PDF updated.')
                 }                            
@@ -67,7 +67,7 @@ export const updatePreview = async () => {
 
             
             internalIframeWindow.addEventListener("scroll", (event) => {
-                INTERFACE.preview.lastScroll = internalIframeWindow.scrollY;
+                uistate.preview.lastScroll = internalIframeWindow.scrollY;
         })
 
     }

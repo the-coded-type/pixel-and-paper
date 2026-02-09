@@ -1,8 +1,8 @@
-import { INTERFACE } from '../state.js';
+import { uistate } from '../../../../core/src/uistate.js';
 
 export function printHandler() {
     // 1. Get the container active preview (preview1 or preview2)
-    const container = INTERFACE.activePreview;
+    const container = uistate.activePreview;
     
     if (!container) {
         console.warn("Print Error: No active preview found.");
@@ -26,7 +26,7 @@ export const initiPrintHandler = () => {
         // Check for Command (Mac) or Control (Windows) + P
         if ((e.metaKey || e.ctrlKey) && e.key === 'p') {
             
-            // 1. Stop the browser from printing the whole interface
+            // 1. Stop the browser from printing the whole uistate
             e.preventDefault(); 
             
             // 2. Trigger your specific iframe print

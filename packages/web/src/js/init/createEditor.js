@@ -3,7 +3,7 @@ import {EditorView} from "@codemirror/view"
 import { markdown } from '@codemirror/lang-markdown'
 import { css } from "@codemirror/lang-css";
 import { gruvboxDark } from '@fsegurai/codemirror-theme-gruvbox-dark'
-import { INTERFACE } from '../state.js';
+import { uistate } from '../../../../core/src/uistate.js';
 
 export const createEditor = (lang = markdown(), startText = "", parent, onUpdate) => {
 

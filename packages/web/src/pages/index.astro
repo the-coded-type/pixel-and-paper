@@ -13,15 +13,14 @@ import Tab from "src/components/tab.astro";
             rel="stylesheet"
             type="text/css"
             media="screen"
-            href="/styles/interface/main.css"
+            href="../../public/styles/interface/main.css"
         />
         <script>
             import { createEditor } from "../js/init/createEditor";
             import { initApp } from "../js/init/init.js";
-            // import { CONFIG } from "../js/config.js";
             import { projectData } from "../js/config.js";
             import { updatePreview } from "../js/updatePreview.js";
-            import { INTERFACE } from "../js/state.js";
+            import { uistate } from "@core/uistate.js";
             import { initKeyboardNavigation } from "../js/ui/initKeyboardNavigation.js";
             import { printHandler } from "../js/ui/printHandler.js";
             import { loadProjectDirectory } from "../js/io/loadProjectDirectory";

@@ -1,6 +1,6 @@
 import { projectData } from '../config.js';
 import { saveFileToDisk } from './saveFileToDisk.js';
-import { INTERFACE } from '../state.js';
+import { uistate } from '../../../../core/src/uistate.js';
 
 export const saveAllFiles = () => {
     // Need to read all the tabs
@@ -23,7 +23,7 @@ export const saveAllFiles = () => {
 
     const allFiles = [...projectData.css, ...projectData.md]; // array of all files
     for (let id = 0; id < allFiles.length; id++) {
-        allFiles[id].content =  INTERFACE.allTabs[id].state.doc.toString();
+        allFiles[id].content =  uistate.allTabs[id].state.doc.toString();
     }
     saveList(allFiles);
 

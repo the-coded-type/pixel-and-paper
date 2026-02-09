@@ -1196,7 +1196,7 @@
 	 * Determine if a node should be ignored by the iterator functions.
 	 * taken from https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace#Whitespace_helper_functions
 	 *
-	 * @param {Node} node An object implementing the DOM1 |Node| interface.
+	 * @param {Node} node An object implementing the DOM1 |Node| uistate.
 	 * @return {boolean} true if the node is:
 	 *  1) A |Text| node that is all whitespace
 	 *  2) A |Comment| node
@@ -1210,7 +1210,7 @@
 	/**
 	 * Determine whether a node's text content is entirely whitespace.
 	 *
-	 * @param {Node} node  A node implementing the |CharacterData| interface (i.e., a |Text|, |Comment|, or |CDATASection| node
+	 * @param {Node} node  A node implementing the |CharacterData| uistate (i.e., a |Text|, |Comment|, or |CDATASection| node
 	 * @return {boolean} true if all of the text content of |nod| is whitespace, otherwise false.
 	 */
 	function isAllWhitespace(node) {
@@ -11857,7 +11857,7 @@
 	},
 		"@counter-style": {
 		syntax: "@counter-style <counter-style-name> {\n  [ system: <counter-system>; ] ||\n  [ symbols: <counter-symbols>; ] ||\n  [ additive-symbols: <additive-symbols>; ] ||\n  [ negative: <negative-symbol>; ] ||\n  [ prefix: <prefix>; ] ||\n  [ suffix: <suffix>; ] ||\n  [ range: <range>; ] ||\n  [ pad: <padding>; ] ||\n  [ speak-as: <speak-as>; ] ||\n  [ fallback: <counter-style-name>; ]\n}",
-		interfaces: [
+		uistates: [
 			"CSSCounterStyleRule"
 		],
 		groups: [
@@ -11960,7 +11960,7 @@
 	},
 		"@document": {
 		syntax: "@document [ <url> | url-prefix(<string>) | domain(<string>) | media-document(<string>) | regexp(<string>) ]# {\n  <group-rule-body>\n}",
-		interfaces: [
+		uistates: [
 			"CSSGroupingRule",
 			"CSSConditionRule"
 		],
@@ -11972,7 +11972,7 @@
 	},
 		"@font-face": {
 		syntax: "@font-face {\n  [ font-family: <family-name>; ] ||\n  [ src: <src>; ] ||\n  [ unicode-range: <unicode-range>; ] ||\n  [ font-variant: <font-variant>; ] ||\n  [ font-feature-settings: <font-feature-settings>; ] ||\n  [ font-variation-settings: <font-variation-settings>; ] ||\n  [ font-stretch: <font-stretch>; ] ||\n  [ font-weight: <font-weight>; ] ||\n  [ font-style: <font-style>; ]\n}",
-		interfaces: [
+		uistates: [
 			"CSSFontFaceRule"
 		],
 		groups: [
@@ -12075,7 +12075,7 @@
 	},
 		"@font-feature-values": {
 		syntax: "@font-feature-values <family-name># {\n  <feature-value-block-list>\n}",
-		interfaces: [
+		uistates: [
 			"CSSFontFeatureValuesRule"
 		],
 		groups: [
@@ -12094,7 +12094,7 @@
 	},
 		"@keyframes": {
 		syntax: "@keyframes <keyframes-name> {\n  <keyframe-block-list>\n}",
-		interfaces: [
+		uistates: [
 			"CSSKeyframeRule",
 			"CSSKeyframesRule"
 		],
@@ -12106,7 +12106,7 @@
 	},
 		"@media": {
 		syntax: "@media <media-query-list> {\n  <group-rule-body>\n}",
-		interfaces: [
+		uistates: [
 			"CSSGroupingRule",
 			"CSSConditionRule",
 			"CSSMediaRule",
@@ -12129,7 +12129,7 @@
 	},
 		"@page": {
 		syntax: "@page <page-selector-list> {\n  <page-body>\n}",
-		interfaces: [
+		uistates: [
 			"CSSPageRule"
 		],
 		groups: [
@@ -12178,7 +12178,7 @@
 	},
 		"@property": {
 		syntax: "@property <custom-property-name> {\n  <declaration-list>\n}",
-		interfaces: [
+		uistates: [
 			"CSS",
 			"CSSPropertyRule"
 		],
@@ -12219,7 +12219,7 @@
 	},
 		"@supports": {
 		syntax: "@supports <supports-condition> {\n  <group-rule-body>\n}",
-		interfaces: [
+		uistates: [
 			"CSSGroupingRule",
 			"CSSConditionRule",
 			"CSSSupportsRule"
@@ -12232,7 +12232,7 @@
 	},
 		"@viewport": {
 		syntax: "@viewport {\n  <group-rule-body>\n}",
-		interfaces: [
+		uistates: [
 			"CSSViewportRule"
 		],
 		groups: [
@@ -12464,7 +12464,7 @@
 		animationType: "discrete",
 		percentages: "no",
 		groups: [
-			"CSS Basic User Interface"
+			"CSS Basic User uistate"
 		],
 		initial: "auto",
 		appliesto: "allElements",
@@ -12706,7 +12706,7 @@
 		animationType: "discrete",
 		percentages: "no",
 		groups: [
-			"CSS Basic User Interface"
+			"CSS Basic User uistate"
 		],
 		initial: "auto",
 		appliesto: "allElements",
@@ -13183,7 +13183,7 @@
 		],
 		percentages: "no",
 		groups: [
-			"CSS Basic User Interface"
+			"CSS Basic User uistate"
 		],
 		initial: [
 			"outline-color",
@@ -13306,7 +13306,7 @@
 		animationType: "discrete",
 		percentages: "no",
 		groups: [
-			"CSS Basic User Interface"
+			"CSS Basic User uistate"
 		],
 		initial: "none",
 		appliesto: "elementsWithOverflowNotVisibleAndReplacedElements",
@@ -15396,7 +15396,7 @@
 		animationType: "discrete",
 		percentages: "no",
 		groups: [
-			"CSS Basic User Interface"
+			"CSS Basic User uistate"
 		],
 		initial: "auto",
 		appliesto: "allElementsExceptInlineBoxesAndInternalRubyOrTableBoxes",
@@ -17115,7 +17115,7 @@
 		animationType: "discrete",
 		percentages: "no",
 		groups: [
-			"CSS Basic User Interface"
+			"CSS Basic User uistate"
 		],
 		initial: "content-box",
 		appliesto: "allElementsAcceptingWidthOrHeight",
@@ -17195,7 +17195,7 @@
 		animationType: "color",
 		percentages: "no",
 		groups: [
-			"CSS Basic User Interface"
+			"CSS Basic User uistate"
 		],
 		initial: "auto",
 		appliesto: "allElements",
@@ -18374,7 +18374,7 @@
 		animationType: "discrete",
 		percentages: "no",
 		groups: [
-			"CSS Basic User Interface"
+			"CSS Basic User uistate"
 		],
 		initial: "auto",
 		appliesto: "textFields",
@@ -19551,7 +19551,7 @@
 		animationType: "color",
 		percentages: "no",
 		groups: [
-			"CSS Basic User Interface"
+			"CSS Basic User uistate"
 		],
 		initial: "invertOrCurrentColor",
 		appliesto: "allElements",
@@ -19570,7 +19570,7 @@
 		animationType: "length",
 		percentages: "no",
 		groups: [
-			"CSS Basic User Interface"
+			"CSS Basic User uistate"
 		],
 		initial: "0",
 		appliesto: "allElements",
@@ -19589,7 +19589,7 @@
 		animationType: "discrete",
 		percentages: "no",
 		groups: [
-			"CSS Basic User Interface"
+			"CSS Basic User uistate"
 		],
 		initial: "none",
 		appliesto: "allElements",
@@ -19608,7 +19608,7 @@
 		animationType: "length",
 		percentages: "no",
 		groups: [
-			"CSS Basic User Interface"
+			"CSS Basic User uistate"
 		],
 		initial: "medium",
 		appliesto: "allElements",
@@ -21189,7 +21189,7 @@
 		animationType: "discrete",
 		percentages: "no",
 		groups: [
-			"CSS Basic User Interface"
+			"CSS Basic User uistate"
 		],
 		initial: "clip",
 		appliesto: "blockContainerElements",
@@ -21468,7 +21468,7 @@
 		animationType: "discrete",
 		percentages: "no",
 		groups: [
-			"CSS Basic User Interface"
+			"CSS Basic User uistate"
 		],
 		initial: "auto",
 		appliesto: "allElements",

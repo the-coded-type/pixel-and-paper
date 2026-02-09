@@ -1,6 +1,6 @@
 import { createNewTab } from './createNewTab.js';
 import { selectTab } from '../ui/selectTab.js';
-import { INTERFACE } from '../state.js';
+import { uistate } from '../../../../core/src/uistate.js';
 import { initiPrintHandler } from '../ui/printHandler.js';
 //////////// TODO
 // Better naming of the dom elements
@@ -10,16 +10,16 @@ import { initiPrintHandler } from '../ui/printHandler.js';
 //////////// INIT FUNCTION
 //////////// Init loads DATA, which should be passed as an argument
 export const initApp = async (projectData) => {
-    INTERFACE.tabsContainer = document.getElementById("tabs");
+    uistate.tabsContainer = document.getElementById("tabs");
 
     // DATA arrays contains all css and md projectData
     const DATA = [...projectData.css, ...projectData.md]
 
     //// Creation of the navigation container
     const nav = document.getElementById("nav");
-    INTERFACE.tabsContainer = document.getElementById("tabs");
+    uistate.tabsContainer = document.getElementById("tabs");
     
-    INTERFACE.tabsContainer.innerHTML = ''; 
+    uistate.tabsContainer.innerHTML = ''; 
     nav.innerHTML = '';
 
     // CREATE NAVIGATION
@@ -66,7 +66,7 @@ export const initApp = async (projectData) => {
         createNewTab(index, lang, d.content, className);
     });
 
-    INTERFACE.tabsCount = DATA.length+1; 
+    uistate.tabsCount = DATA.length+1; 
     // +1 because there is one additional tab for the PDF preview
 
     // Creating preview divs (two preview divs, as we do double buffering)
@@ -88,10 +88,10 @@ export const initApp = async (projectData) => {
 
     container.appendChild(preview2);
 
-    INTERFACE.tabsContainer?.append(container);
+    uistate.tabsContainer?.append(container);
 
-    // We update the INTERFACE assigning the two preview tabs
-    Object.assign(INTERFACE, {activePreview: preview1}, {previewBuffer: preview2});
+    // We update the uistate assigning the two preview tabs
+    Object.assign(uistate, {activePreview: preview1}, {previewBuffer: preview2});
 
 
     //// INIT NAVIGATION /////

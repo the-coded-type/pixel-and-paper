@@ -1,6 +1,6 @@
 import { languageMap } from "../config.js";
 import { createEditor } from './createEditor.js';
-import { INTERFACE } from '../state.js';
+import { uistate } from '../../../../core/src/uistate.js';
 import { updatePreview } from "../updatePreview.js";
 
 const debounce = function () {
@@ -22,11 +22,11 @@ export const createNewTab = (_id, lang, content, className) => {
     container.className = `tab language-${lang} ${className}`;
     container.dataset.id = _id;
 
-    INTERFACE.tabsContainer?.append(container);
+    uistate.tabsContainer?.append(container);
 
     const langFn = languageMap[lang];
 
-    INTERFACE.allTabs[_id] = createEditor(langFn(), content, container, debounceUpdateIframe);
-    // We should probably return the updated INTERFACE
+    uistate.allTabs[_id] = createEditor(langFn(), content, container, debounceUpdateIframe);
+    // We should probably return the updated uistate
     //return container;
 }

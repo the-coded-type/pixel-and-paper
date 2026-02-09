@@ -1,12 +1,11 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*"],
+  "include": [".astro/types.d.ts", "**/*", "../core/src/uistate.js"],
   "exclude": ["dist"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@css/*" : ["../../Frameworks/css/*"],
-      "@components/*" : ["../../Frameworks/components/*"]
+      "@core/*":[ "../core/src/*"]
     }
   }
 }

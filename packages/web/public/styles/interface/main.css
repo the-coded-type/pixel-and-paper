@@ -7,7 +7,7 @@
 
     /* 2. Un-hide ONLY the preview container */
     /* Note: We target the specific ID or class of your preview tab */
-    #interface, #tabs, button.active, #preview1 {
+    #uistate, #tabs, button.active, #preview1 {
         display: block !important;
         position: absolute !important;
         left: 0 !important;
@@ -32,9 +32,9 @@
 /* ///////////////////// */
 
 :root {
-    --interface-background: #1d2021;
-    --interface-foreground: #83a598;
-    --interface-accent: #c27c9d;
+    --uistate-background: #1d2021;
+    --uistate-foreground: #83a598;
+    --uistate-accent: #c27c9d;
 
 }
 
@@ -45,15 +45,15 @@
 }
 
 body {
-    background-color: var(--interface-background);
+    background-color: var(--uistate-background);
     position: relative;
 }
 
 h1, a, nav span {
-    color: var(--interface-foreground);
+    color: var(--uistate-foreground);
 }
 
-#interface {
+#uistate {
     min-height: 50%;
     max-height: 50%;
 }
@@ -78,7 +78,7 @@ button.tab-css {
 }
 
 button.tab-md {
-    background-color: var(--interface-foreground);
+    background-color: var(--uistate-foreground);
 }
 
 button.tab-preview {
@@ -94,7 +94,7 @@ pre, code {
     padding: 0;
     padding: 6px;
     display: block;
-    background-color: var(--interface-background) !important;
+    background-color: var(--uistate-background) !important;
 }
 
 code:focus {
@@ -116,7 +116,7 @@ code:focus {
 
     overflow: scroll !important;
 
-    background-color: var(--interface-background);
+    background-color: var(--uistate-background);
 }
 
 .tab h2 {
@@ -138,7 +138,7 @@ div.inactive {
 button.active {
     background-color: palegoldenrod !important;
     border: 3px solid palegoldenrod;
-    color: var(--interface-background);
+    color: var(--uistate-background);
 }
 
 .tab:nth-of-type(2) h2 {
@@ -152,8 +152,8 @@ button.active {
 .tab-content {
     position: absolute;
     top: 50px;
-    background-color: var(--interface-background);
-    border: 1px solid var(--interface-foreground);
+    background-color: var(--uistate-background);
+    border: 1px solid var(--uistate-foreground);
 
     width: 100%;
 }
@@ -167,8 +167,8 @@ button.active {
 }
 
 .tab-selector:hover {
-    background-color: var(--interface-foreground);
-    color: var(--interface-background);
+    background-color: var(--uistate-foreground);
+    color: var(--uistate-background);
 }
 
 #preview1, #preview2 {

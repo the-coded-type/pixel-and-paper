@@ -4,7 +4,7 @@ import { css } from "@codemirror/lang-css";
 export const CONFIG = [
     { type: "css", name: "Page", data: ["1_page.css"] },
     { type: "css", name: "Setup", data: ["2_setup.css"] },
-    { type: "css", name: "Interface", data: ["3_interface.css"] },
+    { type: "css", name: "interface", data: ["3_interface.css"] },
     { type: "css", name: "Variables", data: ["4_variables.css"] },
     { type: "css", name: "Typography", data: ["5_typography.css"] },
     { type: "css", name: "Structure", data: ["6_structure.css"] },
