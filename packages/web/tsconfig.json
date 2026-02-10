@@ -1,6 +1,6 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*", "../core/src/uistate.js", "../core/src/controllers/printHandler.js"],
+  "include": [".astro/types.d.ts", "**/*", "../core/src/uistate.js", "../core/src/controllers/printHandler.js", "../core/src/config.js"],
   "exclude": ["dist"],
   "compilerOptions": {
     "baseUrl": ".",

@@ -16,7 +16,6 @@ export const TEMPLATE = [
 
 export const BASE_PATH = "/data/";
 
-
 // Create DATA from config
 export const templateData = async () => {
     const PROMISES = TEMPLATE.map(async ({ type, name, data }) => {

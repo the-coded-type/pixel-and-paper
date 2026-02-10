@@ -20,7 +20,7 @@ const debounceUpdateIframe = debounce();
 export const createNewTab = (_id, lang, content, className) => {
     const container = document.createElement("div");
     container.className = `tab language-${lang} ${className}`;
-    container.dataset.id = _id;
+    container.id = `tab-${_id}`;
 
     uistate.tabsContainer?.append(container);
 

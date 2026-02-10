@@ -1,10 +1,11 @@
 import { createButton } from "@core/ui/createButton.js";
 import { loadProjectDirectory } from "../io/loadProjectDirectory";
-import { initApp } from "../init/init";
+import { initApp } from "../init/initApp";
 import { initKeyboardNavigation } from "./initKeyboardNavigation";
 import { updatePreviewInWebApp } from "./updatePreviewInWebApp";
-import { projectData } from "../config";
+import { projectData } from "../../../../core/src/config";
 import { getWebEditorContent } from "./getWebEditorContent";
+import { initWebApp } from "../init/initWebApp";
 /**
  * Creates a "Load Directory" button and attaches the full application initialization sequence.
  * * When clicked, this button triggers the following async sequence:
@@ -27,7 +28,7 @@ export const createLoadDirectoryButton = (container, className, id, text) => {
         loadDirectoryButtonElement.addEventListener("click", async () => {
             document.body.style.cursor = "wait";
             await loadProjectDirectory();
-            await initApp(projectData);
+            await initWebApp();
             initKeyboardNavigation();
             updatePreviewInWebApp();
             document.body.style.cursor = "default";

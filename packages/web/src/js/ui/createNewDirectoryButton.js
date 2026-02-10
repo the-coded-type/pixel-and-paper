@@ -3,9 +3,9 @@ import { initKeyboardNavigation } from "./initKeyboardNavigation";
 import { updatePreviewInWebApp } from "./updatePreviewInWebApp";
 import { createNewProject } from "../init/createNewProject";
 import { loadProjectDirectory } from "../io/loadProjectDirectory";
-import { initApp } from "../init/init";
-import { projectData } from "../config";
-
+import { initApp } from "../init/initApp";
+import { projectData } from "@core/config";
+import { initWebApp } from "../init/initWebApp";
 /**
  * Creates a "New Project" button and attaches the initialization logic.
  * * When clicked, this button attempts to create a new project structure via `createNewProject`.
@@ -30,7 +30,7 @@ export const createNewDirectoryButton = (container, className, id, text) => {
                 document.body.style.cursor = "wait";
                 try {
                     await loadProjectDirectory();
-                    await initApp(projectData);
+                    await initWebApp;
                     initKeyboardNavigation();
                     updatePreviewInWebApp();
                 } catch (error) {

@@ -1,4 +1,4 @@
-import { projectData } from '../config.js';
+import { projectData } from '../../../../core/src/config.js';
 import { saveFileToDisk } from './saveFileToDisk.js';
 import { uistate } from '../../../../core/src/uistate.js';
 

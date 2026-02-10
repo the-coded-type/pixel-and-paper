@@ -2,6 +2,7 @@ export const uistate = {
     preview: { lastScroll: 0 },
     activePreview: null,
     previewBuffer: null,
+    activeButton: null,
     activeTab: null,
     allTabselector: null,
     activeTabIndex: null,

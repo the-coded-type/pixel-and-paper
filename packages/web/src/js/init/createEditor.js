@@ -2,7 +2,7 @@ import {basicSetup} from "codemirror"
 import {EditorView} from "@codemirror/view"
 import { markdown } from '@codemirror/lang-markdown'
 import { gruvboxDark } from '@fsegurai/codemirror-theme-gruvbox-dark'
-import { languageMap } from "../config.js";
+import { languageMap } from "../../../../core/src/config.js";
 
 export const createEditor = (lang = "md", startText = "", parent, onUpdate) => {
 

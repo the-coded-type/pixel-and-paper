@@ -1,6 +1,7 @@
-import { uistate } from '../../../../core/src/uistate.js';
+import { uistate } from '@core/uistate.js';
 
 export const selectTab = (id) => {
+    console.log("select tab id", id)
     const allTabs = document.querySelectorAll(".tab");
     const allSelectors = document.querySelectorAll(".tab-selector");
 
