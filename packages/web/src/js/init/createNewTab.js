@@ -1,6 +1,7 @@
 import { createEditor } from './createEditor.js';
 import { uistate } from '../../../../core/src/uistate.js';
-import { updatePreview } from "../updatePreview.js";
+import { updatePreviewInWebApp } from '../ui/updatePreviewInWebApp.js';
+import { getWebEditorContent } from '../ui/getWebEditorContent.js';
 
 const debounce = function () {
     let editorTimeout;
@@ -8,7 +9,7 @@ const debounce = function () {
         if (editorTimeout) {
             clearTimeout(editorTimeout)
         }
-        editorTimeout = setTimeout(updatePreview, 400)
+        editorTimeout = setTimeout(updatePreviewInWebApp(), 400)
     }
     return debounceTimeout
 }

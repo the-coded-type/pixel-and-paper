@@ -1,6 +1,6 @@
 import { createButton } from "@core/ui/createButton";
 import { initKeyboardNavigation } from "./initKeyboardNavigation";
-import { updatePreview } from "../updatePreview";
+import { updatePreviewInWebApp } from "./updatePreviewInWebApp";
 import { createNewProject } from "../init/createNewProject";
 import { loadProjectDirectory } from "../io/loadProjectDirectory";
 import { initApp } from "../init/init";
@@ -32,7 +32,7 @@ export const createNewDirectoryButton = (container, className, id, text) => {
                     await loadProjectDirectory();
                     await initApp(projectData);
                     initKeyboardNavigation();
-                    updatePreview();
+                    updatePreviewInWebApp();
                 } catch (error) {
                     console.error("Error initializing new project:", error);
                 } finally {

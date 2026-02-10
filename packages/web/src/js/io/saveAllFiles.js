@@ -23,7 +23,7 @@ export const saveAllFiles = () => {
 
     const allFiles = [...projectData.css, ...projectData.md]; // array of all files
     for (let id = 0; id < allFiles.length; id++) {
-        allFiles[id].content =  uistate.allTabs[id].state.doc.toString();
+        allFiles[id].content =  uistate.allTabs[id].view.state.doc.toString();
     }
     saveList(allFiles);
 

@@ -2,32 +2,19 @@
 import { iframe } from '@core/markdown/iframe.js';
 import { uistate } from '@core/uistate.js';
 
-
-export const updatePreview = async () => {
+export const updatePreview = async (getContent) => {
 
     const previewTab = uistate.activePreview;
     const bufferTab = uistate.previewBuffer;
 
     if (!previewTab) return;
 
-    console.log("uistate.allTabs", uistate.allTabs)
-    // 1. Get CSS
-    const cssContent = uistate.allTabs
-        .filter(tab => tab.lang === 'css')
-        .map(tab => tab.view.state.doc.toString()) // Now safe
-        .join("\n");
+    // We get the cssContent
+    // getContent passed as an argument is different for the webapp and the desktop app
+    const { cssContent, mdContent } = getContent();
+ 
 
-    // 2. Get Markdown
-    const mdContent = uistate.allTabs
-        .filter(tab => tab.lang === 'md')
-        .map(tab => tab.view.state.doc.toString()) // Now safe
-        .join("\n");
-
-    // 3. Update the iframe
-    // we postpone that the buffer takes it first
-    // previewTab.innerHTML = await iframe(cssContent, mdContent);
-    // const iframeElement = previewTab.querySelector("iframe")
-
+    // Update the iframe
     bufferTab.innerHTML = await iframe(cssContent, mdContent);
     const iframeElement = bufferTab.querySelector("iframe")
 
@@ -36,8 +23,9 @@ export const updatePreview = async () => {
             const internalIframeWindow = iframeElement.contentWindow;
             
             // We check if the iframe is rendered
-            // Then trannsfer its contents to the preview div
+            // Then trannsfer its contents to the preview div (and hide the other preview div)
             // The message iframeRendered is fired by the window when pagedJS has finished rendering the page, it's defined in iframe.js
+            // We then scroll to the last registered scroll position
             window.addEventListener("message", (event) => {
                 if (event.data == "iframeRendered") {
                     internalIframeWindow.scroll({top: uistate.preview.lastScroll, behavior: "instant"} );
@@ -49,9 +37,9 @@ export const updatePreview = async () => {
 
                     console.log('Preview PDF updated.')
                 }                            
-            })
+            }, { once: true })
 
-            
+            // We register the scroll position
             internalIframeWindow.addEventListener("scroll", (event) => {
                 uistate.preview.lastScroll = internalIframeWindow.scrollY;
         })
