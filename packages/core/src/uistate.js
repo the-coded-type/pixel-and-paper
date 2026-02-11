@@ -4,9 +4,11 @@ export const uistate = {
     previewBuffer: null,
     activeButton: null,
     activeTab: null,
-    allTabselector: null,
-    activeTabIndex: null,
+    allTabSelectors: [],
+    allTabs: [],
     tabsCount: 0,
     tabsContainer: {},
-    allTabs: [],
+    allEditorTabs: [],
+    previewTab: null,
+    previewButton: null
 };

@@ -7,7 +7,7 @@
 
     /* 2. Un-hide ONLY the preview container */
     /* Note: We target the specific ID or class of your preview tab */
-    #uistate, #tabs, button.active, #preview1 {
+    #uistate, #tabs, button.active, #preview1 #preview2 {
         display: block !important;
         position: absolute !important;
         left: 0 !important;

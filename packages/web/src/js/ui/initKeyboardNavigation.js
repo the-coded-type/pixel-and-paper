@@ -1,8 +1,9 @@
-import { uistate } from '../../../../core/src/uistate.js';
-import { selectTab } from './selectTab.js';
+import { uistate } from '@core/uistate.js';
+import { renderUi } from './renderUi';
 
 export const initKeyboardNavigation = () => {
 document.addEventListener("keydown", (event) => {
+    console.log(uistate)
     // ArrowRight
     const key = event.key;
     const metaKey = event.metaKey;
@@ -12,20 +13,29 @@ document.addEventListener("keydown", (event) => {
     if (!altKey) return;
 
     if (key == "Shift" ) {
-        selectTab(uistate.tabsCount-1)
-        return
+        uistate.activeButton = uistate.previewButton;
+        console.log("uistate.previewButton", uistate.previewButton)
+        uistate.activeTab = uistate.previewTab,
+        renderUi();
     }
 
     if (key == "ArrowRight" ) {
-        const selectedTab =  uistate.activeTabIndex == uistate.tabsCount-1 ? 0 : uistate.activeTabIndex+1;
-        selectTab(selectedTab);
-        return
+        const currentButtonIndex = uistate.allTabSelectors.indexOf(uistate.activeButton);
+        const newButtonIndex = currentButtonIndex == uistate.allTabSelectors.length-1 ? 0 : currentButtonIndex+1;
+
+
+        uistate.activeButton = uistate.allTabSelectors[newButtonIndex];
+        uistate.activeTab = uistate.allTabs[newButtonIndex];
+        renderUi();
     }
 
     if (key == "ArrowLeft" ) {
-        const selectedTab =  uistate.activeTabIndex == 0 ? uistate.tabsCount-1 : uistate.activeTabIndex-1;
-        selectTab(selectedTab);
-        return
+        const currentButtonIndex = uistate.allTabSelectors.indexOf(uistate.activeButton);
+        const newButtonIndex = currentButtonIndex == 0 ? uistate.allTabSelectors.length-1 : currentButtonIndex-1;
+
+        uistate.activeButton = uistate.allTabSelectors[newButtonIndex];
+        uistate.activeTab = uistate.allTabs[newButtonIndex];
+        renderUi();
     }
 
 })

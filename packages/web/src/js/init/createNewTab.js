@@ -24,7 +24,9 @@ export const createNewTab = (_id, lang, content, className) => {
 
     uistate.tabsContainer?.append(container);
 
-    uistate.allTabs[_id] = createEditor(lang, content, container, debounceUpdateIframe);
+    uistate.allEditorTabs[_id] = {id: container.id, ...createEditor(lang, content, container, debounceUpdateIframe)};
+    uistate.allTabs.push(container.id);
+
     // We should probably return the updated uistate
     //return container;
 }

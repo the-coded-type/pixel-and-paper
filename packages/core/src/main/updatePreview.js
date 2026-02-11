@@ -4,6 +4,7 @@ import { uistate } from '@core/uistate.js';
 
 export const updatePreview = async (getContent) => {
 
+    
     const previewTab = uistate.activePreview;
     const bufferTab = uistate.previewBuffer;
 
@@ -13,6 +14,7 @@ export const updatePreview = async (getContent) => {
     // getContent passed as an argument is different for the webapp and the desktop app
     const { cssContent, mdContent } = getContent();
  
+    console.log("cssContent, mdContent", cssContent, mdContent)
 
     // Update the iframe
     bufferTab.innerHTML = await iframe(cssContent, mdContent);

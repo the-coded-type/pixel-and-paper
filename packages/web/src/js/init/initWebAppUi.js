@@ -29,6 +29,7 @@ export const initWebAppUi = () => {
             btn.innerText = d.name.toUpperCase();
             btn.style.marginRight = "2em";
             btn.dataset.target = `tab-${index}`;
+            uistate.allTabSelectors.push(btn.id);
     
             // Attach listener
             // On click selectTab
