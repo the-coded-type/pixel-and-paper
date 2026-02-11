@@ -1,11 +1,9 @@
-import { createButton } from "@core/ui/createButton";
-import { initKeyboardNavigation } from "./initKeyboardNavigation";
-import { updatePreviewInWebApp } from "./updatePreviewInWebApp";
-import { createNewProject } from "../init/createNewProject";
-import { loadProjectDirectory } from "../io/loadProjectDirectory";
-import { initApp } from "../../../../core/src/init/initApp";
-import { projectData } from "@core/config";
-import { initWebApp } from "../init/initWebApp";
+import { createButton } from "@core/ui/createButton.js";
+import { initKeyboardNavigation } from "./initKeyboardNavigation.js";
+import { updatePreviewInWebApp } from "./updatePreviewInWebApp.js";
+import { createNewProject } from "../init/createNewProject.js";
+import { loadProjectDirectory } from "../io/loadProjectDirectory.js";
+import { initWebApp } from "../init/initWebApp.js";
 /**
  * Creates a "New Project" button and attaches the initialization logic.
  * * When clicked, this button attempts to create a new project structure via `createNewProject`.

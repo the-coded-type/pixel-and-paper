@@ -1,5 +1,5 @@
-import { createButton } from "@core/ui/createButton";
-import { saveAllFiles } from "../io/saveAllFiles";
+import { createButton } from "@core/ui/createButton.js";
+import { saveAllFiles } from "../io/saveAllFiles.js";
 
 export const createSaveDirectoryButton = (container, className, id, text) => {
     const createSaveDirectoryButtonElement = createButton(container, className, id, text);

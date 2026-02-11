@@ -1,7 +1,6 @@
 import { createEditor } from './createEditor.js';
-import { uistate } from '../../../../core/src/uistate.js';
+import { uistate } from '@core/uistate.js';
 import { updatePreviewInWebApp } from '../ui/updatePreviewInWebApp.js';
-import { getWebEditorContent } from '../ui/getWebEditorContent.js';
 
 const debounce = function () {
     let editorTimeout;

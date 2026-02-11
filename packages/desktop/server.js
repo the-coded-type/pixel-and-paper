@@ -1,30 +1,33 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
-const WebSocket = require('ws');
-const figlet = require("figlet");
+import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import WebSocket, { WebSocketServer } from 'ws';
+import { displayWelcomeBanner, displayWelcomeMessage } from './ui/termnial.js';
+import { readTextFile } from './readTextFile.js';
+// import { updatePreview } from '@core/main/updatePreview.js';
 
+const updateContent = (css, md) => {
+    // return updatePreview( (css, md) => {return {css, md} });
+}
 
-function displayWelcomeBanner() {
-    // 1. Generate the ASCII art with the specific font
-    console.clear();
-    console.log('\n\n')
-    const text = figlet.textSync("Pixel & Paper", {
-        font: 'ANSI Shadow',
-        horizontalLayout: 'default',
-        verticalLayout: 'default',
-        width: 100,
-        whitespaceBreak: true
+function loadFiles () {
+
+    const workFolder = process.argv[2]
+
+    const allWorkFiles = fs.readdirSync(workFolder).map(fileName => {
+        return path.join(workFolder, fileName);
     });
 
-    // 2. Define the Orange Color (256-color mode)
-    // \x1b[38;5;208m = Orange
-    // \x1b[0m = Reset to default
-    const orange = "\x1b[38;5;208m";
-    const reset = "\x1b[0m";
+    const allCssFiles = allWorkFiles.filter(f => f.endsWith('.css')).sort((a, b) => a.localeCompare(b));
 
-    // 3. Print the colored text
-    console.log(orange + text + reset);
+    const allMdFiles = allWorkFiles.filter(f => f.endsWith('.md')).sort((a, b) => a.localeCompare(b));
+    
+    const allCssContent = allCssFiles.map( f => readTextFile(f) );
+
+    const allMdContent = allMdFiles.map( f => readTextFile(f) );
+
+    return {allCssContent, allMdContent};
+
 }
 
 const PORT = 8080;
@@ -75,7 +78,7 @@ const server = http.createServer((req, res) => {
 
 // 2. Attach the WebSocket Server to the HTTP Server
 // Note: We pass { server } instead of { port }
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocketServer({ server });
 
 wss.on('connection', function connection(ws) {
     console.log('Client connected via WebSocket');
@@ -85,33 +88,27 @@ wss.on('connection', function connection(ws) {
     });
 
     ws.send('Hello from the combined Node.js server!');
+
+    const {allCssContent, allMdContent} = loadFiles();
+
+    // We produce the iframe once and send it
 });
 
-// 3. Start listening
-const style = {
-    green: (text) => `\x1b[32m${text}\x1b[0m`,
-    blue: (text) => `\x1b[34m${text}\x1b[0m`,
-    yellow: (text) => `\x1b[33m${text}\x1b[0m`,
-    bold: (text) => `\x1b[1m${text}\x1b[0m`,
-    link: (text, url) => `\u001b]8;;${url}\u001b\\${text}\u001b]8;;\u001b\\`
-};
+// Detect port collision
+server.on('error', (e) => {
+    if (e.code === 'EADDRINUSE') {
+        console.error(`\x1b[31m\n  ✘ Error: Port ${PORT} is already in use. Is the app already running?\x1b[0m`);
+        process.exit(1);
+    }
+});
 
-// ... inside your server.listen callback:
+// Listen to the server
 server.listen(PORT, () => {
-  displayWelcomeBanner();
 
-    console.log(`
-  ${style.green('✔ Server Started Successfully!')}
-  
-  ${style.bold('Local System:')}    ${style.link(`http://localhost:${PORT}`, `http://localhost:${PORT}`)}
-  ${style.bold('WebSocket:')}       ${style.yellow(`ws://localhost:${PORT}`)}
-  
-  ${style.blue('Press Ctrl+C to stop')}
-    `);
+    displayWelcomeBanner();
 
+    displayWelcomeMessage(PORT);
 
-});
+}
+);
 
-process.argv.forEach(function (val, index, array) {
-    console.log(index + ': ' + val);
-});

@@ -1,4 +1,4 @@
-import { uistate } from "@core/uistate";
+import { uistate } from "@core/uistate.js";
 
 // NB this module doesn't manage fail
 

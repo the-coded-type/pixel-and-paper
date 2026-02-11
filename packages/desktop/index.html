@@ -1,5 +1,11 @@
+<!doctype html>
 <html>
     <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Pixel & Paper</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
         <script>
             // Create a connection to the server
             const socket = new WebSocket('ws://localhost:8080');
@@ -16,8 +22,45 @@
                 console.log('Message from server:', event.data);
             });
         </script>
+
+        <script type="module">
+            import { createGeneratePdfButton } from "../../core/src/ui/createGeneratePdfButton.js";
+            import { initApp } from "../../core/src/init/initApp.js";
+            // Tabs do not exist before creation, they should be returned on creation
+            window.addEventListener("DOMContentLoaded", async () => {
+
+                console.log("Paper and Pixel loaded");
+
+
+                // Initilize main nav
+                if (mainNav) {
+
+                    const generatePdfButtonElement = createGeneratePdfButton(
+                        mainNav,
+                        "generate-pdf",
+                        "generate-pdf",
+                        "GENERATE PDF",
+                    );
+                }
+            });
+
+        </script>
     </head>
-    <body>
-        <h1>Index html</h1>
+    <body id="body">
+        <header>
+            <h1>PIXEL AND PAPER</h1>
+            <div style="display: flex; ">
+                <nav id="main-nav"></nav>
+                <span
+                    class="ml-1"
+                    style="margin-top: 2rem; display:block; color: orange;"
+                    id="log">///</span
+                >
+            </div>
+            <nav id="nav"></nav>
+        </header>
+        <main id="interface">
+            <div id="tabs"></div>
+        </main>
     </body>
 </html>

@@ -1,5 +1,5 @@
 import { uistate } from '@core/uistate.js';
-import { renderUi } from './renderUi';
+import { renderUi } from './renderUi.js';
 
 export const initKeyboardNavigation = () => {
 document.addEventListener("keydown", (event) => {

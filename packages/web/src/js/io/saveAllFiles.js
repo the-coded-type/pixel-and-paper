@@ -1,6 +1,6 @@
-import { projectData } from '../../../../core/src/config.js';
+import { projectData } from '@core/config.js';
 import { saveFileToDisk } from './saveFileToDisk.js';
-import { uistate } from '../../../../core/src/uistate.js';
+import { uistate } from '@core/uistate.js';
 
 export const saveAllFiles = () => {
     // Need to read all the tabs

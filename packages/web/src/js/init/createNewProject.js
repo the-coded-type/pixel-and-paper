@@ -1,5 +1,5 @@
-import { projectData } from '../../../../core/src/config.js';
-import { templateData } from '../../../../core/src/config.js';
+import { projectData } from '@core/config.js';
+import { templateData } from '@core/config.js';
 import { clearProjectData } from './clearProjectData.js';
 
 export async function createNewProject() {

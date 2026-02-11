@@ -1,0 +1,9 @@
+{
+    "name": "@pixelpaper/desktop",
+    "version": "0.0.1",
+    "type": "module", 
+    "dependencies": {
+      "ws": "^8.19.0",
+      "figlet": "^1.7.0"
+    }
+  }

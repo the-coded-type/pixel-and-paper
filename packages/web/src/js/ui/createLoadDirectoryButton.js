@@ -1,11 +1,8 @@
 import { createButton } from "@core/ui/createButton.js";
-import { loadProjectDirectory } from "../io/loadProjectDirectory";
-import { initApp } from "../../../../core/src/init/initApp";
-import { initKeyboardNavigation } from "./initKeyboardNavigation";
-import { updatePreviewInWebApp } from "./updatePreviewInWebApp";
-import { projectData } from "../../../../core/src/config";
-import { getWebEditorContent } from "./getWebEditorContent";
-import { initWebApp } from "../init/initWebApp";
+import { loadProjectDirectory } from "../io/loadProjectDirectory.js";
+import { initKeyboardNavigation } from "./initKeyboardNavigation.js";
+import { updatePreviewInWebApp } from "./updatePreviewInWebApp.js";
+import { initWebApp } from "../init/initWebApp.js";
 /**
  * Creates a "Load Directory" button and attaches the full application initialization sequence.
  * * When clicked, this button triggers the following async sequence:

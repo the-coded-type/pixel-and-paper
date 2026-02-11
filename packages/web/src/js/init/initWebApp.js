@@ -1,4 +1,4 @@
-import { initApp } from "../../../../core/src/init/initApp"
+import { initApp } from "@core/init/initApp"
 import { initWebAppUi } from "./initWebAppUi"
 
 export const initWebApp = async () => {

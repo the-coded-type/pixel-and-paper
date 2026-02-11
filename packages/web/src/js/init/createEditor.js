@@ -1,6 +1,5 @@
 import {basicSetup} from "codemirror"
 import {EditorView} from "@codemirror/view"
-import { markdown } from '@codemirror/lang-markdown'
 import { gruvboxDark } from '@fsegurai/codemirror-theme-gruvbox-dark'
 import { languageMap } from "@core/config.js";
 

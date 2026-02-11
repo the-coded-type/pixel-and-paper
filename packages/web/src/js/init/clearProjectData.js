@@ -1,4 +1,4 @@
-import { projectData } from '../../../../core/src/config.js';
+import { projectData } from '@core/config.js';
 
 export const clearProjectData = () => {
     projectData.handle = '';
