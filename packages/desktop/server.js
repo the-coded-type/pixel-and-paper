@@ -2,8 +2,8 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const WebSocket = require('ws');
-
 const figlet = require("figlet");
+
 
 function displayWelcomeBanner() {
     // 1. Generate the ASCII art with the specific font
@@ -110,4 +110,8 @@ server.listen(PORT, () => {
     `);
 
 
+});
+
+process.argv.forEach(function (val, index, array) {
+    console.log(index + ': ' + val);
 });

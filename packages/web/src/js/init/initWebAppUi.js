@@ -27,7 +27,6 @@ export const initWebAppUi = () => {
             btn.className = `tab-selector tab-${lang} ${index === 0 ? "active" : "inactive"}`;
             btn.id = `tab-selector-${index}`;
             btn.innerText = d.name.toUpperCase();
-            btn.style.marginRight = "2em";
             btn.dataset.target = `tab-${index}`;
             uistate.allTabSelectors.push(btn.id);
     
