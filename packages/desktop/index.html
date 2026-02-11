@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <script>
+            // Create a connection to the server
+            const socket = new WebSocket('ws://localhost:8080');
+
+            // Listen for the connection open event
+            socket.addEventListener('open', function (event) {
+                console.log('Connected to server!');
+                // Send a message back to the server
+                socket.send('Hello from the browser!');
+            });
+
+            // Listen for messages from the server
+            socket.addEventListener('message', function (event) {
+                console.log('Message from server:', event.data);
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Index html</h1>
+    </body>
+</html>
