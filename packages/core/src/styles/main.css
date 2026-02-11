@@ -1,3 +1,5 @@
+
+
 /* Managing printing only the preview tabs */
 @media print {
     /* 1. Hide the entire App UI */
@@ -35,11 +37,12 @@
     --uistate-background: #1d2021;
     --uistate-foreground: #83a598;
     --uistate-accent: #c27c9d;
-
+    --sans-stack: 'Gloria Hallelujah', system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --monospace-stack: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
 }
 
 * {
-    font-family: monospace;
+    font-family: var(--monospace-stack);
     font-size: 0.9rem;
 
 }
