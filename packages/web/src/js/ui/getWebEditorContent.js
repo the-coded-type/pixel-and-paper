@@ -4,7 +4,6 @@ import { uistate } from "@core/uistate";
 
 export const getWebEditorContent = () => {
 
-    console.log("getWebEditorConten tallEditorTabs", uistate.allEditorTabs)
 
     // 1. Get CSS
     const cssContent = uistate.allEditorTabs
@@ -18,6 +17,5 @@ export const getWebEditorContent = () => {
     .map(tab => tab.view.state.doc.toString())
     .join("\n");
 
-    console.log("getWebEditorContent cssContent, mdContent", cssContent, mdContent)
     return { cssContent, mdContent }
 }

@@ -3,7 +3,6 @@ import { renderUi } from './renderUi';
 
 export const initKeyboardNavigation = () => {
 document.addEventListener("keydown", (event) => {
-    console.log(uistate)
     // ArrowRight
     const key = event.key;
     const metaKey = event.metaKey;
@@ -14,7 +13,6 @@ document.addEventListener("keydown", (event) => {
 
     if (key == "Shift" ) {
         uistate.activeButton = uistate.previewButton;
-        console.log("uistate.previewButton", uistate.previewButton)
         uistate.activeTab = uistate.previewTab,
         renderUi();
     }

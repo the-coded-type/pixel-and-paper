@@ -13,7 +13,6 @@ export function remarkExtendImage(imageMap = {}) {
       // Returns an array, might be empty
       const images = node.children.filter( child => child.type=='image')
 
-      if (images.length > 0) {console.log("image node", node)}
       // Check for non-whitespace text nodes
       const hasContent = node.children.some( child => child.type == 'text' && child.value.trim().lenght >0);
       
