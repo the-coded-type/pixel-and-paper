@@ -1,7 +1,10 @@
 import { uistate } from "@core/uistate.js";
 
-// NB this module doesn't manage fail
-
+/**
+ * Aggregates content from all active web editor tabs.
+ * @note This module does not handle error states (e.g., missing tabs or view states).
+ * @returns {Object} { cssContent: string, mdContent: string }
+ */
 export const getWebEditorContent = () => {
 
 

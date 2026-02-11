@@ -8,7 +8,7 @@ const debounce = function () {
         if (editorTimeout) {
             clearTimeout(editorTimeout)
         }
-        editorTimeout = setTimeout(updatePreviewInWebApp(), 400)
+        editorTimeout = setTimeout(updatePreviewInWebApp, 400)
     }
     return debounceTimeout
 }
