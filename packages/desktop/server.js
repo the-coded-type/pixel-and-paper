@@ -1,7 +1,8 @@
 import http from 'http';
 import fs from 'fs';
 import path from 'path';
-import WebSocket, { WebSocketServer } from 'ws';
+import { fileURLToPath } from 'url'; // 1. Import this
+import { WebSocketServer } from 'ws';
 import { displayWelcomeBanner, displayWelcomeMessage } from './ui/termnial.js';
 import { readTextFile } from './readTextFile.js';
 // import { updatePreview } from '@core/main/updatePreview.js';
@@ -12,7 +13,15 @@ const updateContent = (css, md) => {
 
 function loadFiles () {
 
-    const workFolder = process.argv[2]
+    const workFolder = process.argv[2];
+
+    console.log(`📂 Loading files from: ${path.resolve(workFolder)}`);
+
+    // Check if files folder exists
+    if (!fs.existsSync(workFolder)) {
+        console.error(`❌ Error: The folder "${workFolder}" does not exist.`);
+        return { css: [], md: [] }; // Return empty data
+    };
 
     const allWorkFiles = fs.readdirSync(workFolder).map(fileName => {
         return path.join(workFolder, fileName);
@@ -33,16 +42,22 @@ function loadFiles () {
 const PORT = 8080;
 
 // 1. Create a basic HTTP static server
+// packages/desktop/server.js
 const server = http.createServer((req, res) => {
+    // 1. Point 'root' to the folder containing 'packages' (two levels up)
 
-    console.log('Request for:', req.url);
+    // 2. Recreate __dirname for ES Modules
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
 
-    // Map URL to a local file path
-    // If the request is just '/', serve 'index.html'
-    let filePath = '.' + req.url;
-    if (filePath === './') {
-        filePath = './index.html';
-    }
+    const projectRoot = path.join(__dirname, '../../');
+    
+    // 2. Determine the file path
+    // If request is '/', serve the desktop index.html
+    let relativePath = req.url === '/' ? 'packages/desktop/index.html' : req.url;
+    
+    // 3. Create the full absolute path
+    const filePath = path.join(projectRoot, relativePath);
 
     // Determine the content type (so the browser knows how to handle it)
     const extname = path.extname(filePath);

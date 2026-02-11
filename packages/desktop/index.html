@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>Pixel & Paper</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+        <link rel="stylesheet" href="/packages/core/src/styles/main.css" />
         <script>
             // Create a connection to the server
             const socket = new WebSocket('ws://localhost:8080');
@@ -22,19 +22,29 @@
                 console.log('Message from server:', event.data);
             });
         </script>
-
+        <script type="importmap">
+            {
+            "imports": {
+                "@core/": "/packages/core/src/",
+                "@desktop/": "/packages/desktop/"
+            }
+            }
+        </script>
         <script type="module">
-            import { createGeneratePdfButton } from "../../core/src/ui/createGeneratePdfButton.js";
-            import { initApp } from "../../core/src/init/initApp.js";
+            import { createGeneratePdfButton } from "@core/ui/createGeneratePdfButton.js";
+            import { initApp } from "@core/init/initApp.js";
+            import { initDesktopAppUi } from "@desktop/ui/initDesktopAppUi.js"
             // Tabs do not exist before creation, they should be returned on creation
             window.addEventListener("DOMContentLoaded", async () => {
 
                 console.log("Paper and Pixel loaded");
 
+                // End initilize main nav
+                await initApp(initDesktopAppUi);
 
+                const mainNav = document.getElementById("main-nav");
                 // Initilize main nav
                 if (mainNav) {
-
                     const generatePdfButtonElement = createGeneratePdfButton(
                         mainNav,
                         "generate-pdf",

@@ -44,6 +44,23 @@ export const initWebAppUi = () => {
             nav.appendChild(btn);
         });
     
+        // ADD PDF PREVIEW BUTTON MANUALLY
+                const pdfPreviewBtn = document.createElement("button");
+                pdfPreviewBtn.className = "tab-selector tab-preview inactive";
+                pdfPreviewBtn.dataset.target = "pdf-preview";
+                pdfPreviewBtn.id = "pdf-preview-selector";
+                pdfPreviewBtn.innerText = "S.PDF PREVIEW";
+                uistate.allTabSelectors.push(pdfPreviewBtn.id);
+                pdfPreviewBtn.addEventListener("click", () => {
+                    uistate.activeButton = pdfPreviewBtn.id;
+                    uistate.activeTab = pdfPreviewBtn.dataset.target;
+                    renderUi();
+                });
+                nav.appendChild(pdfPreviewBtn);
+
+                uistate.previewButton = pdfPreviewBtn.id;
+                uistate.activeButton = pdfPreviewBtn.id;
+                
         // TABS CREATION
         // Creation of the tabs containing the editors and the pdf preview
         DATA.forEach((d, index) => {

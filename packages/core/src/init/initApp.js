@@ -1,6 +1,5 @@
 import { uistate } from '@core/uistate.js';
 import { initiPrintHandler } from '@core/controllers/printHandler.js';
-import { projectData } from '@core/config.js';
 import { renderUi } from '../../../web/src/js/ui/renderUi.js';
 //////////// TODO
 // Better naming of the dom elements
@@ -17,21 +16,7 @@ export const initApp = async (initAppUiStrategy) => {
         initAppUiStrategy();
     }
 
-    // +1 because there is one additional tab for the PDF preview
 
-        // ADD PDF PREVIEW BUTTON MANUALLY
-        const pdfPreviewBtn = document.createElement("button");
-        pdfPreviewBtn.className = "tab-selector tab-preview inactive";
-        pdfPreviewBtn.dataset.target = "pdf-preview";
-        pdfPreviewBtn.id = "pdf-preview-selector";
-        pdfPreviewBtn.innerText = "S.PDF PREVIEW";
-        uistate.allTabSelectors.push(pdfPreviewBtn.id);
-        pdfPreviewBtn.addEventListener("click", () => {
-            uistate.activeButton = pdfPreviewBtn.id;
-            uistate.activeTab = pdfPreviewBtn.dataset.target;
-            renderUi();
-        });
-        nav.appendChild(pdfPreviewBtn);
 
     // Creating preview divs (two preview divs, as we do double buffering)
     const container = document.createElement("div");
@@ -60,11 +45,8 @@ export const initApp = async (initAppUiStrategy) => {
     //// INIT NAVIGATION /////
     uistate.tabsCount = document.querySelectorAll('.tab').length;
 
-    uistate.activeButton = pdfPreviewBtn.id;
     uistate.activeTab = container.id;
     uistate.previewTab = container.id;
-    uistate.previewButton = pdfPreviewBtn.id;
-
     
     // Render UI
     renderUi();
