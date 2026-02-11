@@ -3,7 +3,7 @@ import { initKeyboardNavigation } from "./initKeyboardNavigation";
 import { updatePreviewInWebApp } from "./updatePreviewInWebApp";
 import { createNewProject } from "../init/createNewProject";
 import { loadProjectDirectory } from "../io/loadProjectDirectory";
-import { initApp } from "../init/initApp";
+import { initApp } from "../../../../core/src/init/initApp";
 import { projectData } from "@core/config";
 import { initWebApp } from "../init/initWebApp";
 /**

@@ -1,7 +1,7 @@
 import { uistate } from '@core/uistate.js';
 import { initiPrintHandler } from '@core/controllers/printHandler.js';
 import { projectData } from '@core/config.js';
-import { renderUi } from '../ui/renderUi.js';
+import { renderUi } from '../../../web/src/js/ui/renderUi.js';
 //////////// TODO
 // Better naming of the dom elements
 // - must be consistent between buttons and tabs

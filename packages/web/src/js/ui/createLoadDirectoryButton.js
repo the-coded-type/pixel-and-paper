@@ -1,6 +1,6 @@
 import { createButton } from "@core/ui/createButton.js";
 import { loadProjectDirectory } from "../io/loadProjectDirectory";
-import { initApp } from "../init/initApp";
+import { initApp } from "../../../../core/src/init/initApp";
 import { initKeyboardNavigation } from "./initKeyboardNavigation";
 import { updatePreviewInWebApp } from "./updatePreviewInWebApp";
 import { projectData } from "../../../../core/src/config";
