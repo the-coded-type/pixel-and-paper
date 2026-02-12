@@ -1,78 +1,102 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Pixel & Paper</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="/packages/core/src/styles/main.css" />
-        <script>
-            // Create a connection to the server
-            const socket = new WebSocket('ws://localhost:8080');
 
-            // Listen for the connection open event
-            socket.addEventListener('open', function (event) {
-                console.log('Connected to server!');
-                // Send a message back to the server
-                socket.send('Hello from the browser!');
-            });
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Pixel & Paper</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/packages/core/src/styles/main.css" />
 
-            // Listen for messages from the server
-            socket.addEventListener('message', function (event) {
-                const tabs = document.getElementById("tabs");
-                tabs.innerHTML = event.data;
-                console.log('Message from server:', event.data);
-            });
-        </script>
-        <script type="importmap">
-            {
-            "imports": {
-                "@core/": "/packages/core/src/",
-                "@desktop/": "/packages/desktop/"
+    <script type="importmap">
+        {
+        "imports": {
+            "@core/": "/packages/core/src/",
+            "@desktop/": "/packages/desktop/"
+        }
+        }
+    </script>
+
+    <script type="module">
+        import { updatePreview } from '@core/main/updatePreview.js';
+
+        // Create a connection to the server
+        const socket = new WebSocket('ws://localhost:8080');
+
+        // Listen for the connection open event
+        socket.addEventListener('open', function (event) {
+            console.log('Connected to server!');
+            // Send a message back to the server
+            socket.send('Hello from the browser!');
+        });
+
+        // Listen for messages from the server
+        socket.addEventListener('message', function (event) {
+            const tabs = document.getElementById("tabs");
+            // 1. Create a Blob from the incoming data (The browser receives it seamlessly)
+            // We specify 'text/html' so the browser knows how to interpret the bytes.
+            const blob = new Blob([event.data], { type: 'text/html' });
+
+            // 2. Generate a Client-Side Blob URL
+            // This URL points to the browser's own memory, so it works instantly.
+            const blobUrl = URL.createObjectURL(blob);
+
+            // 3. Update the Iframe
+            // We create the iframe element here, pointing to the local blob URL.
+            const fullIframeHtml = `
+                <iframe 
+                    src="${blobUrl}" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:none;">
+                </iframe>
+            `;
+
+            updatePreview(fullIframeHtml);
+
+            console.log('Preview updated via Byte transfer.');
+        });
+    </script>
+
+    <script type="module">
+        import { createGeneratePdfButton } from "@core/ui/createGeneratePdfButton.js";
+        import { initApp } from "@core/init/initApp.js";
+        import { initDesktopAppUi } from "@desktop/ui/initDesktopAppUi.js"
+        // Tabs do not exist before creation, they should be returned on creation
+        window.addEventListener("DOMContentLoaded", async () => {
+
+            console.log("Paper and Pixel loaded");
+
+            // End initilize main nav
+            await initApp(initDesktopAppUi);
+
+            const mainNav = document.getElementById("main-nav");
+            // Initilize main nav
+            if (mainNav) {
+                const generatePdfButtonElement = createGeneratePdfButton(
+                    mainNav,
+                    "generate-pdf",
+                    "generate-pdf",
+                    "GENERATE PDF",
+                );
             }
-            }
-        </script>
-        <script type="module">
-            import { createGeneratePdfButton } from "@core/ui/createGeneratePdfButton.js";
-            import { initApp } from "@core/init/initApp.js";
-            import { initDesktopAppUi } from "@desktop/ui/initDesktopAppUi.js"
-            // Tabs do not exist before creation, they should be returned on creation
-            window.addEventListener("DOMContentLoaded", async () => {
+        });
 
-                console.log("Paper and Pixel loaded");
+    </script>
+</head>
 
-                // End initilize main nav
-                await initApp(initDesktopAppUi);
+<body id="body">
+    <header>
+        <h1>PIXEL AND PAPER</h1>
+        <div style="display: flex; ">
+            <nav id="main-nav"></nav>
+            <span class="ml-1" style="margin-top: 2rem; display:block; color: orange;" id="log">///</span>
+        </div>
+        <nav id="nav"></nav>
+    </header>
+    <main id="interface">
+        <div id="tabs"></div>
+    </main>
+</body>
 
-                const mainNav = document.getElementById("main-nav");
-                // Initilize main nav
-                if (mainNav) {
-                    const generatePdfButtonElement = createGeneratePdfButton(
-                        mainNav,
-                        "generate-pdf",
-                        "generate-pdf",
-                        "GENERATE PDF",
-                    );
-                }
-            });
-
-        </script>
-    </head>
-    <body id="body">
-        <header>
-            <h1>PIXEL AND PAPER</h1>
-            <div style="display: flex; ">
-                <nav id="main-nav"></nav>
-                <span
-                    class="ml-1"
-                    style="margin-top: 2rem; display:block; color: orange;"
-                    id="log">///</span
-                >
-            </div>
-            <nav id="nav"></nav>
-        </header>
-        <main id="interface">
-            <div id="tabs"></div>
-        </main>
-    </body>
 </html>

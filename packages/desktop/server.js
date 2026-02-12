@@ -33,9 +33,9 @@ const loadFiles = async () => {
 
     const allMdFiles = allWorkFiles.filter(f => f.endsWith('.md')).sort((a, b) => a.localeCompare(b));
     
-    const allCssContent = allCssFiles.map( f => readTextFile(f) );
+    const allCssContent = allCssFiles.map( f => readTextFile(f) ).join("\n");
 
-    const allMdContent = allMdFiles.map( f => readTextFile(f) );
+    const allMdContent = allMdFiles.map( f => readTextFile(f) ).join("\n");
 
     // 1. Recreate __dirname (since you are in a module)
     const __filename = fileURLToPath(import.meta.url);
@@ -47,9 +47,9 @@ const loadFiles = async () => {
     // 3. Read the file content as a string
     const pagedPolyfill = fs.readFileSync(polyfillPath, 'utf-8');
 
-    const encodeIframe = await iframe(allCssContent, allMdContent, pagedPolyfill);
+    const iframeHtmlContent = await iframeHtml(allCssContent, allMdContent, pagedPolyfill);
 
-    return encodeIframe;
+    return iframeHtmlContent;
 
 }
 
@@ -116,13 +116,12 @@ wss.on('connection', async function connection(ws) {
         console.log('received: %s', message);
     });
 
-    ws.send('Hello from the combined Node.js server!');
+    const iframeHtmlContent = await loadFiles();
 
-    const encodedIframe = await loadFiles();
+    // We send binary data instead of a blob because a blob only lives in the process memory
+    const byteData = Buffer.from(iframeHtmlContent, 'utf-8');
 
-    console.log("encodedIframe", encodedIframe);
-
-    ws.send(encodedIframe)
+    ws.send(byteData);
 
     // We produce the iframe once and send it
 });

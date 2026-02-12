@@ -16,6 +16,7 @@ export const initApp = async (initAppUiStrategy) => {
         initAppUiStrategy();
     }
 
+    console.log("uistate.tabsContainer", uistate.tabsContainer)
 
 
     // Creating preview divs (two preview divs, as we do double buffering)
@@ -36,6 +37,9 @@ export const initApp = async (initAppUiStrategy) => {
     container.appendChild(preview1);
 
     container.appendChild(preview2);
+
+    console.log("container", container)
+
 
     uistate.tabsContainer?.append(container);
 
