@@ -3,14 +3,16 @@
     import path from 'path';
     import fs from 'fs/promises'; // ✅ This is the Promise version
     import { fileURLToPath } from 'url';
-    import { promises } from 'fs'; 
+    import { renderMarkdown } from '../core/src/markdown/iframeHtml.js';
 
 
     // Takes a work folder
     // Returns iframeHtmlContent
-    export const loadFiles = async (workFolder) => {
+    export const initCache = async (fileCache, allCssFiles, allMdFiles, workFolder) => {
 
         // const workFolder = process.argv[2];
+
+        // Map.set(key, value);
 
         console.log(`📂 Loading files from: ${path.resolve(workFolder)}`);
 
@@ -31,9 +33,11 @@
 
         const allWorkFiles = await fs.readdir(workFolder);
         
-        const allCssFiles = allWorkFiles.filter(f => f.endsWith('.css')).sort((a, b) => a.localeCompare(b));
+        allCssFiles = allWorkFiles.filter(f => f.endsWith('.css')).sort((a, b) => a.localeCompare(b));
 
-        const allMdFiles = allWorkFiles.filter(f => f.endsWith('.md')).sort((a, b) => a.localeCompare(b));
+        allMdFiles = allWorkFiles.filter(f => f.endsWith('.md')).sort((a, b) => a.localeCompare(b));
+
+        console.log("allMdFiles", allMdFiles)
         
         /*
         const allCssContent = allCssFiles.map( f => readTextFile(f) ).join("\n");
@@ -41,12 +45,15 @@
         const allMdContent = allMdFiles.map( f => readTextFile(f) ).join("\n");
         */
 
-        const readCssPromises = allCssFiles.map(file => {
-            return fs.readFile(path.join(workFolder, file), 'utf-8');
+        const readCssPromises = allCssFiles.map(async file => {
+            const content = await fs.readFile(path.join(workFolder, file), 'utf-8');
+            fileCache.set(file, content)
         });
 
-        const readMdPromises = allMdFiles.map(file => {
-            return fs.readFile(path.join(workFolder, file), 'utf-8');
+        const readMdPromises = allMdFiles.map(async file => {
+            const rawContent = await fs.readFile(path.join(workFolder, file), 'utf-8');
+            const mdContent = await renderMarkdown(rawContent);
+            fileCache.set(file, mdContent)
         });
 
         // 1. Recreate __dirname (since you are in a module)
@@ -56,16 +63,19 @@
         // 2. Resolve the path to the polyfill file
         const polyfillPath = path.join(__dirname, '../core/src/markdown/paged.polyfill.js');
 
-        const readPolyfillPromise = fs.readFile(polyfillPath, 'utf-8');
+        const polyFillPromise = (async () => {
+            const pagedPolyfillContent = await fs.readFile(polyfillPath, 'utf-8');
+            fileCache.set("pagedPolyfillContent", pagedPolyfillContent);
+        })();
 
 
-        const [allCssContent, allMdContent, pagedPolyfill] = await Promise.all([
-            Promise.all(readCssPromises), // Wait for ALL CSS files
-            Promise.all(readMdPromises),  // Wait for ALL MD files
-            readPolyfillPromise           // Wait for Polyfill
+        await Promise.all([
+            ...readCssPromises, // Wait for ALL CSS files
+            ...readMdPromises,  // Wait for ALL MD files
+            polyFillPromise           // Wait for Polyfill
         ]);
 
-        const iframeHtmlContent = await iframeHtml(allCssContent, allMdContent, pagedPolyfill);
+        console.log("✅ Cache initialized.");
 
-        return iframeHtmlContent;
+        return {fileCache, allCssFiles, allMdFiles};
     }

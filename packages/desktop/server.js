@@ -5,14 +5,28 @@ import { fileURLToPath } from 'url'; // 1. Import this
 import { WebSocketServer } from 'ws';
 import { displayWelcomeBanner, displayWelcomeMessage } from './ui/termnial.js';
 import { updatePdfPreview } from './updatePdfPreview.js';
+import { initCache } from './initCache.js';
+import { renderMarkdown } from '../core/src/markdown/iframeHtml.js';
 
 // import { updatePreview } from '@core/main/updatePreview.js';
+
+let fileCache = new Map();
+
+let allCssFiles = [];
+
+let allMdFiles = [];
+
+let allHtmlFiles = '';
+
+let htmlCache = new Map(); // Stores <h1>Content</h1>, not # Content
+
+let pagedPolyfillContent = '';
+
+let workFolder = '';
 
 const updateContent = (css, md) => {
     // return updatePreview( (css, md) => {return {css, md} });
 }
-
-
 
 const PORT = 8080;
 
@@ -68,7 +82,10 @@ const server = http.createServer((req, res) => {
 
 // 2. Attach the WebSocket Server to the HTTP Server
 // Note: We pass { server } instead of { port }
-const wss = new WebSocketServer({ server });
+const wss = new WebSocketServer({ 
+    server,
+    perMessageDeflate: false // Disable compression
+ });
 
 wss.on('connection', async function connection(ws) {
     console.log('Client connected via WebSocket');
@@ -78,10 +95,15 @@ wss.on('connection', async function connection(ws) {
     });
 
     // Get work folder from process arguments
-    const workFolder = process.argv[2];
+    workFolder = process.argv[2];
+
+    // We init the cache
+    ({fileCache, allCssFiles, allMdFiles} = await initCache(fileCache, allCssFiles, allMdFiles, workFolder));
+
+    console.log("allMdFiles in server after init cache", allMdFiles);
 
     // We pass the the work directory and the websocket as arguments
-    updatePdfPreview(workFolder, ws);
+    updatePdfPreview(fileCache, allCssFiles, allMdFiles, workFolder, ws);
     // We produce the iframe once and send it
 });
 
@@ -106,7 +128,7 @@ server.listen(PORT, () => {
 
 ///// WATCH DIRECTORY CHANGE
 
-const workFolder = process.argv[2];
+workFolder = process.argv[2];
 
 let debounceTimer;
 
@@ -119,6 +141,10 @@ fs.watch(workFolder, (eventType, filename) => {
     if (!filename.endsWith('.md') && !filename.endsWith('.css')) return;
 
 
+    // We need to load the updated file into the cache
+    // (We load all files on launch)
+
+
     // If a timer is running (ID exists), kill it.
     if (debounceTimer) {
         clearTimeout(debounceTimer); 
@@ -128,18 +154,30 @@ fs.watch(workFolder, (eventType, filename) => {
         console.log(`Detected change in ${filename} (${eventType})`);
     
         try {
+            const rawFileContent = await fs.promises.readFile(path.join(workFolder, filename), 'utf-8');
+
+            console.log('rawFileContent', rawFileContent)
+
+            // Caching srategy
+            // For CSS we cache the raw file
+            // For md we store the html version
+            const updatedFileContent = filename.endsWith('.md') ? await renderMarkdown(rawFileContent) : rawFileContent;
+
+            console.log("server watch updatedFileContent", updatedFileContent)
+            // We update the cache
+            fileCache.set(filename, updatedFileContent);
             // Safety 1: Handle errors during generation/sending
             wss.clients.forEach((client) => {
                 // Safety 2: Check if client is actually open before sending
                 if (client.readyState === WebSocket.OPEN) {
-                    updatePdfPreview(workFolder, client);
+                    updatePdfPreview(fileCache, allCssFiles, allMdFiles, workFolder, client);
                 }
             });
         } catch (error) {
             console.error("🔥 Error updating preview:", error);
         }
 
-    }, 100); // 400ms buffer
+    }, 50); // 100ms buffer
 
 })
 

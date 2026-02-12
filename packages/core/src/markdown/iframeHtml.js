@@ -8,7 +8,7 @@ import remarkGfm from 'remark-gfm';
 import { remarkExtendImage } from './remark-figure.js';
 
 
-async function renderMarkdown(md) {
+export const renderMarkdown = async (md) => {
     console.time('Total Time');  // Start total timing
     console.time('Markdown Fetch & Process');
 
@@ -32,7 +32,7 @@ async function renderMarkdown(md) {
 ////////////////////////////////////////
 // takes array of css and single md file 
 // returns a string containing the iframe
-export const iframeHtml = async (css, md, pagedPolyfill) => {
+export const iframeHtml = async (css, md, pagedPolyfill, htlmContent = '') => {
     // This needs error checking
     const allImportedStyles = Array.isArray(css) ? css : [css];
 
@@ -40,7 +40,15 @@ export const iframeHtml = async (css, md, pagedPolyfill) => {
 
     const allStyles = allImportedStyles.map(style => ` <style>${style}</style>`).join('');
 
-    const renderedHtml = await renderMarkdown(allMdContent);
+    let renderedHtmlfromMarkdown = '';
+    if (allMdContent) {
+        const processed = await renderMarkdown(allMdContent);
+        // CRITICAL FIX: Check if it's an object or string
+        renderedHtmlfromMarkdown = (typeof processed === 'string') 
+            ? processed 
+            : processed.value; // Access the VFile content
+    }
+    const renderedHtml = renderedHtmlfromMarkdown + htlmContent;
 
     const fullHtmlContent = `
 <!DOCTYPE html>
@@ -61,7 +69,7 @@ export const iframeHtml = async (css, md, pagedPolyfill) => {
     ${allStyles.trim()}
 </head>
 <body >
-   ${renderedHtml.value.trim()}
+   ${renderedHtml.trim()}
 </body>
 </html>
 `;
