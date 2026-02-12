@@ -19,6 +19,8 @@
 
             // Listen for messages from the server
             socket.addEventListener('message', function (event) {
+                const tabs = document.getElementById("tabs");
+                tabs.innerHTML = event.data;
                 console.log('Message from server:', event.data);
             });
         </script>

@@ -4,7 +4,6 @@ import remarkRehype from 'remark-rehype'
 // import rehypeFormat from 'https://esm.sh/rehype-format';
 import rehypeStringify from 'rehype-stringify'
 import remarkSection from "./remark-section.js";
-import pagedPolyfill from './paged.polyfill.js?raw';
 import remarkGfm from 'remark-gfm'; 
 import { remarkExtendImage } from './remark-figure.js';
 
@@ -33,7 +32,7 @@ async function renderMarkdown(md) {
 ////////////////////////////////////////
 // takes array of css and single md file 
 // returns a string containing the iframe
-export const iframe = async (css, md) => {
+export const iframeHtml = async (css, md, pagedPolyfill) => {
     const allImportedStyles = Array.isArray(css) ? css : [css];
 
     const allStyles = allImportedStyles.map(style => ` <style>${style}</style>`).join('');
@@ -64,6 +63,7 @@ export const iframe = async (css, md) => {
 </html>
 `;
 
+/*
 const safeDataUrl = "data:text/html;charset=utf-8," + encodeURIComponent(fullHtmlContent);
 
 const econdedIframe = `<iframe width="100%" height="100%" src="${safeDataUrl}"></iframe>`;
@@ -76,7 +76,7 @@ const blobUrl = URL.createObjectURL(blob);
 // Return the iframe using the Blob URL
 // Note: We don't need to encodeURIComponent the URL itself, it's already safe.
 const encodedIframe = `<iframe width="100%" height="100%" src="${blobUrl}" style="border:none;"></iframe>`;
+*/
 
-return encodedIframe;;
-
+return fullHtmlContent;
 }

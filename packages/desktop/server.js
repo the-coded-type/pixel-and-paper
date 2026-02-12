@@ -5,13 +5,15 @@ import { fileURLToPath } from 'url'; // 1. Import this
 import { WebSocketServer } from 'ws';
 import { displayWelcomeBanner, displayWelcomeMessage } from './ui/termnial.js';
 import { readTextFile } from './readTextFile.js';
+import { iframeHtml } from '../core/src/markdown/iframeHtml.js';
+
 // import { updatePreview } from '@core/main/updatePreview.js';
 
 const updateContent = (css, md) => {
     // return updatePreview( (css, md) => {return {css, md} });
 }
 
-function loadFiles () {
+const loadFiles = async () => {
 
     const workFolder = process.argv[2];
 
@@ -35,7 +37,19 @@ function loadFiles () {
 
     const allMdContent = allMdFiles.map( f => readTextFile(f) );
 
-    return {allCssContent, allMdContent};
+    // 1. Recreate __dirname (since you are in a module)
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+
+    // 2. Resolve the path to the polyfill file
+    const polyfillPath = path.join(__dirname, '../core/src/markdown/paged.polyfill.js');
+
+    // 3. Read the file content as a string
+    const pagedPolyfill = fs.readFileSync(polyfillPath, 'utf-8');
+
+    const encodeIframe = await iframe(allCssContent, allMdContent, pagedPolyfill);
+
+    return encodeIframe;
 
 }
 
@@ -95,7 +109,7 @@ const server = http.createServer((req, res) => {
 // Note: We pass { server } instead of { port }
 const wss = new WebSocketServer({ server });
 
-wss.on('connection', function connection(ws) {
+wss.on('connection', async function connection(ws) {
     console.log('Client connected via WebSocket');
 
     ws.on('message', function incoming(message) {
@@ -104,7 +118,11 @@ wss.on('connection', function connection(ws) {
 
     ws.send('Hello from the combined Node.js server!');
 
-    const {allCssContent, allMdContent} = loadFiles();
+    const encodedIframe = await loadFiles();
+
+    console.log("encodedIframe", encodedIframe);
+
+    ws.send(encodedIframe)
 
     // We produce the iframe once and send it
 });
