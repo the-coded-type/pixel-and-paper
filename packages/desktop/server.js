@@ -4,8 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url'; // 1. Import this
 import { WebSocketServer } from 'ws';
 import { displayWelcomeBanner, displayWelcomeMessage } from './ui/termnial.js';
-import { readTextFile } from './readTextFile.js';
-import { iframeHtml } from '../core/src/markdown/iframeHtml.js';
+import { updatePdfPreview } from './updatePdfPreview.js';
 
 // import { updatePreview } from '@core/main/updatePreview.js';
 
@@ -13,45 +12,7 @@ const updateContent = (css, md) => {
     // return updatePreview( (css, md) => {return {css, md} });
 }
 
-const loadFiles = async () => {
 
-    const workFolder = process.argv[2];
-
-    console.log(`📂 Loading files from: ${path.resolve(workFolder)}`);
-
-    // Check if files folder exists
-    if (!fs.existsSync(workFolder)) {
-        console.error(`❌ Error: The folder "${workFolder}" does not exist.`);
-        return { css: [], md: [] }; // Return empty data
-    };
-
-    const allWorkFiles = fs.readdirSync(workFolder).map(fileName => {
-        return path.join(workFolder, fileName);
-    });
-
-    const allCssFiles = allWorkFiles.filter(f => f.endsWith('.css')).sort((a, b) => a.localeCompare(b));
-
-    const allMdFiles = allWorkFiles.filter(f => f.endsWith('.md')).sort((a, b) => a.localeCompare(b));
-    
-    const allCssContent = allCssFiles.map( f => readTextFile(f) ).join("\n");
-
-    const allMdContent = allMdFiles.map( f => readTextFile(f) ).join("\n");
-
-    // 1. Recreate __dirname (since you are in a module)
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-
-    // 2. Resolve the path to the polyfill file
-    const polyfillPath = path.join(__dirname, '../core/src/markdown/paged.polyfill.js');
-
-    // 3. Read the file content as a string
-    const pagedPolyfill = fs.readFileSync(polyfillPath, 'utf-8');
-
-    const iframeHtmlContent = await iframeHtml(allCssContent, allMdContent, pagedPolyfill);
-
-    return iframeHtmlContent;
-
-}
 
 const PORT = 8080;
 
@@ -116,13 +77,11 @@ wss.on('connection', async function connection(ws) {
         console.log('received: %s', message);
     });
 
-    const iframeHtmlContent = await loadFiles();
+    // Get work folder from process arguments
+    const workFolder = process.argv[2];
 
-    // We send binary data instead of a blob because a blob only lives in the process memory
-    const byteData = Buffer.from(iframeHtmlContent, 'utf-8');
-
-    ws.send(byteData);
-
+    // We pass the the work directory and the websocket as arguments
+    updatePdfPreview(workFolder, ws);
     // We produce the iframe once and send it
 });
 
@@ -141,6 +100,47 @@ server.listen(PORT, () => {
 
     displayWelcomeMessage(PORT);
 
-}
-);
+});
+
+
+
+///// WATCH DIRECTORY CHANGE
+
+const workFolder = process.argv[2];
+
+let debounceTimer;
+
+fs.watch(workFolder, (eventType, filename) => {
+
+    // Safety check: ensure filename exists and isn't a hidden system file
+    if (!filename || filename.startsWith('.')) return;
+
+    // Filter: Only care about Markdown or CSS files
+    if (!filename.endsWith('.md') && !filename.endsWith('.css')) return;
+
+
+    // If a timer is running (ID exists), kill it.
+    if (debounceTimer) {
+        clearTimeout(debounceTimer); 
+    }
+
+    debounceTimer = setTimeout( async () => {
+        console.log(`Detected change in ${filename} (${eventType})`);
+    
+        try {
+            // Safety 1: Handle errors during generation/sending
+            wss.clients.forEach((client) => {
+                // Safety 2: Check if client is actually open before sending
+                if (client.readyState === WebSocket.OPEN) {
+                    updatePdfPreview(workFolder, client);
+                }
+            });
+        } catch (error) {
+            console.error("🔥 Error updating preview:", error);
+        }
+
+    }, 100); // 400ms buffer
+
+})
+
 

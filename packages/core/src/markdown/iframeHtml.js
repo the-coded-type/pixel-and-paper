@@ -33,11 +33,14 @@ async function renderMarkdown(md) {
 // takes array of css and single md file 
 // returns a string containing the iframe
 export const iframeHtml = async (css, md, pagedPolyfill) => {
+    // This needs error checking
     const allImportedStyles = Array.isArray(css) ? css : [css];
+
+    const allMdContent = Array.isArray(md) ? md.join('\n') : md;
 
     const allStyles = allImportedStyles.map(style => ` <style>${style}</style>`).join('');
 
-    const renderedHtml = await renderMarkdown(md);
+    const renderedHtml = await renderMarkdown(allMdContent);
 
     const fullHtmlContent = `
 <!DOCTYPE html>
