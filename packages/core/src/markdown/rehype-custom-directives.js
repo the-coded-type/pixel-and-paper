@@ -8,8 +8,7 @@ export default function remarkDirectiveRehype() {
   return (tree) => {
     visit(tree, (node) => {
       // --- Handle generic container/leaf/text directives ---
-      // This logic turns :::name into <name class="name">, ::name into <name class="name">, and :name into <name class="name">
-      // It processes any directive *unless* it's 'house' (which we handle specially below)
+      // This logic turns :::name into <section class="name">, ::name into <section class="name">, and :name into <section class="name">
       if 
         (node.type === 'containerDirective')
        {

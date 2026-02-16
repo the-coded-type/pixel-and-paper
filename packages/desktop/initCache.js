@@ -101,7 +101,7 @@
             jsLoadingPromise,   // Wait for JS files
         ]);
 
-        console.log("✅ Cache initialized.", allCssFiles);
+        console.log("✅ Cache initialized.");
 
 
         return {fileCache, allCssFiles, allMdFiles, allJsFiles};

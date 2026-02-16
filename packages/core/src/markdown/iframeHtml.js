@@ -6,7 +6,8 @@ import rehypeStringify from 'rehype-stringify'
 import remarkSection from "./remark-section.js";
 import remarkGfm from 'remark-gfm'; 
 import { remarkExtendImage } from './remark-figure.js';
-
+import remarkDirectiveRehype from './rehype-custom-directives.js';
+import remarkDirective from 'remark-directive'; // ⚠️ Required to parse ::: syntax
 
 export const renderMarkdown = async (md) => {
     console.time('Markdown Fetch & Process');
@@ -16,6 +17,8 @@ export const renderMarkdown = async (md) => {
     const htmlText = await unified()
       .use(remarkParse) // Markdown to AST
       .use(remarkGfm) // Git flavored MD
+      .use(remarkDirective)
+      .use(remarkDirectiveRehype)
       .use(remarkSection) // Add sections to H tags
       .use(remarkExtendImage) // Images to figures
       .use(remarkRehype, { allowDangerousHtml: true }) // AST to HTML
