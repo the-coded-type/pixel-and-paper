@@ -1,49 +1,58 @@
-    import { readTextFile } from './readTextFile.js';
-    import { iframeHtml } from '../core/src/markdown/iframeHtml.js';
+/**
+ * Initializes the application's file cache for the Pixel and Paper Desktop Editor.
+ *
+ * This module scans the user's specified work directory, filters for valid content,
+ * and pre-loads the application state. It performs the following operations:
+ * 1. Scans for `.md` and `.css` files.
+ * 2. Sorts files to ensure consistent chapter ordering.
+ * 3. Reads CSS content directly into the cache.
+ * 4. Compiles Markdown content to HTML (via `renderMarkdown`) before caching.
+ * 5. Loads the Paged.js polyfill for preview rendering.
+ *
+ * @module initCache
+ * @async
+ *
+ * @param {Map<string, string>} fileCache - The Map object used to store file contents (Key: filename, Value: content).
+ * @param {Array<string>} [allCssFiles] - Placeholder array for CSS filenames.
+ * @param {Array<string>} [allMdFiles] - Placeholder array for Markdown filenames.
+ * @param {string} workFolder - The absolute path to the user's working directory.
+ *
+ * @returns {Promise<Object>} A promise that resolves to an object containing:
+ * - fileCache: The populated Map.
+ * - allCssFiles: Sorted list of CSS filenames found.
+ * - allMdFiles: Sorted list of Markdown filenames found.
+ */
+    
     import path from 'path';
-    import fs from 'fs/promises'; // ✅ This is the Promise version
+    import fs from 'fs/promises';
     import { fileURLToPath } from 'url';
     import { renderMarkdown } from '../core/src/markdown/iframeHtml.js';
 
-
     // Takes a work folder
     // Returns iframeHtmlContent
-    export const initCache = async (fileCache, allCssFiles, allMdFiles, workFolder) => {
-
-        // const workFolder = process.argv[2];
-
-        // Map.set(key, value);
+    export const initCache = async (fileCache, allCssFiles, allMdFiles, allJsFiles, workFolder) => {
 
         console.log(`📂 Loading files from: ${path.resolve(workFolder)}`);
 
-        // Check if files folder exists
-        /*
-        // Doesn't work with promises, rewrite error catching
-        if (!fs.existsSync(workFolder)) {
-            console.error(`❌ Error: The folder "${workFolder}" does not exist.`);
-            return { css: [], md: [] }; // Return empty data
-        };
-        */
+        // const allWorkFiles = await fs.readdir(workFolder);
+        // Recursive file loading
+        // ⚠️ Watcher doesn't watch files in subdirectories
 
-        /*
-        const allWorkFiles = fs.readdir(workFolder).map(fileName => {
-            return path.join(workFolder, fileName);
+        const dirents = await fs.readdir(workFolder, {recursive: true, withFileTypes: true });
+
+        const allWorkFiles = dirents
+        .filter(dirent => dirent.isFile())
+        .map(dirent => {
+            const relativeDir = path.relative(workFolder, dirent.parentPath);
+            return path.join(relativeDir, dirent.name);
         });
-        */
-
-        const allWorkFiles = await fs.readdir(workFolder);
         
         allCssFiles = allWorkFiles.filter(f => f.endsWith('.css')).sort((a, b) => a.localeCompare(b));
 
         allMdFiles = allWorkFiles.filter(f => f.endsWith('.md')).sort((a, b) => a.localeCompare(b));
 
-        console.log("allMdFiles", allMdFiles)
-        
-        /*
-        const allCssContent = allCssFiles.map( f => readTextFile(f) ).join("\n");
-
-        const allMdContent = allMdFiles.map( f => readTextFile(f) ).join("\n");
-        */
+        // Adding JS support
+        allJsFiles = allWorkFiles.filter(f => f.endsWith('.js')).sort((a, b) => a.localeCompare(b));
 
         const readCssPromises = allCssFiles.map(async file => {
             const content = await fs.readFile(path.join(workFolder, file), 'utf-8');
@@ -55,6 +64,22 @@
             const mdContent = await renderMarkdown(rawContent);
             fileCache.set(file, mdContent)
         });
+
+        const jsLoadingPromise = (async () => {
+    
+            // Map the filenames to Promises that return the script string
+            const jsPromises = allJsFiles.map(async (file) => {
+                const rawContent = await fs.readFile(path.join(workFolder, file), 'utf-8');
+                // FIX: Use closing tag </script> and return the string
+                return `<script data-filename="${file}">${rawContent}</script>`;
+            });
+        
+            // Wait for all files to be read
+            const processedJs = await Promise.all(jsPromises);
+        
+            // Join them and store in cache
+            fileCache.set("allJsContent", processedJs.join('\n'));
+        })();
 
         // 1. Recreate __dirname (since you are in a module)
         const __filename = fileURLToPath(import.meta.url);
@@ -72,10 +97,12 @@
         await Promise.all([
             ...readCssPromises, // Wait for ALL CSS files
             ...readMdPromises,  // Wait for ALL MD files
-            polyFillPromise           // Wait for Polyfill
+            polyFillPromise,    // Wait for Polyfill
+            jsLoadingPromise,   // Wait for JS files
         ]);
 
-        console.log("✅ Cache initialized.");
+        console.log("✅ Cache initialized.", allCssFiles);
 
-        return {fileCache, allCssFiles, allMdFiles};
+
+        return {fileCache, allCssFiles, allMdFiles, allJsFiles};
     }

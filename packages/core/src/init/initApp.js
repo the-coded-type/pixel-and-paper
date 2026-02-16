@@ -38,9 +38,6 @@ export const initApp = async (initAppUiStrategy) => {
 
     container.appendChild(preview2);
 
-    console.log("container", container)
-
-
     uistate.tabsContainer?.append(container);
 
     // We update the uistate assigning the two preview tabs

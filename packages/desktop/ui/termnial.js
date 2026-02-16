@@ -27,8 +27,6 @@ export const displayWelcomeBanner = () => {
     console.log(teal + text + reset);
 }
 
-
-
 export const displayWelcomeMessage = (PORT) =>{
 
     console.log(`

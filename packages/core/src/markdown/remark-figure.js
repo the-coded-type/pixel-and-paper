@@ -45,9 +45,15 @@ export function remarkExtendImage(imageMap = {}) {
         // Add caption if title exists: ![alt](url "Title")
         if (img.title) {
           figureNode.children.push({
-            type: 'paragraph',
-            children: [{type: 'text', value: img.title}]
-          })
+            type: 'figcaption', // Semantic type name for AST clarity
+            data: {
+              hName: 'figcaption', // 👈 TELLS REHYPE TO RENDER <figcaption>
+              hProperties: { className: ['pagedjs-figcaption'] } // Optional class
+            },
+            children: [
+              { type: 'text', value: img.title }
+            ]
+          });
         }
 
         // Replace the entire paragraph with the figure node

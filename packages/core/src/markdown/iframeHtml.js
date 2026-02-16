@@ -9,7 +9,6 @@ import { remarkExtendImage } from './remark-figure.js';
 
 
 export const renderMarkdown = async (md) => {
-    console.time('Total Time');  // Start total timing
     console.time('Markdown Fetch & Process');
 
 
@@ -32,7 +31,7 @@ export const renderMarkdown = async (md) => {
 ////////////////////////////////////////
 // takes array of css and single md file 
 // returns a string containing the iframe
-export const iframeHtml = async (css, md, pagedPolyfill, htlmContent = '') => {
+export const iframeHtml = async (css, md, pagedPolyfill, htlmContent = '', jsContent = '') => {
     // This needs error checking
     const allImportedStyles = Array.isArray(css) ? css : [css];
 
@@ -54,6 +53,9 @@ export const iframeHtml = async (css, md, pagedPolyfill, htlmContent = '') => {
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <base href="http://localhost:8080/">
+
     <script>${pagedPolyfill}</script>
     <script>
     class iframeRendered extends Paged.Handler {
@@ -66,6 +68,7 @@ export const iframeHtml = async (css, md, pagedPolyfill, htlmContent = '') => {
     Paged.registerHandlers(iframeRendered);
 
     </script>
+    ${jsContent.trim()}
     ${allStyles.trim()}
 </head>
 <body >

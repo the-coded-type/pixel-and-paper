@@ -12,8 +12,6 @@ export const updatePreviewInWebApp = async () => {
     const { cssContent, mdContent } = getWebEditorContent();
     const fullHtmlContent = await iframeHtml(cssContent, mdContent, pagedPolyfill);
 
-    console.log("fullHtmlContent", fullHtmlContent)
-
     // Use Blob (instead of Data URI)
     // Allows to bypass double and single quote escaping
     const blob = new Blob([fullHtmlContent], { type: 'text/html' });

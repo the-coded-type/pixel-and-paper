@@ -32,6 +32,8 @@
 
         // Listen for messages from the server
         socket.addEventListener('message', function (event) {
+            
+            console.time("Browser receiving message"); // START TIMER
             const tabs = document.getElementById("tabs");
             // 1. Create a Blob from the incoming data (The browser receives it seamlessly)
             // We specify 'text/html' so the browser knows how to interpret the bytes.
@@ -52,8 +54,13 @@
                 </iframe>
             `;
 
+            console.timeEnd("Browser receiving message"); // START TIMER
+            
+            console.time("Browser updating preview"); // START TIMER
             updatePreview(fullIframeHtml);
+            console.timeEnd("Browser updating preview"); // START TIMER
 
+                
             console.log('Preview updated via Byte transfer.');
         });
     </script>
@@ -90,7 +97,6 @@
         <h1>PIXEL AND PAPER</h1>
         <div style="display: flex; ">
             <nav id="main-nav"></nav>
-            <span class="ml-1" style="margin-top: 2rem; display:block; color: orange;" id="log">///</span>
         </div>
         <nav id="nav"></nav>
     </header>
