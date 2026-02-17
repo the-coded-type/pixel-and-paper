@@ -1,0 +1,63 @@
+/*--------------------------------------------------------------------------------------*/
+/* Baseline : -------------------------------------------*/
+
+:root {
+  --pagedjs-baseline: 20px;
+  --pagedjs-baseline-position: -4px;
+  --pagedjs-baseline-color: cyan;
+}
+@media screen, pagedjs-ignore {
+  .pagedjs_page_content {
+    background:
+      linear-gradient(
+        transparent 0%,
+        transparent calc(var(--pagedjs-baseline) - 1px),
+        var(--pagedjs-baseline-color) calc(var(--pagedjs-baseline) - 1px),
+        var(--pagedjs-baseline-color) var(--pagedjs-baseline)
+      ),
+      transparent;
+    background-size: 100% var(--pagedjs-baseline);
+    background-repeat: repeat-y;
+    background-position-y: var(--pagedjs-baseline-position);
+  }
+
+  /* Add line numbers
+  
+  .pagedjs_left_page .pagedjs_page_content::after {
+    content: "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 ";
+    height: calc(
+      var(--pagedjs-height) - var(--pagedjs-margin-top) -
+        var(--pagedjs-margin-bottom) - 3px
+    );
+    overflow: hidden;
+    line-height: var(--pagedjs-baseline);
+    position: absolute;
+    top: 0;
+    color: grey;
+    left: calc(-1 * var(--pagedjs-margin-left) + 2ch);
+    color: var(--baseline-color);
+    display: block;
+    text-align: right;
+    width: 2ch;
+  }
+
+  .pagedjs_right_page .pagedjs_page_content::after {
+    content: "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 ";
+    height: calc(
+      var(--pagedjs-height) - var(--pagedjs-margin-top) -
+        var(--pagedjs-margin-bottom) - 3px
+    );
+    overflow: hidden;
+    line-height: var(--pagedjs-baseline);
+    position: absolute;
+    color: grey;
+    top: 0;
+    right: calc(-1 * var(--pagedjs-margin-right) + 2ch);
+    color: var(--baseline-color);
+    display: block;
+    text-align: right;
+    width: 2ch;
+  }
+  
+  */
+}

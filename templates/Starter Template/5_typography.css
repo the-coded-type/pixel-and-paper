@@ -1,0 +1,65 @@
+:root {
+  --pagedjs-baseline: 20px;
+  --pagedjs-baseline-position: 10px;
+  --line-height: var(--pagedjs-baseline);
+}
+
+p{
+  margin: 0;
+  line-height: var(--line-height);
+    --paged-push-to-baseline: 40px;
+}
+
+
+figcaption
+{
+  --paged-push-to-baseline: 20px;
+  line-height: 20px;
+}
+
+h1, h2, h3, h4, h5 {
+	break-after: avoid;
+	line-height: 20px;
+}
+
+* {
+font-size: 14px;
+font-family: 'Roboto';
+}
+
+
+h1 {
+  font-size: 35px;
+  --paged-push-to-baseline: 75px;
+  string-set: chapterTitle content(); /* we define the string chapterTitle to be used in the bottom margin */
+}
+
+h2 {
+  font-size: 20px;
+  --paged-push-to-baseline: 40px;
+}
+
+h3 {
+  font-size: 16px;
+  --paged-push-to-baseline: 32px;
+}
+
+figure {
+  --paged-push-to-baseline: 40px;
+}
+
+figcaption {
+	font-weight: bold;
+	text-align: center;
+}
+
+
+img {
+  object-fit: cover;
+  width: 100%;
+  max-width: 100%;
+  height: calc(var(--pagedjs-baseline) * 20.5);
+  margin-bottom: 1.3em;
+  margin-bottom: 20px;
+}
+

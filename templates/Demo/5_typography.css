@@ -1,0 +1,37 @@
+p, em, bold, ul, ol, li, a, ul li, ol li {
+	color: var(--primary);
+	font-family: sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+	color: var(--secondary);
+	font-family: serif;
+}
+
+h2 {
+	/* We're adding a page break before all h2 headings */
+	break-before: always;
+}
+
+p, ul, ol, li, a, ul li, ol li, table, th, tr, td {
+	font-size: var(--base-font-size);
+	line-height: calc( var(--base-font-size) * 1.4);
+}
+
+blockquote p {
+  color: var(--secondary);
+  display: block;
+  font-family: serif;
+  font-size: 30pt;
+  line-height: 1;
+  postion: relative;
+  border-left: 5pt solid var(--primary);
+  padding-left: 5pt;
+}
+
+
+
+  
+  color: var(--primary);
+  opacity: 0.8;
+}

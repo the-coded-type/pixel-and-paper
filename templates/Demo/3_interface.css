@@ -1,0 +1,218 @@
+/* ==========================================================================
+   SCREEN-ONLY DEBUGGING GUIDES (uistate)
+   ========================================================================== */
+
+/**
+ * These styles make the invisible margin boxes visible on screen
+ * so users can understand where their headers/footers will go.
+ * * They are wrapped in @media screen so they NEVER print.
+ */
+
+ @media screen {
+
+    /* 1. THE PHYSICAL SHEET BORDER */
+    .pagedjs_sheet {
+        /* A solid purple outline around the whole page */
+        outline: 1px solid #8e44ad !important; 
+        
+        /* Optional: Add a subtle purple glow */
+        box-shadow: 0 0 0 2px rgba(142, 68, 173, 0.1) !important; 
+    }
+
+    /* 2. THE MARGIN BOXES (The 16 slots) */
+    .pagedjs_margin {
+        /* Dashed purple line showing the available area for headers/footers */
+        outline: 1px dashed rgba(142, 68, 173, 0.5) !important;
+        
+        /* Slight purple background to show the "zone" */
+        background-color: rgba(142, 68, 173, 0.05) !important;
+        
+        /* Make sure empty boxes are still visible */
+        min-height: 10px; 
+    }
+
+    /* 3. THE CONTENT AREA (The Body Text Box) */
+    .pagedjs_area {
+        /* Solid lighter purple line separating margins from body text */
+        outline: 1px solid rgba(142, 68, 173, 0.3);
+    }
+
+   
+    /* 4. VISUAL LABELS (Optional: Shows "top-left", "bottom-right" on hover) */
+    .pagedjs_margin-content::after {
+        /* content: attr(class); */ /* Uncomment to see class names */
+        color: #8e44ad;
+        font-size: 8px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0.5;
+    }
+}
+
+/* To define how the book look on the screen: */
+@media screen, pagedjs-ignore {
+    body {
+        background-color: var(--color-background);
+    }
+
+.pagedjs_pages {
+        display: flex;
+        /* ADD THIS to ensure side-by-side layout */
+        flex-direction: row; 
+        width: calc(var(--pagedjs-width) * 2);
+        flex: 0;
+        flex-wrap: wrap;
+        margin: 0 auto;
+    }
+
+    .pagedjs_page {
+        background-color: var(--color-paper);
+        box-shadow: 0 0 0 1px var(--color-pageSheet);
+        margin: 0;
+        flex-shrink: 0;
+        flex-grow: 0;
+        margin-top: 10mm;
+    }
+
+
+   .pagedjs_page_content {      border: 1px solid red;
+}
+
+   .pagedjs_sheet {
+        /* A solid purple outline around the whole page */
+        outline: 1px solid #8e44ad !important; 
+        
+        /* Optional: Add a subtle purple glow */
+        box-shadow: 0 0 0 2px rgba(142, 68, 173, 0.1) !important; 
+    }
+
+    /* 2. THE MARGIN BOXES (The 16 slots) */
+    .pagedjs_margin {
+        /* Dashed purple line showing the available area for headers/footers */
+        outline: 1px dashed rgba(142, 68, 173, 0.5) !important;
+        
+        /* Slight purple background to show the "zone" */
+        background-color: rgba(142, 68, 173, 0.05) !important;
+        
+        /* Make sure empty boxes are still visible */
+        min-height: 10px; 
+    }
+
+    /* 3. THE CONTENT AREA (The Body Text Box) */
+    .pagedjs_area {
+        /* Solid lighter purple line separating margins from body text */
+        outline: 1px solid rgba(142, 68, 173, 0.3);
+    }
+    .pagedjs_first_page {
+        margin-left: var(--pagedjs-width);
+    }
+
+    .pagedjs_page:last-of-type {
+        margin-bottom: 10mm;
+    }
+
+    .pagedjs_pagebox{
+        box-shadow: 0 0 0 1px var(--color-pageBox);
+    }
+
+    .pagedjs_left_page{
+        z-index: 20;
+        width: calc(var(--pagedjs-bleed-left) + var(--pagedjs-pagebox-width))!important;
+    }
+
+    .pagedjs_left_page .pagedjs_bleed-right .pagedjs_marks-crop {
+        border-color: transparent;
+    }
+    
+    .pagedjs_left_page .pagedjs_bleed-right .pagedjs_marks-middle{
+        width: 0;
+    } 
+
+    .pagedjs_right_page{
+        z-index: 10;
+        position: relative;
+        left: calc(var(--pagedjs-bleed-left)*-1);
+    }
+
+    /* show the margin-box */
+
+    .pagedjs_margin-top-left-corner-holder,
+    .pagedjs_margin-top,
+    .pagedjs_margin-top-left,
+    .pagedjs_margin-top-center,
+    .pagedjs_margin-top-right,
+    .pagedjs_margin-top-right-corner-holder,
+    .pagedjs_margin-bottom-left-corner-holder,
+    .pagedjs_margin-bottom,
+    .pagedjs_margin-bottom-left,
+    .pagedjs_margin-bottom-center,
+    .pagedjs_margin-bottom-right,
+    .pagedjs_margin-bottom-right-corner-holder,
+    .pagedjs_margin-right,
+    .pagedjs_margin-right-top,
+    .pagedjs_margin-right-middle,
+    .pagedjs_margin-right-bottom,
+    .pagedjs_margin-left,
+    .pagedjs_margin-left-top,
+    .pagedjs_margin-left-middle,
+    .pagedjs_margin-left-bottom {
+        box-shadow: 0 0 0 1px inset var(--color-marginBox);
+    }
+
+    /* uncomment this part for recto/verso book : ------------------------------------ */
+
+    /*
+    .pagedjs_pages {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .pagedjs_first_page {
+        margin-left: 0;
+    }
+
+    .pagedjs_page {
+        margin: 0 auto;
+        margin-top: 10mm;
+    } 
+
+    .pagedjs_left_page{
+        width: calc(var(--pagedjs-bleed-left) + var(--pagedjs-pagebox-width) + var(--pagedjs-bleed-left))!important;
+    }
+
+    .pagedjs_left_page .pagedjs_bleed-right .pagedjs_marks-crop{
+        border-color: var(--pagedjs-crop-color);
+    }
+
+    .pagedjs_left_page .pagedjs_bleed-right .pagedjs_marks-middle{
+        width: var(--pagedjs-cross-size)!important;
+    } 
+
+    .pagedjs_right_page{
+        left: 0; 
+    } 
+    */
+    
+    
+
+    /*--------------------------------------------------------------------------------------*/
+
+
+
+    /* uncomment this par to see the baseline : -------------------------------------------*/
+
+    /*
+  .pagedjs_pagebox {
+        --pagedjs-baseline: 22px;
+        --pagedjs-baseline-position: 5px;
+        --pagedjs-baseline-color: cyan;
+        background: linear-gradient(transparent 0%, transparent calc(var(--pagedjs-baseline) - 1px), var(--pagedjs-baseline-color) calc(var(--pagedjs-baseline) - 1px), var(--pagedjs-baseline-color) var(--pagedjs-baseline)), transparent;
+        background-size: 100% var(--pagedjs-baseline);
+        background-repeat: repeat-y;
+        background-position-y: var(--pagedjs-baseline-position);
+    }  
+   
+
+    /*--------------------------------------------------------------------------------------*/
+}
