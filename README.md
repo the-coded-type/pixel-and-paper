@@ -23,7 +23,7 @@ It is available in two versions:
 
 ### Prerequisites
 * **Node.js** (v20+ recommended) to run the local servers.
-* A recent version of **Google Chrome** (required for accurate PDF rendering).
+* A recent version of **Google Chrome** (required for accurate PDF rendering, and file loading/saving in the web version).
 
 ### Installation
 Clone the repository and install the dependencies:
