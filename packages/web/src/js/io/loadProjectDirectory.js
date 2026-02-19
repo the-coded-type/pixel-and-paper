@@ -11,7 +11,7 @@ export async function loadProjectDirectory() {
     
         projectData.handle = dirHandle;
 
-        // 2. Recursive Scanner
+        // 2. Recursive 
         async function scanDirectory(handle, path = "") {
             for await (const entry of handle.values()) {
                 const relativePath = path ? `${path}/${entry.name}` : entry.name;
