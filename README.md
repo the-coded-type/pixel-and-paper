@@ -60,6 +60,8 @@ If you just want to explore P&P, use one of the templates available in the `/tem
 * **Demo:** Works with the web and desktop versions.
 * **Starter:** Works with the desktop version.
 
+The template CSS files contain documentation/comments
+
 ## Differences and Limitations ⚖️
 
 #### Web Version
