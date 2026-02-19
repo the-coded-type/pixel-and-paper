@@ -8,6 +8,7 @@
 	"scripts": {
 		"dev:web": "npm run dev --workspace=@pixelpaper/web",
 		"build:web": "npm run build --workspace=@pixelpaper/web",
+		"preview:web": "npm run preview --workspace=@pixelpaper/web",
 		"dev:desktop": "cd packages/desktop && node server.js"
 	},
 	"dependencies": {

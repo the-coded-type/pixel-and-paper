@@ -1,47 +1,99 @@
-# Astro Starter Kit: Minimal
+# Pixel and Paper v.0.0.1 📄✨
+---
+A Markdown + CSS to PDF editor and previewer built for web typography.
 
-```sh
-npm create astro@latest -- --template minimal
+## What is Pixel and Paper?
+
+P&P lets you turn Markdown and CSS files into paginated content and export them as print-ready PDFs. It is built on Paged.js and JavaScript, bringing web typography tools to physical page design.
+
+**Why use it?** If you write in Markdown but want to publish physical books, zines, or any formatted PDFs, P&P bridges the gap. Instead of using proprietary design software like InDesign or word processors, you can use the web technologies you already know (HTML/CSS) to create pixel-perfect, print-ready documents.
+
+It is available in two versions:
+
+* 🌐 **Web**
+  * Edit Markdown + CSS directly in the browser.
+  * Preview and export PDFs in the browser.
+  * Can be used locally or online.
+* 💻 **Desktop**
+  * Edit Markdown + CSS in the text editor of your choice (Obsidian, VS Code, etc.).
+  * Preview and export PDFs in the browser via a local server.
+  * Can be used only locally.
+
+## Getting Started 🚀
+
+### Prerequisites
+* **Node.js** (v20+ recommended) to run the local servers.
+* A recent version of **Google Chrome** (required for accurate PDF rendering).
+
+### Installation
+Clone the repository and install the dependencies:
+
+```
+git clone https://github.com/your-username/pixel-and-paper.git
+cd pixel-and-paper
+npm install
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+### Running the App
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+**Web Version:**
+* Use the live online version at [pixelppr.com](https://pixelppr.com/)
+* Run it locally: `npm run dev:web`
+* Build for production: `npm run build:web`
 
-## 🚀 Project Structure
+**Desktop Version:**
+* Run locally: `npm run dev:desktop path/to/your-work-folder` 
+* (Replace `path/to/your-work-folder` with the folder containing your Markdown and CSS files).
+* Open `http://localhost:8080` in **Chrome**.
 
-Inside of your Astro project, you'll see the following folders and files:
+### Using Templates
+If you just want to explore P&P, use one of the templates available in the `/templates` folder:
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+* **Demo:** Works with the web and desktop versions.
+* **Starter:** Works with the desktop version.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Differences and Limitations ⚖️
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+#### Web Version
+* Accepts only remote images via URL.
 
-Any static assets, like images, can be placed in the `public/` directory.
+#### Desktop Version
+* Accepts both remote and local images.
+* Local images must be located in `/your-work-folder` or its subfolders.
+* Supports subfolders.
+* Accepts `.js` files (useful for passing Paged.js plugins).
+* **Note on file watching:** The desktop version watches for file changes in `/your-work-folder`, but file changes in subdirectories are not automatically detected yet. If you update a file inside a subdirectory, you need to manually refresh the webpage.
 
-## 🧞 Commands
+## How it Works: Markdown and CSS 🛠️
 
-All commands are run from the root of the project, from a terminal:
+### File Sorting
+Before parsing, source files are sorted in alphanumeric order, including files in subfolders. The simplest way to order your files sequentially is to number them (e.g., `01-intro.md`, `02-chapter.md`). See the examples in `/templates`.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### Supported Markdown
+* Standard Markdown
+* GitHub Flavored Markdown
+* **Images with Captions:** Images containing titles `![ALT](/img.jpg "Image Title")` are parsed into `<figure>` elements with a `<figcaption>`.
+* **Section Wrapping:** P&P wraps each heading and its following content in a section tag automatically. 
+  * *Example:* `# My heading` is wrapped in `<section class="my-heading my-heading-1 d-1"></section>`.
 
-## 👀 Want to learn more?
+## Roadmap 🗺️
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+* Watch recursive plugin (subfolder watching)
+* Local images support for Web version
+* Interface plugin (hide/show margins, crop marks, etc.)
+* Markdown file selector (render specific file vs. all files)
+* Paged.js render caching
+
+## Support and Contributing 🤝
+If you run into bugs or have a feature request, please on GitHub. Pull requests are always welcome!
+
+## License
+Pixel and Paper is released under the MIT license.
+
+## Maintainer
+I'm IKO, a web developer and zine publisher. 
+
+* Mastodon [@iko@mastodon.design](https://mastodon.design/@iko)
+* Bluesky [@thelostbaystudio.com](https://bsky.app/profile/thelostbaystudio.com)
+* Blog: [The Coded Type](https://www.thecodedtype.com/)
+* Portfolio: [Atelier Effe](https://www.ateliereffe.com/)
