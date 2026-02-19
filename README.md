@@ -6,7 +6,7 @@ A Markdown + CSS to PDF editor and previewer built for web typography.
 
 P&P lets you turn Markdown and CSS files into paginated content and export them as print-ready PDFs. It is built on [Paged.js](http://www.pagedjs.org) and JavaScript, bringing web typography tools to physical page design.
 
-**Why use it?** If you write in Markdown but want to publish physical books, zines, or any formatted PDFs, P&P bridges the gap. Instead of using proprietary design software like InDesign or word processors, you can use the web technologies you already know (MD(HTML)/CSS) to create pixel-perfect, print-ready documents.
+**Why use it?** If you write in Markdown but want to publish physical books, zines, or any formatted PDFs, P&P bridges the gap. Instead of using proprietary design software like InDesign or word processors, you can use the web technologies you already know (MD(HTML)/CSS) to layout print-ready documents.
 
 It is available in two versions:
 
