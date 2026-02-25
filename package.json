@@ -14,5 +14,8 @@
 	"dependencies": {
 		"figlet": "^1.10.0",
 		"ws": "^8.19.0"
+	},
+	"devDependencies": {
+		"@types/node": "^25.3.0"
 	}
 }
