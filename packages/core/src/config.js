@@ -1,6 +1,7 @@
 import { markdown } from "@codemirror/lang-markdown";
 import { css } from "@codemirror/lang-css";
 import { loadFile } from "@core/controllers/loadFile.js";
+import { ProjectData } from "./ProjectData";
 
 // CONFIG Defines the default project
 export const TEMPLATE = [
@@ -30,12 +31,8 @@ export const templateData = async (template) => {
   return projectDataFromTemplate;
 };
 
-export const projectData = {
-  handle: "", // Where are files stored
-  md: [],
-  css: [],
-  images: {}, // Key: "media/filename.jpg", Value: "blob:..."
-};
+// export an instance of ProjectData
+export const projectData = new ProjectData();
 
 export const languageMap = {
   css: css,
