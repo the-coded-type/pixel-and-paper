@@ -36,6 +36,7 @@ export class FileSystem {
           const storeFile = await this.openFile(fileHandle);
           // collect files to return
           if (storeFile) {
+            storeFile.path = relativePath;
             projectFiles.push(storeFile);
           }
         } else if (entry.kind === "directory") {
@@ -128,7 +129,7 @@ export class FileSystem {
       // populate store file object
       const storeFile: ProjectFileType = {
         name: file.name,
-        path: file.webkitRelativePath,
+        path: file.webkitRelativePath + file.name,
         fileHandle: fileHandle,
         content: file,
       };
