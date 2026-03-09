@@ -2,7 +2,7 @@ import { createButton } from "@core/ui/createButton.js";
 import { initKeyboardNavigation } from "./initKeyboardNavigation.js";
 import { updatePreviewInWebApp } from "./updatePreviewInWebApp.js";
 import { initWebApp } from "../init/initWebApp.js";
-import { FileSystem } from "../io/fileSystem.ts";
+import { fileSystem } from "../io/fileSystem.ts";
 import { projectData } from "@core/config.js";
 /**
  * Creates a "Load Directory" button and attaches the full application initialization sequence.
@@ -31,8 +31,8 @@ export const createLoadDirectoryButton = (container, className, id, text) => {
     loadDirectoryButtonElement.addEventListener("click", async () => {
       document.body.style.cursor = "wait";
       projectData.reset();
-      projectData.handle = await FileSystem.pickDirectory();
-      const directoryFiles = await FileSystem.openDirectory(projectData.handle);
+      projectData.handle = await fileSystem.pickDirectory();
+      const directoryFiles = await fileSystem.openDirectory(projectData.handle);
       await projectData.store(directoryFiles);
       await initWebApp();
       initKeyboardNavigation();

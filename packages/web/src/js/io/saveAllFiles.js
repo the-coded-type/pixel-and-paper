@@ -1,12 +1,12 @@
 import { projectData } from "@core/config.js";
 import { uistate } from "@core/uistate.js";
-import { FileSystem } from "./fileSystem.js";
+import { fileSystem } from "../io/fileSystem";
 
 export const saveAllFiles = async () => {
   // Ask for a directory if none is configured
 
   if (!projectData.handle) {
-    FileSystem.pickDirectory(true);
+    fileSystem.pickDirectory(true);
   }
 
   // Need to read all the tabs
@@ -17,7 +17,7 @@ export const saveAllFiles = async () => {
       for (const listItem of list) {
         if (!listItem.fileHandle) continue; // won't save files that haven't been loaded
         console.log("Save file");
-        await FileSystem.save(listItem);
+        await fileSystem.save(listItem);
       }
     } finally {
       console.log("Project saved!");

@@ -2,8 +2,9 @@ import { createButton } from "@core/ui/createButton.js";
 import { initKeyboardNavigation } from "./initKeyboardNavigation.js";
 import { updatePreviewInWebApp } from "./updatePreviewInWebApp.js";
 import { initWebApp } from "../init/initWebApp.js";
-import FileSystem from "../io/fileSystem.js";
 import { createNewProject } from "../init/createNewProject.js";
+import { projectData } from "@core/config.js";
+import { fileSystem } from "../io/fileSystem";
 
 /**
  * Creates a "New Project" button and attaches the initialization logic.
@@ -28,7 +29,7 @@ export const createNewDirectoryButton = (container, className, id, text) => {
     createNewDirectoryButtonElement.addEventListener("click", async () => {
       document.body.style.cursor = "wait";
       projectData.reset();
-      projectData.handle = await FileSystem.pickDirectory(true);
+      projectData.handle = await fileSystem.pickDirectory(true);
       await createNewProject();
       await initWebApp();
       initKeyboardNavigation();

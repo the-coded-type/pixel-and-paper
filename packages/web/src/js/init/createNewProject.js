@@ -1,5 +1,5 @@
 import { projectData, templateData } from "@core/config.js";
-import FileSystem from "../io/fileSystem.js";
+import { fileSystem } from "../io/fileSystem";
 
 // Copy template files
 async function saveTemplateFiles(templateFiles, directoryHandle) {
@@ -10,8 +10,8 @@ async function saveTemplateFiles(templateFiles, directoryHandle) {
         content: templateFile.content,
         path: templateFile.filename,
       };
-      if (FileSystem.supported) {
-        await FileSystem.save(file.name, file.content, directoryHandle);
+      if (fileSystem.supported) {
+        await fileSystem.save(file.name, file.content, directoryHandle);
       }
       projectData.store(file);
       return file;

@@ -5,7 +5,7 @@ import {
 } from "native-file-system-adapter";
 import { allowedTextExtensions, type ProjectFileType } from "@core/ProjectData";
 
-export default class FileSystem {
+export class FileSystem {
   private _directory: FileSystemDirectoryHandle | false = false;
   get directory(): FileSystemDirectoryHandle | false {
     return this._directory;
@@ -227,3 +227,5 @@ export default class FileSystem {
   }
   // NOTE: Should we add a function to save a whole project to a new directory? saveDirectoryAs()?
 }
+
+export const fileSystem = new FileSystem();
