@@ -26,35 +26,51 @@
  * @returns {Promise<void>} Returns nothing, but sends a message via WebSocket on success.
  */
 
-import { iframeHtml } from '../core/src/markdown/iframeHtml.js';
+import { iframeHtml } from "../core/src/markdown/iframeHtml.js";
 
+export const updateIframeHtmlContent = async (
+  fileCache,
+  allCssFiles,
+  allMdFiles,
+  allJsFiles,
+  workFolder,
+  targetWs,
+) => {
+  if (targetWs.readyState !== targetWs.OPEN) return;
 
-export const updateIframeHtmlContent = async (fileCache, allCssFiles, allMdFiles, allJsFiles, workFolder, targetWs) => {
-    if (targetWs.readyState !== targetWs.OPEN) return;
+  try {
+    console.log("Compiling preview...");
 
-    try {
-        console.log("Compiling preview...");
+    const allCssContent = allCssFiles
+      .map((fileName) => fileCache.get(fileName))
+      .join("\n");
 
-        const allCssContent = allCssFiles.map( fileName => fileCache.get(fileName)).join('\n');
+    const allHtmlContent = allMdFiles
+      .map((fileName) => fileCache.get(fileName))
+      .join("\n");
 
-        const allHtmlContent = allMdFiles.map( fileName => fileCache.get(fileName)).join('\n');
+    const allImages = {};
 
-        const pagedPolyfillContent = fileCache.get("pagedPolyfillContent");
+    const pagedPolyfillContent = fileCache.get("pagedPolyfillContent");
 
-        const jsContent = fileCache.get("allJsContent");
+    const jsContent = fileCache.get("allJsContent");
 
-        const iframeHtmlContent = await iframeHtml(allCssContent, '', pagedPolyfillContent, allHtmlContent, jsContent);
-        
-        // We send binary data instead of a blob because a blob only lives in the process memory
-        const byteData = Buffer.from(iframeHtmlContent, 'utf-8');
+    const iframeHtmlContent = await iframeHtml(
+      allCssContent,
+      "",
+      allImages,
+      pagedPolyfillContent,
+      allHtmlContent,
+      jsContent,
+    );
 
-        targetWs.send(byteData);
-        
-        console.log("Sent preview update.");
+    // We send binary data instead of a blob because a blob only lives in the process memory
+    const byteData = Buffer.from(iframeHtmlContent, "utf-8");
 
-    } catch (error) {
-        console.error("Failed to update preview:", error);
-    }
+    targetWs.send(byteData);
 
-
-}
+    console.log("Sent preview update.");
+  } catch (error) {
+    console.error("Failed to update preview:", error);
+  }
+};

@@ -1,18 +1,23 @@
 {
-	"name": "pixelpaper",
-	"version": "0.0.1",
-	"private": true,
-	"workspaces": [
-		"packages/*"
-	],
-	"scripts": {
-		"dev:web": "npm run dev --workspace=@pixelpaper/web",
-		"build:web": "npm run build --workspace=@pixelpaper/web",
-		"preview:web": "npm run preview --workspace=@pixelpaper/web",
-		"dev:desktop": "cd packages/desktop && node server.js"
-	},
-	"dependencies": {
-		"figlet": "^1.10.0",
-		"ws": "^8.19.0"
-	}
+  "name": "pixelpaper",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev --workspace=@pixelpaper/web",
+    "build:web": "npm run build --workspace=@pixelpaper/web",
+    "preview:web": "npm run preview --workspace=@pixelpaper/web",
+    "dev:desktop": "cd packages/desktop && node server.js"
+  },
+  "dependencies": {
+    "figlet": "^1.10.0",
+    "native-file-system-adapter": "^3.0.1",
+    "unist-util-visit": "^5.1.0",
+    "ws": "^8.19.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.0"
+  }
 }

@@ -1,13 +1,14 @@
 import { createButton } from "@core/ui/createButton.js";
-import { loadProjectDirectory } from "../io/loadProjectDirectory.js";
 import { initKeyboardNavigation } from "./initKeyboardNavigation.js";
 import { updatePreviewInWebApp } from "./updatePreviewInWebApp.js";
 import { initWebApp } from "../init/initWebApp.js";
+import { fileSystem } from "../io/fileSystem.ts";
+import { projectData } from "@core/config.js";
 /**
  * Creates a "Load Directory" button and attaches the full application initialization sequence.
  * * When clicked, this button triggers the following async sequence:
  * 1. Sets cursor to 'wait'.
- * 2. Loads the project directory via `loadProjectDirectory`.
+ * 2. Loads the project directory via `FileSytem`.
  * 3. Initializes the app with `projectData`.
  * 4. Sets up keyboard navigation and updates the preview.
  * 5. Resets the cursor to 'default'.
@@ -19,17 +20,25 @@ import { initWebApp } from "../init/initWebApp.js";
  */
 
 export const createLoadDirectoryButton = (container, className, id, text) => {
-    const loadDirectoryButtonElement = createButton(container, className, id, text);
+  const loadDirectoryButtonElement = createButton(
+    container,
+    className,
+    id,
+    text,
+  );
 
-    if (loadDirectoryButtonElement) {
-        loadDirectoryButtonElement.addEventListener("click", async () => {
-            document.body.style.cursor = "wait";
-            await loadProjectDirectory();
-            await initWebApp();
-            initKeyboardNavigation();
-            updatePreviewInWebApp();
-            document.body.style.cursor = "default";
-        });
-    }
-    return loadDirectoryButtonElement;
-}
+  if (loadDirectoryButtonElement) {
+    loadDirectoryButtonElement.addEventListener("click", async () => {
+      document.body.style.cursor = "wait";
+      projectData.reset();
+      projectData.handle = await fileSystem.pickDirectory();
+      const directoryFiles = await fileSystem.openDirectory(projectData.handle);
+      await projectData.store(directoryFiles);
+      await initWebApp();
+      initKeyboardNavigation();
+      updatePreviewInWebApp();
+      document.body.style.cursor = "default";
+    });
+  }
+  return loadDirectoryButtonElement;
+};
