@@ -58,9 +58,6 @@ export class ProjectData {
       };
       if (allowedTextExtensions.includes(newFile.extension as TextExtType)) {
         this[newFile.extension as TextExtType].push(newFile);
-        this[newFile.extension as TextExtType].sort((a, b) =>
-          a.name.localeCompare(b.name),
-        );
         this.sort();
       } else if (
         allowedImageExtensions.includes(newFile.extension as ImageExtType)
