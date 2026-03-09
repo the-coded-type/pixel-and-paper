@@ -1,58 +1,79 @@
-import {unified} from 'unified'
-import remarkParse from 'remark-parse'
-import remarkRehype from 'remark-rehype'
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
 // import rehypeFormat from 'https://esm.sh/rehype-format';
-import rehypeStringify from 'rehype-stringify'
+import rehypeStringify from "rehype-stringify";
 import remarkSection from "./remark-section.js";
-import remarkGfm from 'remark-gfm'; 
-import { remarkExtendImage } from './remark-figure.js';
-import remarkDirectiveRehype from './rehype-custom-directives.js';
-import remarkDirective from 'remark-directive'; // ⚠️ Required to parse ::: syntax
+import remarkGfm from "remark-gfm";
+import { remarkExtendImage } from "./remark-figure.js";
+import remarkDirectiveRehype from "./rehype-custom-directives.js";
+import remarkDirective from "remark-directive"; // ⚠️ Required to parse ::: syntax
+import { visit } from "unist-util-visit";
 
-export const renderMarkdown = async (md) => {
-    console.time('Markdown Fetch & Process');
+export const renderMarkdown = async (md, images = {}) => {
+  console.time("Markdown Fetch & Process");
 
+  // Convert Markdown to HTML using unified
+  const htmlText = await unified()
+    .use(remarkParse) // Markdown to AST
+    .use(remarkGfm) // Git flavored MD
+    .use(remarkDirective)
+    .use(remarkDirectiveRehype)
+    .use(remarkSection) // Add sections to H tags
+    .use(cachedImageToUrl(images))
+    .use(remarkExtendImage) // Images to figures
+    .use(remarkRehype, { allowDangerousHtml: true }) // AST to HTML
+    // .use(rehypeFormat) // Pretty print HTML
+    .use(rehypeStringify, { allowDangerousHtml: true }) // Convert AST to string
+    .process(md); // Wait for this step to complete
 
-    // Convert Markdown to HTML using unified
-    const htmlText = await unified()
-      .use(remarkParse) // Markdown to AST
-      .use(remarkGfm) // Git flavored MD
-      .use(remarkDirective)
-      .use(remarkDirectiveRehype)
-      .use(remarkSection) // Add sections to H tags
-      .use(remarkExtendImage) // Images to figures
-      .use(remarkRehype, { allowDangerousHtml: true }) // AST to HTML
-      // .use(rehypeFormat) // Pretty print HTML
-      .use(rehypeStringify, { allowDangerousHtml: true }) // Convert AST to string
-      .process(md); // Wait for this step to complete
+  console.timeEnd("Markdown Fetch & Process"); // End time for markdown fetch and processing
 
-      console.timeEnd('Markdown Fetch & Process'); // End time for markdown fetch and processing
+  return htmlText;
+};
 
-     return  htmlText;
-  }
+// Encode image data into URL to make preview from memory work.
+function cachedImageToUrl(images) {
+  return () => (tree) => {
+    visit(tree, "image", (node) => {
+      const key = String(node.url).trim().replace(/^\/+/, "");
+      const cachedImage = images[key];
+      if (!cachedImage) return;
+      node.url = URL.createObjectURL(cachedImage.content);
+    });
+  };
+}
 
 ////////////////////////////////////////
-// takes array of css and single md file 
+// takes array of css and single md file
 // returns a string containing the iframe
-export const iframeHtml = async (css, md, pagedPolyfill, htlmContent = '', jsContent = '') => {
-    // This needs error checking
-    const allImportedStyles = Array.isArray(css) ? css : [css];
+export const iframeHtml = async (
+  css,
+  md,
+  images,
+  pagedPolyfill,
+  htlmContent = "",
+  jsContent = "",
+) => {
+  // This needs error checking
+  const allImportedStyles = Array.isArray(css) ? css : [css];
 
-    const allMdContent = Array.isArray(md) ? md.join('\n') : md;
+  const allMdContent = Array.isArray(md) ? md.join("\n") : md;
 
-    const allStyles = allImportedStyles.map(style => ` <style>${style}</style>`).join('');
+  const allStyles = allImportedStyles
+    .map((style) => ` <style>${style}</style>`)
+    .join("");
 
-    let renderedHtmlfromMarkdown = '';
-    if (allMdContent) {
-        const processed = await renderMarkdown(allMdContent);
-        // CRITICAL FIX: Check if it's an object or string
-        renderedHtmlfromMarkdown = (typeof processed === 'string') 
-            ? processed 
-            : processed.value; // Access the VFile content
-    }
-    const renderedHtml = renderedHtmlfromMarkdown + htlmContent;
+  let renderedHtmlfromMarkdown = "";
+  if (allMdContent) {
+    const processed = await renderMarkdown(allMdContent, images);
+    // CRITICAL FIX: Check if it's an object or string
+    renderedHtmlfromMarkdown =
+      typeof processed === "string" ? processed : processed.value; // Access the VFile content
+  }
+  const renderedHtml = renderedHtmlfromMarkdown + htlmContent;
 
-    const fullHtmlContent = `
+  const fullHtmlContent = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,6 +82,18 @@ export const iframeHtml = async (css, md, pagedPolyfill, htlmContent = '', jsCon
 
     <script>${pagedPolyfill}</script>
     <script>
+
+    class iframeBeforeRender extends Paged.Handler {
+        beforeRender(root) {    
+            const blob = new Blob([myImageBuffer], { type: "image/png" });
+            const url = URL.createObjectURL(blob);
+
+            const img = document.createElement("img");
+            img.src = url;
+            root.querySelector("#placeholder").replaceWith(img);
+        }
+    }
+
     class iframeRendered extends Paged.Handler {
 
     afterRendered(pages) {
@@ -69,6 +102,8 @@ export const iframeHtml = async (css, md, pagedPolyfill, htlmContent = '', jsCon
     }
 
     Paged.registerHandlers(iframeRendered);
+
+    Paged.registerHandlers();
 
     </script>
     ${jsContent.trim()}
@@ -80,7 +115,7 @@ export const iframeHtml = async (css, md, pagedPolyfill, htlmContent = '', jsCon
 </html>
 `;
 
-/*
+  /*
 const safeDataUrl = "data:text/html;charset=utf-8," + encodeURIComponent(fullHtmlContent);
 
 const econdedIframe = `<iframe width="100%" height="100%" src="${safeDataUrl}"></iframe>`;
@@ -95,5 +130,5 @@ const blobUrl = URL.createObjectURL(blob);
 const encodedIframe = `<iframe width="100%" height="100%" src="${blobUrl}" style="border:none;"></iframe>`;
 */
 
-return fullHtmlContent;
-}
+  return fullHtmlContent;
+};
