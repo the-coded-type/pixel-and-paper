@@ -41,29 +41,32 @@ export class ProjectData {
     this.css.sort((a, b) => a.name.localeCompare(b.name));
     this.md.sort((a, b) => a.name.localeCompare(b.name));
   }
-  store(file: ProjectFileType): void {
-    const newFile: ProjectFileType = {
-      name: file.name,
-      path: file.path,
-      content: file.content ? file.content : "",
-      fileHandle: file.fileHandle,
-      extension: file.extension
-        ? file.extension
-        : (file.path
-            .toLowerCase()
-            .substring(file.path.lastIndexOf(".") + 1)
-            .toLowerCase() as TextExtType | ImageExtType),
-    };
-    if (allowedTextExtensions.includes(newFile.extension as TextExtType)) {
-      this[newFile.extension as TextExtType].push(newFile);
-      this[newFile.extension as TextExtType].sort((a, b) =>
-        a.name.localeCompare(b.name),
-      );
-      this.sort();
-    } else if (
-      allowedImageExtensions.includes(newFile.extension as ImageExtType)
-    ) {
-      this.images[newFile.path] = newFile;
+  store(data: ProjectFileType | ProjectFileType[]): void {
+    const projectFiles = Array.isArray(data) ? data : [data];
+    for (const file of projectFiles) {
+      const newFile: ProjectFileType = {
+        name: file.name,
+        path: file.path,
+        content: file.content ? file.content : "",
+        fileHandle: file.fileHandle,
+        extension: file.extension
+          ? file.extension
+          : (file.path
+              .toLowerCase()
+              .substring(file.path.lastIndexOf(".") + 1)
+              .toLowerCase() as TextExtType | ImageExtType),
+      };
+      if (allowedTextExtensions.includes(newFile.extension as TextExtType)) {
+        this[newFile.extension as TextExtType].push(newFile);
+        this[newFile.extension as TextExtType].sort((a, b) =>
+          a.name.localeCompare(b.name),
+        );
+        this.sort();
+      } else if (
+        allowedImageExtensions.includes(newFile.extension as ImageExtType)
+      ) {
+        this.images[newFile.path] = newFile;
+      }
     }
   }
 }
