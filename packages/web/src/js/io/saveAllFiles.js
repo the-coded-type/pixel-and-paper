@@ -1,30 +1,32 @@
-import { projectData } from '@core/config.js';
-import { saveFileToDisk } from './saveFileToDisk.js';
-import { uistate } from '@core/uistate.js';
+import { projectData } from "@core/config.js";
+import { uistate } from "@core/uistate.js";
+import { FileSystem } from "./fileSystem.js";
 
-export const saveAllFiles = () => {
-    // Need to read all the tabs
-    // Get all the content
-    // Assign all the content to files
-    const saveList = async (list) => {
+export const saveAllFiles = async () => {
+  // Ask for a directory if none is configured
 
-        try {
-            for (const listItem of list) {
-                if (!listItem.handle) continue; // won't save files that haven't been loaded
-                await saveFileToDisk(listItem)
-            }
-        }
+  if (!projectData.handle) {
+    FileSystem.pickDirectory(true);
+  }
 
-        finally {
-            console.log("Project saved!")
-        }
-
+  // Need to read all the tabs
+  // Get all the content
+  // Assign all the content to files
+  const saveList = async (list) => {
+    try {
+      for (const listItem of list) {
+        if (!listItem.fileHandle) continue; // won't save files that haven't been loaded
+        console.log("Save file");
+        await FileSystem.save(listItem);
+      }
+    } finally {
+      console.log("Project saved!");
     }
+  };
 
-    const allFiles = [...projectData.css, ...projectData.md]; // array of all files
-    for (let id = 0; id < allFiles.length; id++) {
-        allFiles[id].content =  uistate.allEditorTabs[id].view.state.doc.toString();
-    }
-    saveList(allFiles);
-
-}
+  const allFiles = [...projectData.css, ...projectData.md]; // array of all files
+  for (let id = 0; id < allFiles.length; id++) {
+    allFiles[id].content = uistate.allEditorTabs[id].view.state.doc.toString();
+  }
+  saveList(allFiles);
+};

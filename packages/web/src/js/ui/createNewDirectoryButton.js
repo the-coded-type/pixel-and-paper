@@ -1,9 +1,10 @@
 import { createButton } from "@core/ui/createButton.js";
 import { initKeyboardNavigation } from "./initKeyboardNavigation.js";
 import { updatePreviewInWebApp } from "./updatePreviewInWebApp.js";
-import { createNewProject } from "../init/createNewProject.js";
-import { loadProjectDirectory } from "../io/loadProjectDirectory.js";
 import { initWebApp } from "../init/initWebApp.js";
+import FileSystem from "../io/fileSystem.js";
+import { createNewProject } from "../init/createNewProject.js";
+
 /**
  * Creates a "New Project" button and attaches the initialization logic.
  * * When clicked, this button attempts to create a new project structure via `createNewProject`.
@@ -16,29 +17,25 @@ import { initWebApp } from "../init/initWebApp.js";
  * @returns {HTMLButtonElement|undefined} The created button element, or undefined if the container was not found.
  */
 export const createNewDirectoryButton = (container, className, id, text) => {
-    const createNewDirectoryButtonElement = createButton(container, className, id, text);
+  const createNewDirectoryButtonElement = createButton(
+    container,
+    className,
+    id,
+    text,
+  );
 
-    if (createNewDirectoryButtonElement) {
-        createNewDirectoryButtonElement.addEventListener("click", async () => {
-            // Attempt to create the new project structure
-            const success = await createNewProject();
+  if (createNewDirectoryButtonElement) {
+    createNewDirectoryButtonElement.addEventListener("click", async () => {
+      document.body.style.cursor = "wait";
+      projectData.reset();
+      projectData.handle = await FileSystem.pickDirectory(true);
+      await createNewProject();
+      await initWebApp();
+      initKeyboardNavigation();
+      updatePreviewInWebApp();
+      document.body.style.cursor = "default";
+    });
+  }
 
-            // Only proceed with loading/init if creation was successful
-            if (success) {
-                document.body.style.cursor = "wait";
-                try {
-                    await loadProjectDirectory();
-                    await initWebApp;
-                    initKeyboardNavigation();
-                    updatePreviewInWebApp();
-                } catch (error) {
-                    console.error("Error initializing new project:", error);
-                } finally {
-                    document.body.style.cursor = "default";
-                }
-            }
-        });
-    }
-
-    return createNewDirectoryButtonElement;
-}
+  return createNewDirectoryButtonElement;
+};

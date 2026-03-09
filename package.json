@@ -13,6 +13,7 @@
 	},
 	"dependencies": {
 		"figlet": "^1.10.0",
+    "native-file-system-adapter": "^3.0.1",
 		"ws": "^8.19.0"
 	},
 	"devDependencies": {

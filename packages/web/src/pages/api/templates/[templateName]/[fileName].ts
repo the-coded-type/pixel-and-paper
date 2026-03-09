@@ -1,38 +1,39 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  allowedImageExtensions,
+  allowedTextExtensions,
+} from "@core/ProjectData";
 
 export async function GET({
-  params: { template, file },
+  params: { templateName = "", fileName = "forbidden.exe" },
 }: {
-  params: { template: string; file: string };
+  params: { templateName: string; fileName: string };
 }) {
   // Validate file extension
+  const lowerCaseFileName = fileName.toLowerCase();
+  const extension = lowerCaseFileName.substring(
+    lowerCaseFileName.lastIndexOf(".") + 1,
+  );
   const allowedExtensions = [
-    ".md",
-    ".css",
-    ".jpg",
-    ".jpeg",
-    ".png",
-    ".gif",
-    ".webp",
-    ".svg",
+    ...allowedImageExtensions,
+    ...allowedTextExtensions,
   ];
-  if (
-    !file ||
-    !allowedExtensions.some((ext) => file.toLowerCase().endsWith(ext))
-  ) {
+  if (!allowedExtensions.some((ext) => lowerCaseFileName.endsWith(ext))) {
     return new Response("Only .md, .css, and common image files are allowed", {
       status: 403,
     });
   }
 
+  // Encode and test file name for security
   const currentDir = path.dirname(fileURLToPath(import.meta.url));
   const templateBase = path.resolve(
     currentDir,
-    `../../../../../../templates/${template}/`,
+    `../../../../../../../templates/`,
   );
-  const filePath = path.join(templateBase, file);
+  const safeFileName = path.basename(fileName);
+  const filePath = path.join(templateBase, templateName, safeFileName);
 
   // Prevent path traversal attacks
   if (!filePath.startsWith(templateBase)) {
@@ -43,21 +44,23 @@ export async function GET({
     const data = await fs.readFile(filePath);
 
     let contentType = "application/octet-stream";
-    const lowerFile = file.toLowerCase();
 
-    if (lowerFile.endsWith(".css")) {
+    if (lowerCaseFileName.endsWith(".css")) {
       contentType = "text/css";
-    } else if (lowerFile.endsWith(".md")) {
+    } else if (lowerCaseFileName.endsWith(".md")) {
       contentType = "text/markdown";
-    } else if (lowerFile.endsWith(".jpg") || lowerFile.endsWith(".jpeg")) {
+    } else if (
+      lowerCaseFileName.endsWith(".jpg") ||
+      lowerCaseFileName.endsWith(".jpeg")
+    ) {
       contentType = "image/jpeg";
-    } else if (lowerFile.endsWith(".png")) {
+    } else if (lowerCaseFileName.endsWith(".png")) {
       contentType = "image/png";
-    } else if (lowerFile.endsWith(".gif")) {
+    } else if (lowerCaseFileName.endsWith(".gif")) {
       contentType = "image/gif";
-    } else if (lowerFile.endsWith(".webp")) {
+    } else if (lowerCaseFileName.endsWith(".webp")) {
       contentType = "image/webp";
-    } else if (lowerFile.endsWith(".svg")) {
+    } else if (lowerCaseFileName.endsWith(".svg")) {
       contentType = "image/svg+xml";
     }
 
