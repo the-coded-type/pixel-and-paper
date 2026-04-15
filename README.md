@@ -93,6 +93,7 @@ Before parsing, source files are sorted in alphanumeric order, including files i
 * Interface plugin (hide/show margins, crop marks, etc.)
 * Markdown file selector (render specific file vs. all files)
 * Paged.js render caching
+* Prettier typography control
 
 ## Support and Contributing 🤝
 If you run into bugs or have a feature request, please open an issue on GitHub. Pull requests are always welcome!

@@ -39,8 +39,11 @@ export const updatePreview = async (renderedIframeHtml) => {
                     // A. Restore Scroll Position
                     // We instantly jump to the last known scroll Y position so the user
                     // doesn't feel like the page reset to the top.
+                    // we try to load the scroll Position from the browser local storage
+                    // if not possible we get it from the UI
+                    const topPosition =  Number(localStorage.getItem("ppScrollPosition")) || uistate.preview.lastScroll;
                     internalIframeWindow.scroll({
-                        top: uistate.preview.lastScroll, 
+                        top: topPosition,
                         behavior: "instant"
                     });
 
@@ -62,6 +65,9 @@ export const updatePreview = async (renderedIframeHtml) => {
             // Continuously update the state with the user's current scroll position
             // so we can restore it on the next re-render.
             internalIframeWindow.addEventListener("scroll", (event) => {
+                /* Store in local browser storage first */
+                localStorage.setItem("ppScrollPosition", internalIframeWindow.scrollY.toString())
+                /* Store in local state */
                 uistate.preview.lastScroll = internalIframeWindow.scrollY;
             });
         }

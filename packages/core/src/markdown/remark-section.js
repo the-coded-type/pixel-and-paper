@@ -4,7 +4,7 @@ import {visit} from 'unist-util-visit'
 function sanitizeString(string) {
   // Added safe check in case string is undefined/null
   if (!string) return '';
-  return string.replaceAll('.', '').toLowerCase().trim().replaceAll(' ', '-');
+  return string.replaceAll('.', '').replaceAll("’", '').toLowerCase().trim().replaceAll(' ', '-');
 }
 
 // Helper to safely extract text from children arrays

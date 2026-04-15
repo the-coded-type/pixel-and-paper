@@ -19,8 +19,9 @@ export const renderMarkdown = async (md) => {
       .use(remarkGfm) // Git flavored MD
       .use(remarkDirective)
       .use(remarkDirectiveRehype)
-      .use(remarkSection) // Add sections to H tags
       .use(remarkExtendImage) // Images to figures
+      .use(remarkSection) // Add sections to H tags
+
       .use(remarkRehype, { allowDangerousHtml: true }) // AST to HTML
       // .use(rehypeFormat) // Pretty print HTML
       .use(rehypeStringify, { allowDangerousHtml: true }) // Convert AST to string

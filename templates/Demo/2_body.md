@@ -12,7 +12,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ## Page specifc styles
 
-Pages car get specific styles by targeting the page number
+Pages can get specific styles by targeting the page number.
 
 Here we changed the background color, font color, and font alignment.
 
@@ -22,7 +22,7 @@ Each heading generates a `<section>` tag that wraps all the contents before the 
 
 `## Page specifc styles`
 
-gives the classes
+gives the classes 
 
 `page-specifc-styles page-specifc-styles-2 d-2`
 
