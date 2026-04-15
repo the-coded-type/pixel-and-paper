@@ -208,8 +208,6 @@ fs.watch(workFolder, (eventType, filename) => {
         try {
             const rawFileContent = await fs.promises.readFile(path.join(workFolder, filename), 'utf-8');
 
-            console.log('rawFileContent', rawFileContent)
-
             // Caching srategy
             // For CSS we cache the raw file
             // For md we store the html version

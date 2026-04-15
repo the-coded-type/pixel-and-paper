@@ -14,10 +14,7 @@ export const initApp = async (initAppUiStrategy) => {
     if (initAppUiStrategy) {
         // We initialize the app UI specific to the particular app, if it exists
         initAppUiStrategy();
-    }
-
-    console.log("uistate.tabsContainer", uistate.tabsContainer)
-
+    }  
 
     // Creating preview divs (two preview divs, as we do double buffering)
     const container = document.createElement("div");
