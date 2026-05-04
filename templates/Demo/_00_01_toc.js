@@ -72,7 +72,9 @@ class handlers extends Paged.Handler {
             // Currently, the application will expect a page called "Table of Contents" to generate it.
             // If your TOC page has another name (or does not have name), fix the `tocElement` selector below
             tocElement: 'section.table-of-contents',
+            // Defines which elements will generate the Titles. You can pass more than one.
             titleElements: ['h1'],
+            // If you have headers that should not be considered on the TOC, increase the startElement here
             startElement: 0,
         });
     }
